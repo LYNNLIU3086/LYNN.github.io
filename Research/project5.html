@@ -1,9 +1,15 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hormone2.0 — Lynn Liu</title>
+
+<!-- ✅ Lightbox 库 -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {
@@ -23,13 +29,11 @@ header {
   justify-content:space-between;
   align-items:center;
   z-index:100;
-  background: rgba(0,0,0,0.3);   /* ✅ 初始半透明 */
+  background: rgba(0,0,0,0.3);
   backdrop-filter: blur(6px);
-  transition: all 0.4s ease;      /* ✅ 平滑过渡 */
+  transition: all 0.4s ease;
 }
-header.scrolled {
-  background: rgba(0,0,0,0.85);  /* ✅ 滚动后更不透明 */
-}
+header.scrolled {background: rgba(0,0,0,0.85);}
 header h1 {
   font-size:1.5em;
   font-weight:400;
@@ -55,7 +59,20 @@ nav a:hover {color:crimson;}
   gap:32px;
 }
 
-/* 项目标题与简介 */
+/* 顶图 */
+.hero {
+  width:100%;
+  text-align:center;
+}
+.hero img {
+  width:100%;
+  height:auto;
+  border-radius:12px;
+  display:block;
+  margin:auto;
+}
+
+/* 标题与简介 */
 .section h1 {
   font-size:1.8em;
   font-weight:700;
@@ -68,30 +85,72 @@ nav a:hover {color:crimson;}
   margin-bottom:24px;
 }
 
-/* 媒体比例统一 */
-.media-wrapper {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 比例 */
-  border-radius:8px;
+/* ✅ PDF 显示容器 */
+.media-wrapper.pdf {
+  position:relative;
+  width:100%;
+  border-radius:12px;
   overflow:hidden;
   background:#111;
-}
-
-.media-wrapper iframe,
-.media-wrapper img {
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border:none;
   cursor:pointer;
-  transition: transform 0.3s ease;
+  text-align:center;
 }
-.media-wrapper img:hover {transform:scale(1.02);}
+.media-wrapper.pdf iframe {
+  width:100%;
+  height:360px;
+  border:none;
+  pointer-events:none;
+}
+.pdf-label {
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(4px);
+  color:#fff;
+  font-size:14px;
+  padding:4px 10px;
+  border-radius:8px;
+  letter-spacing:0.5px;
+}
 
-/* Lightbox */
+/* ✅ 图片显示容器（按比例显示） */
+.media-wrapper.img {
+  width:100%;
+  border-radius:12px;
+  overflow:hidden;
+  background:#000;
+  text-align:center;
+}
+.media-wrapper.img img {
+  width:100%;
+  height:auto;
+  display:block;
+  border-radius:12px;
+  object-fit:contain; /* ✅ 保留完整比例 */
+  background:#000;
+}
+
+/* ✅ 两张图片并排 */
+.image-row {
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+.image-row a {
+  flex:1;
+}
+.image-row img {
+  width:100%;
+  height:auto;
+  border-radius:12px;
+  display:block;
+  transition: transform 0.3s ease;
+  object-fit:contain;
+}
+.image-row a:hover img {transform:scale(1.02);}
+
+/* ✅ Lightbox 弹窗（PDF） */
 .lightbox {
   display:none;
   position:fixed;
@@ -99,49 +158,42 @@ nav a:hover {color:crimson;}
   top:0; left:0;
   width:100%;
   height:100%;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.95);
   justify-content:center;
   align-items:center;
-}
-.lightbox img {
-  max-width:90%;
-  max-height:80%;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  padding:40px;
 }
 .lightbox.active {display:flex;}
-/* 底部项目导航 */
-.project-nav {display:flex; justify-content:space-between; margin-top:60px; padding-top:20px; border-top:1px solid #333; font-weight:600;}
-.project-nav a {text-decoration:none; color:#fff; transition:color .3s;}
-.project-nav a:hover {color: crimson;}
-
-
-/* ========= 响应式调整 ========= */
-@media (max-width: 768px) {
-  header {
-    padding:8px 24px;        /* ✅ 菜单栏变细 */
-  }
-  header h1 {
-    font-size:1.2em;         /* ✅ 字体稍小 */
-  }
-  nav a {
-    font-size:0.9em;
-    margin-left:20px;        /* ✅ 间距缩小 */
-  }
-  .container {
-    margin-top:70px;         /* ✅ 内容下移防止被挡 */
-  }
+.lightbox iframe {
+  width:90%;
+  height:90%;
+  border:none;
+  border-radius:12px;
 }
 
-@media (max-width: 500px) {
-  header {
-    flex-direction:column;
-    align-items:center;
-    padding:10px 0;
-  }
-  nav a {
-    margin:0 12px;
-  }
+/* 底部导航 */
+.project-nav {
+  display:flex;
+  justify-content:space-between;
+  margin-top:60px;
+  padding-top:20px;
+  border-top:1px solid #333;
+  font-weight:600;
+}
+.project-nav a {
+  text-decoration:none;
+  color:#fff;
+  transition:color .3s;
+}
+.project-nav a:hover {color: crimson;}
+
+/* 响应式 */
+@media (max-width:768px) {
+  header {padding:8px 24px;}
+  header h1 {font-size:1.2em;}
+  nav a {font-size:0.9em; margin-left:20px;}
+  .container {margin-top:70px;}
+  .image-row {flex-direction:column; gap:24px;}
 }
 </style>
 </head>
@@ -156,85 +208,104 @@ nav a:hover {color:crimson;}
   </nav>
 </header>
 
-<div class="media-wrapper" style="position:relative;">
-    <img src="../assets/project5_img.jpg" alt="Project 1 image 1">
-    <div style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
+<!-- ✅ 顶图 -->
+<div class="hero">
+  <img src="../assets/thumb5-21.jpg" alt="Top Image">
 </div>
 
-
 <div class="container section">
-  <h1>Project Five — 光影装置实验</h1>
-  <p class="description">
-    本项目探索 <b>空间互动与光影实验</b>，通过感应装置捕捉观众动作，
-    生成动态光影效果，使静态空间呈现出呼吸般的生命感。
-  </p>
-
-  <!-- 图片展示 -->
-  <div class="media-wrapper">
-    <img src="../assets/project5_img1.jpg" alt="Project Five image 1">
-  </div>
-  <div class="media-wrapper">
-    <img src="../assets/project5_img2.jpg" alt="Project Five image 2">
-  </div>
-  <div class="media-wrapper">
-    <img src="../assets/project5_img3.jpg" alt="Project Five image 3">
+  <h1>The incoming Tide</h1>
+  <div class="description">
+    <!-- <h3>What I did</h3> -->
+    <h3>Introduction</h3>
+    The ocean's tides are gentle ripples caused by celestial bodies, symbolizing life itself. Humanity's
+    ancient connection with the moon is reflected in our biological rhythms, with our blood flowing in
+    tune with nature and the sea. Distant forces intertwine, hiding a silent poison beneath beauty.
+    Body suppression, emotional distortion, and environmental harm spread throughout us as substances, manifesting as hormones.
   </div>
 
-  <!-- 底部三连导航 -->
+  <div class="media-wrapper img">
+    <img src="../assets/project5_img3-1.jpg" alt="Project Five image 1">
+  </div>
+
+  <p>Who truly understands hormones, the body's rhythms, and how to influence them? The tide
+  signals surge through us, echoing the moon's rhythms, creating a life force that moves in harmony
+  with the moon and sea. Now, we are one with the ocean and the moon.</p>
+
+  <!-- ✅ PDF 区域 -->
+  <div class="media-wrapper pdf" data-pdf="../assets/hormone1.pdf">
+    <span class="pdf-label">📄 PDF</span>
+    <iframe src="../assets/hormone1.pdf#toolbar=0&navpanes=0&scrollbar=0" title="PDF 1"></iframe>
+  </div>
+
+  <div class="description">
+    <h3>Phase Achievements</h3>
+    After confirming the successful cultivation, I spent a month cultivating a large number of crystals and continuously experimenting with their assembly. Eventually, I extracted hormones from the human body and reassembled them in vitro, making them visible once again.
+  </div>
+
+  <!-- ✅ 单图展示 -->
+  <div class="image-row">
+    <a href="../assets/Asset 3.png" data-lightbox="gallery" data-title="Image 1">
+      <img src="../assets/Asset 3.png" alt="Image 1">
+    </a>
+  </div>
+  <div class="media-wrapper img">
+    <img src="../assets//Asset 4.png" alt="Project Five image 2">
+  </div>
+
+  <!-- ✅ 底部导航 -->
   <div class="project-nav">
-    <a href="project5-2.html" class="prev">← </a>
+    <a href="project5-2.html" class="prev">←</a>
     <a href="../index.html" class="overview">Works</a>
     <a href="project6.html" class="next">→</a>
   </div>
 </div>
 
-<!-- Lightbox -->
+<!-- ✅ PDF 弹窗 -->
 <div class="lightbox" id="lightbox">
-  <img src="" alt="Expanded view">
+  <iframe src="" title="Expanded PDF View"></iframe>
 </div>
 
 <script>
-  // Lightbox 功能
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = lightbox.querySelector('img');
-  document.querySelectorAll('.media-wrapper img').forEach(img => {
-    img.addEventListener('click', () => {
-      lightboxImg.src = img.src;
+// 点击放大 PDF
+const lightbox = document.getElementById('lightbox');
+const lightboxFrame = lightbox.querySelector('iframe');
+document.querySelectorAll('.media-wrapper.pdf').forEach(wrapper=>{
+  wrapper.addEventListener('click',()=>{
+    const pdfSrc = wrapper.getAttribute('data-pdf');
+    if(pdfSrc){
+      lightboxFrame.src = pdfSrc + "#toolbar=0";
       lightbox.classList.add('active');
-    });
+    }
   });
-  lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
-
-// 禁止右键菜单
-document.addEventListener('contextmenu', function(e){
-    e.preventDefault();
-    alert("右键已禁用");
 });
-// 禁止复制、剪切、选择
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('cut', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-// ✅ 滚动时隐藏/显示菜单栏 + 透明渐变效果
+lightbox.addEventListener('click',e=>{
+  if(e.target===lightbox){
+    lightbox.classList.remove('active');
+    lightboxFrame.src="";
+  }
+});
+
+// 禁止右键、复制、截图
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.key === 'PrintScreen' || (e.ctrlKey && e.key === 's') || e.key === 'F12') {
+    e.preventDefault();
+    alert('此内容受保护，无法截图或保存。');
+  }
+});
+['copy','cut','selectstart','dragstart'].forEach(evt => 
+  document.addEventListener(evt, e => e.preventDefault())
+);
+
+// 滚动时导航栏隐藏/显示
 let lastScrollTop = 0;
 const navbar = document.querySelector("header");
-
 window.addEventListener("scroll", function() {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  // 滚动方向控制隐藏/出现
-  if (scrollTop > lastScrollTop) {
-    navbar.style.transform = "translateY(-100%)";
-  } else {
-    navbar.style.transform = "translateY(0)";
-  }
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-  // ✅ 滚动距离控制透明度变化
-  if (scrollTop > 80) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
+  navbar.style.transform = scrollTop > lastScrollTop ? "translateY(-100%)" : "translateY(0)";
+  lastScrollTop = Math.max(scrollTop, 0);
+  navbar.classList.toggle("scrolled", scrollTop > 80);
 });
 </script>
 
