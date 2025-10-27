@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A Kaleidoscopic World — Lynn Liu</title>
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+  font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
+  background:#000000;
+  color:#fdd44f;
+  line-height:1.7;
+}
+
+/* 导航栏 */
+header {
+  position: fixed;
+  top:0; left:0; right:0;
+  width:100%;
+  padding:20px 60px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:100;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  transition: all 0.4s ease;
+}
+header.scrolled {
+  background: rgba(0, 0, 0, 0.85);
+}
+header h1 {
+  font-size:1.5em;
+  font-weight:400;
+  letter-spacing:1px;
+}
+nav a {
+  color:#ffffff;
+  text-decoration:none;
+  margin-left:40px;
+  font-weight:400;
+  font-size:1em;
+  transition:color 0.3s;
+}
+nav a:hover {color:crimson;}
+
+/* 主体容器 */
+.container {
+  max-width:900px;
+  margin:100px auto 60px;
+  padding:0 40px;
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+}
+
+/* 项目标题与简介 */
+.section h1 {
+  font-size:1.8em;
+  font-weight:700;
+  margin-bottom:12px;
+}
+.section .description {
+  color:#ffffff;
+  font-size:1rem;
+  line-height:1.6;
+  margin-bottom:24px;
+}
+
+/* 媒体比例统一 */
+.media-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius:8px;
+  overflow:hidden;
+  background:#000000;
+}
+.media-wrapper iframe,
+.media-wrapper img {
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border:none;
+  cursor:pointer;
+  transition: transform 0.3s ease;
+}
+.media-wrapper img:hover {transform:scale(1.02);}
+
+/* 整张显示 */
+.media-wrapper.full-img {
+  padding-top:0;
+}
+.media-wrapper.full-img img {
+  position:relative;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+
+/* 缩小显示 Asset 5 */
+.media-wrapper.small-img {
+  max-width:60%;
+  margin:0 auto;
+  padding-top:0;
+}
+.media-wrapper.small-img img {
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+
+/* 并排显示区 */
+.side-by-side {
+  display:flex;
+  gap:20px;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+.side-by-side .media-wrapper {
+  flex:1 1 48%;
+  padding-top:0;
+}
+.side-by-side .media-wrapper img {
+  position:relative;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  border-radius:8px;
+}
+
+/* Lightbox */
+.lightbox {
+  display:none;
+  position:fixed;
+  z-index:3000;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.85);
+  justify-content:center;
+  align-items:center;
+}
+.lightbox img {
+  max-width:90%;
+  max-height:80%;
+  border-radius:12px;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+}
+.lightbox.active {display:flex;}
+
+/* 底部导航 */
+.project-nav {
+  display:flex;
+  justify-content:space-between;
+  margin-top:60px;
+  padding-top:20px;
+  border-top:1px solid #000000;
+  font-weight:600;
+}
+.project-nav a {
+  text-decoration:none;
+  color:#fff;
+  transition:color .3s;
+}
+.project-nav a:hover {color: crimson;}
+
+/* ========= 响应式调整 ========= */
+@media (max-width:768px){
+  header{padding:8px 24px;}
+  header h1{font-size:1.2em;}
+  nav a{font-size:0.9em;margin-left:20px;}
+  .container{margin-top:70px;}
+  .side-by-side{flex-direction:column;gap:24px;}
+}
+@media (max-width:500px){
+  header{flex-direction:column;align-items:center;padding:10px 0;}
+  nav a{margin:0 12px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>LYNN LIU</h1>
+  <nav>
+    <a href="../index.html">Works</a>
+    <a href="../resume.html">Resume</a>
+    <a href="../about.html">About</a>
+  </nav>
+</header>
+
+<div class="media-wrapper" style="position:relative;">
+  <img src="../assets/project8_img0.jpg" alt="Project 1 image 1">
+</div>
+
+<div class="container section">
+  <h1>A Kaleidoscopic World</h1>
+  <p class="description">
+  This section outlines the conceptual design framework and preliminary sketches, representing extended reflections on the project "The Brainy Gut."
+  </p>
+
+  <!-- project6_img5 整张显示 -->
+  <div class="media-wrapper full-img">
+    <h3>Source of Inspiration</h3>
+    <img src="../assets/project6_img5.jpg" alt="Project Six image 5">
+  </div>
+
+  <!-- Asset 5 缩小 -->
+<h3>Physical Interaction Design</h3>
+
+  <!-- project6_img4 与 project8_img1 并排 -->
+  <div class="side-by-side">
+      <div class="media-wrapper">
+    <div class="media-wrapper small-img">
+    <img src="../assets/Asset 5.png" alt="Asset 5">
+  </div>
+    <div class="media-wrapper">
+      <img src="../assets/project6_img4.jpg" alt="Project Six image 4">
+    </div>
+    </div>
+  </div>
+
+  <!-- project8_img3 原比例 -->
+   <h3>Interactive process</h3>
+   <p class="description">This technology combines micro-display screens with
+the refractive principles of lenses, encapsulating the
+internal components within the interlayer space of a
+spherical lens to achieve 3D display effects in compact
+devices.The micro-screen provides high-resolution images, while
+the lens focuses the refracted light into the user's eyes,
+creating a clear and immersive thre dimensional visual experience.</p>
+
+  <div class="media-wrapper">
+  <img src="../assets/project8_img1.jpg" alt="Project Eight image 1"></div>
+   <h3>Conceptual model</h3>
+ <p class="description">The final display process offers an abstract representation of the interaction between the gut,
+breathing, and mental activity. The structure of the virtual gut evolves and adapts in real time,
+following the user's breath. The movement and changes of the virtual colonies reflect the
+indirect impact on respiratory health, providing a visual representation of the gut's response to
+different breathing patterns.</p>
+ <!-- project8_img3 原比例 -->
+  <div class="media-wrapper">
+    <img src="../assets/project8_img3.jpg" alt="Project Eight image 3">
+  </div>
+  <!-- 底部导航 -->
+  <div class="project-nav">
+    <a href="../index.html" class="overview">Works</a>
+    <a href="project7.html" class="next">→</a>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <img src="" alt="Expanded view">
+</div>
+
+<script>
+const lightbox=document.getElementById('lightbox');
+const lightboxImg=lightbox.querySelector('img');
+document.querySelectorAll('.media-wrapper img').forEach(img=>{
+  img.addEventListener('click',()=>{
+    lightboxImg.src=img.src;
+    lightbox.classList.add('active');
+  });
+});
+lightbox.addEventListener('click',()=>lightbox.classList.remove('active'));
+
+document.addEventListener('contextmenu',e=>{
+  e.preventDefault();
+  alert("右键已禁用");
+});
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+document.addEventListener('selectstart',e=>e.preventDefault());
+
+let lastScrollTop=0;
+const navbar=document.querySelector("header");
+window.addEventListener("scroll",function(){
+  const scrollTop=window.pageYOffset||document.documentElement.scrollTop;
+  if(scrollTop>lastScrollTop){navbar.style.transform="translateY(-100%)";}
+  else{navbar.style.transform="translateY(0)";}
+  lastScrollTop=scrollTop<=0?0:scrollTop;
+  if(scrollTop>80){navbar.classList.add("scrolled");}
+  else{navbar.classList.remove("scrolled");}
+});
+</script>
+
+</body>
+</html>
