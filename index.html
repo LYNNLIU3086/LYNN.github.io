@@ -4,21 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Works | Lynn Liu</title>
+
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
+
 body {
   font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
   background:#000;
   color:#fff;
   line-height:1.8;
-  overflow-x:hidden;
 }
 
-/* 顶部导航栏 */
+/* ================= Header ================= */
+
 header {
   position: fixed;
-  top:0;
-  left:0;
+  top:0; left:0;
   width:100%;
   padding:20px 60px;
   display:flex;
@@ -34,167 +35,179 @@ header h1 {
   letter-spacing:1px;
 }
 header nav a {
-  color:#fff;
+  color:#aaa;
   text-decoration:none;
   margin-left:40px;
-  font-weight:400;
   font-size:1em;
-  transition:color 0.3s;
 }
-header nav a:hover { color:#aaa; }
+header nav a:hover { color:#fff; }
 
-/* intro splash */
-.intro{
-  position:fixed; inset:0;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  background:#000; z-index:2000;
-}
-.intro .title{
-  font-size:clamp(36px,7vw,72px);
-  letter-spacing:4px;font-weight:700;
-  transform:translateY(12px);opacity:0;
-  animation:introTitle 900ms ease forwards;
-  color:#fff;
-}
-.intro .sub{
-  margin-top:18px;color:#aaa;font-size:14px;
-  opacity:0;animation:introSub 900ms ease 200ms forwards;
-}
-.intro .skip{
-  margin-top:36px;color:#888;font-size:0.9em;cursor:pointer;
-  opacity:0;animation:introBtn .9s ease .35s forwards;
-}
-@keyframes introTitle{to{transform:none;opacity:1;}}
-@keyframes introSub{to{opacity:1;}}
-@keyframes introBtn{to{opacity:1;}}
-.intro.hidden{opacity:0;pointer-events:none;transition:opacity .6s ease;}
+/* ================= Layout ================= */
 
-/* 分类筛选器 */
-.filter-container {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0 40px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.filter-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  padding: 8px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 14px;
-}
-.filter-btn:hover { background: rgba(255, 255, 255, 0.2); }
-.filter-btn.active {
-  background: #fff;
-  color: #000;
-}
-
-/* 主容器 */
-main {
-  max-width:1200px;
+main.layout{
+  max-width:1400px;
   margin:140px auto 80px;
-  padding:0 40px;
+  padding:0 60px;
+  display:block;
 }
 
-/* 项目网格 */
+/* ================= Sidebar — FIXED ================= */
+
+.sidebar{
+  position: fixed;
+  top:140px;
+
+  /* 精确对齐 1400px 居中容器 */
+  left: calc(50% - 700px + 60px);
+
+  width:260px;
+  z-index:50;
+}
+
+/* ================= Sidebar Content ================= */
+
+.theme{
+  margin-bottom:32px;
+}
+
+.theme-title{
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:14px;
+  letter-spacing:1px;
+  cursor:pointer;
+  padding:0;
+}
+
+.theme-list{
+  list-style:none;
+  margin-top:10px;
+  padding-left:12px;
+}
+
+.theme-list li{
+  font-size:12px;
+  color:#777;
+  margin:6px 0;
+}
+
+.theme-list li a{
+  color:#777;
+  font-size:12px;
+  text-decoration:none;
+  display:block;
+  padding-left:6px;
+}
+.theme-list li a:hover{
+  color:#fff;
+  transform:translateX(4px);
+  transition:all .3s;
+}
+
+/* ================= Content ================= */
+
+.content{
+  margin-left:324px; /* 260 sidebar + 64 gap */
+  min-width:0;
+}
+
+/* ================= Grid ================= */
+
 .grid{
   display:grid;
-  gap:40px; /* 加大间距 */
-  grid-template-columns:repeat(2,1fr); /* 每行两列 */
-}
-@media(max-width:720px){
-  .grid{
-    grid-template-columns:1fr; /* 小屏一列 */
-  }
+  gap:40px;
+  grid-template-columns:repeat(2,1fr);
 }
 
-/* 项目框 */
+@media(max-width:720px){
+  .grid{grid-template-columns:1fr;}
+}
+
+/* ================= Project ================= */
+
 .project{
-  position:relative;overflow:hidden;
-  border-radius:10px;cursor:pointer;
-  background:#0b0b0b;display:block;
-  text-decoration:none;color:inherit;
-  transform:translateY(12px);opacity:0;
+  position:relative;
+  overflow:hidden;
+  cursor:pointer;
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  transform:translateY(12px);
+  opacity:0;
   transition:transform .7s cubic-bezier(.2,.9,.2,1),opacity .7s;
 }
 .project.is-visible{transform:none;opacity:1;}
 
 .project__media{
-  display:block;
   width:100%;
-  height:300px; /* 加高作品框 */
+  height:300px;
   object-fit:cover;
   transition:transform .6s ease,filter .5s ease;
 }
-.project:hover .project__media{transform:scale(1.06);filter:brightness(.6);}
+.project:hover .project__media{
+  transform:scale(1.06);
+  filter:brightness(.6);
+}
 
 .overlay{
-  position:absolute; inset:0;
-  display:flex; flex-direction:column;
-  justify-content:center; align-items:center;
-  padding:28px; text-align:center;
-  background:linear-gradient(180deg,rgba(0,0,0,0.15),rgba(0,0,0,0.6));
-  opacity:0; transition:opacity .45s ease;
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  opacity:0;
+  transition:.45s ease;
 }
-.project:hover .overlay,.project:focus .overlay{opacity:1;}
+.project:hover .overlay{opacity:1;}
+
 .overlay h2{
-  font-size:clamp(18px,2.2vw,28px);
-  margin-bottom:8px;letter-spacing:1px;
+  font-size:22px;
+  margin-bottom:8px;
 }
 .overlay p{
-  color:#ddd;font-size:13px;max-width:80%;line-height:1.55;
+  font-size:13px;
+  color:#ccc;
 }
 
 .meta{
-  position:absolute;left:12px;bottom:12px;
-  color:#bbb;font-size:12px;opacity:.9;
-  background:rgba(255,255,255,0.02);
-  padding:6px 8px;border-radius:6px;
+  position:absolute;
+  left:12px;
+  bottom:12px;
+  font-size:12px;
+  color:#aaa;
 }
 
-/* Footer */
+/* ================= Footer ================= */
+
 footer{
-  text-align:center;padding:20px 0;
-  color:#777;background:rgba(0,0,0,0.85);
+  text-align:center;
+  padding:20px 0;
+  color:#666;
 }
 
-/* 响应式 */
-@media (max-width: 500px) {
-  header {
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 0;
-  }
-  header nav {
-    margin-top: 8px;
-  }
-  header h1 {
-    font-size: 1.2rem;
-  }
-  .filter-container { gap: 8px; }
-  .filter-btn { padding: 6px 14px; font-size: 12px; }
-  .project__media{ height:220px; } /* 手机适配高度 */
+/* ================= Responsive ================= */
+
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .content{margin-left:0;}
 }
 </style>
+
+
 </head>
+
 <body>
 
+<!-- intro（原样） -->
 <div class="intro" id="intro">
   <video autoplay muted loop playsinline id="introVideo">
     <source src="assets/intro.mp4" type="video/mp4">
-    Your browser does not support the video tag.
   </video>
-  <!-- <div class="title">My Profile</div>
-  <div class="sub">作品集 · 视觉 / 交互 / 影像</div>
-  <div class="skip">点击任意位置跳过</div> -->
 </div>
 
-<!-- 导航栏 -->
 <header id="header">
   <h1>LYNN LIU</h1>
   <nav>
@@ -204,22 +217,59 @@ footer{
   </nav>
 </header>
 
-<!-- 主体内容 -->
-<main>
-  <!-- 分类筛选器 -->
-  <div class="filter-container">
-    <button class="filter-btn active" data-filter="all">All Projects</button>
-    <button class="filter-btn" data-filter="exhibition">Exhibition</button>
-    <button class="filter-btn" data-filter="AI">Machine</button>
-    <button class="filter-btn" data-filter="research">Research</button>
-       <button class="filter-btn" data-filter="UI">Product</button>
-    <button class="filter-btn" data-filter="animation">Practice</button>
-    
-  
+<!-- ================= NEW Layout Wrapper ================= -->
+
+<main class="layout">
+
+<!-- ========== Sidebar（Theme → Project Name） ========== -->
+
+<aside class="sidebar">
+
+  <div class="theme">
+    <button class="theme-title">Exhibition</button>
+    <ul class="theme-list">
+      <li><a href="Exhibition/project1.html">Self-comb</a></li>
+      <li><a href="Exhibition/project2.html">She is me</a></li>
+      <li><a href="Exhibition/project3.html">The Gifts of the Land</a></li>
+    </ul>
   </div>
 
-  <section class="grid" id="projectsGrid">
+  <div class="theme">
+    <button class="theme-title">Speculation</button>
+    <ul class="theme-list">
+      <li><a href="Research/project-map.html">Nothing is too far</a></li>
+      <li><a href="Machine/project4.html">Acupoint</a></li>
+      <li><a href="Machine/project4-2.html">Meteorite-Crater</a></li>
+    </ul>
+  </div>
 
+  <div class="theme">
+    <button class="theme-title">Research</button>
+    <ul class="theme-list">
+      <li><a href="Research/project6.html">The Brainy Gut</a></li>
+      <li><a href="Research/project5-2.html">Hormone1.0</a></li>
+      <li><a href="Research/project5.html">Hormone2.0</a></li>
+    </ul>
+  </div>
+
+  <div class="theme">
+    <button class="theme-title">other</button>
+    <ul class="theme-list">
+      <li><a href="Practices/project-data.html">Data Visualization</a></li>
+      <li><a href="Practices/project9.html">Body temple</a></li>
+      <li><a href="Practices/project7.html">Ecuador</a></li>
+    </ul>
+  </div>
+
+  
+
+
+</aside>
+
+<!-- ========== Content（原封不动） ========== -->
+
+<section class="content">
+<section class="grid" id="projectsGrid">
 
     <a href="Exhibition/project2.html" class="project" data-category="exhibition">
       <img class="project__media" src="assets/thumb2.jpg" alt="She is me">
@@ -232,22 +282,29 @@ footer{
       <div class="overlay"><h2>The Gifts of the Land</h2><p>Data Visualization & Hardware</p></div>
       <div class="meta">Exhibition and Social practice · 7.2023-9.2023</div>
     </a>
-
+    
+    <a href="Machine/project-map.html" class="project" data-category="Machine and Speculation">
+      <img class="project__media" src="assets/thumbmap.jpg" alt="Not too far">
+      <div class="overlay"><h2>Nothing is too far</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
+      <div class="meta">Specultive Design Research · 9.2025-12.2025</div>
+    </a>
 
     <a href="Machine/project4-2.html" class="project" data-category="AI">
       <img class="project__media" src="assets/thumb4-2.jpg" alt="Meteorite-Crater">
-      <div class="overlay"><h2>Meteorite-Crater</h2><p>Working···</p></div>
-      <div class="meta">Machine Learning · 10.2025-now</div>
-      
-    <a href="Machine/project4.html" class="project" data-category="AI">
-      <img class="project__media" src="assets/thumb4.jpg" alt="Acupoint">
-      <div class="overlay"><h2>Acupoint</h2><p>Object Detection & Fashion</p></div>
-      <div class="meta">Machine Learning · 10.2023-12.2023</div>
-
-        <a href="Exhibition/project1.html" class="project project--lead" data-category="exhibition">
+      <div class="overlay"><h2>Beyond the Skies Series</h2><p>Archival data work</p></div>
+      <div class="meta">Comprehensive Data Processing · 10.2023-now</div>
+    </a>
+    
+    <a href="Exhibition/project1.html" class="project project--lead" data-category="exhibition">
       <img class="project__media" src="assets/thumb1.jpg" alt="Self-comb">
       <div class="overlay"><h2>Self-comb</h2><p>Immersive Spatial & Interactive Experience</p></div>
       <div class="meta">Virtual Reality · 2.2023-1.2025</div>
+    </a>
+
+    <a href="Machine/project4.html" class="project" data-category="AI">
+      <img class="project__media" src="assets/thumb4.png" alt="Acupoint">
+      <div class="overlay"><h2>Acupoint</h2><p>Object Detection & Fashion</p></div>
+      <div class="meta">Machine Learning · 10.2023-12.2023</div>
     </a>
 
     <a href="Research/project6.html" class="project" data-category="research">
@@ -255,7 +312,6 @@ footer{
       <div class="overlay"><h2>The Brainy Gut</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
       <div class="meta">Creative Design Research · 11.2024-1.2025</div>
     </a>
-
 
     <a href="Research/project5-2.html" class="project" data-category="research">
       <img class="project__media" src="assets/thumb5.jpg" alt="Hormone1.0">
@@ -269,17 +325,24 @@ footer{
       <div class="meta">Creative Design Research · 6.2023-9.2023</div>
     </a>
 
-    <a href="Product/project8.html" class="project" data-category="UI">
+    <!-- <a href="Product/project8.html" class="project" data-category="UI">
       <img class="project__media" src="assets/thumb8.jpg" alt="A Kaleidoscopic World">
       <div class="overlay"><h2>A Kaleidoscopic World</h2><p>Product Design</p></div>
       <div class="meta">Cinema4D · 2024</div>
+    </a> -->
+
+    <a href="Practices/project-data.html" class="project" data-category="Data and Model">
+      <img class="project__media" src="assets/thumb-data.png" alt="Data">
+      <div class="overlay"><h2>Data</h2><p>Motion Capture & Experimental Video</p></div>
+      <div class="meta">Data Visualization · 2026</div>
     </a>
+
+
     <a href="Product/project10.html" class="project" data-category="UI">
-      <img class="project__media" src="assets/thumb10.jpg" alt="Yake Robot">
-      <div class="overlay"><h2>Yake Robot</h2><p>User Research & Product Design</div>
+      <img class="project__media" src="assets/thumb10.png" alt="Yake Robot">
+      <div class="overlay"><h2>Yake Robot</h2><p>User Research & Product Design</p></div>
       <div class="meta">Future Product · 8.2022-10.2022</div>
-
-
+   
     <a href="Practices/project7.html" class="project" data-category="animation">
       <img class="project__media" src="assets/thumb7.jpg" alt="Ecuador">
       <div class="overlay"><h2>Ecuador</h2><p>Motion Capture & Experimental Video</p></div>
@@ -292,12 +355,30 @@ footer{
       <div class="meta">Cinema4D · 2022</div>
     </a>
 
-  </section>
+
+
+    
+</section>
+</section>
+
 </main>
 
-<footer>© 2025 LYNN LIU — design & code</footer>
+<footer>© 2026 LYNN — design & technology</footer>
 
 <script>
+// 折叠展开主题列表
+document.querySelectorAll('.theme-title').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    btn.classList.toggle('active');
+    const list = btn.nextElementSibling;
+    if(list.style.display==='block'){
+      list.style.display='none';
+    } else {
+      list.style.display='block';
+    }
+  });
+});
+
 // 启动页逻辑
 (function(){
   const intro=document.getElementById('intro');
@@ -337,88 +418,6 @@ footer{
   },{threshold:0.12});
   items.forEach(i=>obs.observe(i));
 })();
-
-// 项目分类筛选功能
-(function(){
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const projects = document.querySelectorAll('.project');
-  
-  filterButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      // 更新活动按钮
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      
-      const filter = button.getAttribute('data-filter');
-      
-      // 筛选项目
-      projects.forEach(project => {
-        const category = project.getAttribute('data-category');
-        
-        if (filter === 'all' || category === filter) {
-          project.style.display = 'block';
-          // 添加延迟显示动画
-          setTimeout(() => {
-            project.style.opacity = '1';
-            project.style.transform = 'translateY(0)';
-          }, 50);
-        } else {
-          project.style.opacity = '0';
-          project.style.transform = 'translateY(12px)';
-          setTimeout(() => {
-            project.style.display = 'none';
-          }, 500);
-        }
-      });
-      
-      // 重新触发滚动动画
-      setTimeout(() => {
-        const visibleProjects = document.querySelectorAll('.project[style*="display: block"]');
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(e => {
-            if(e.isIntersecting){
-              e.target.classList.add('is-visible');
-              observer.unobserve(e.target);
-            }
-          });
-        },{threshold:0.12});
-        
-        visibleProjects.forEach(project => {
-          observer.observe(project);
-        });
-      }, 50);
-    });
-  });
-})();
-
-// Keyboard accessibility
-document.querySelectorAll('.project').forEach(card=>{
-  card.setAttribute('tabindex','0');
-  card.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){
-      window.open(card.getAttribute('href'),'_blank');
-    }
-  });
-});
-
-// 禁止复制、剪切、选择
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('cut', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-let lastScrollTop = 0;
-const navbar = document.querySelector("nav"); // 你的菜单栏标签是 nav 的话
-
-window.addEventListener("scroll", function() {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  if (scrollTop > lastScrollTop) {
-    // 向下滚动 -> 隐藏菜单栏
-    navbar.style.transform = "translateY(-100%)";
-  } else {
-    // 向上滚动 -> 显示菜单栏
-    navbar.style.transform = "translateY(0)";
-  }
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // 防止负值
-});
 </script>
 
 </body>
