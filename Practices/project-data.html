@@ -25,6 +25,7 @@ main{margin-top:100px;padding:0 40px 150px}
   position:absolute;left:50%;top:0;bottom:0;width:2px;
   background: linear-gradient(to bottom, rgb(255, 255, 255), #333, rgb(255, 255, 255));
   box-shadow:0 0 10px rgba(0,255,255,.4);
+  transform: translateX(-50%);
 }
 
 /* Entry */
@@ -36,13 +37,13 @@ main{margin-top:100px;padding:0 40px 150px}
 .entry:nth-child(odd){left:0;text-align:right}
 .entry:nth-child(even){left:50%}
 
-/* Dot */
+/* Dot - 完全居中在线上 */
 .dot{
   position:absolute;top:140px;width:14px;height:14px;border-radius:50%;
   background:#ffffff;box-shadow:0 0 12px rgb(255, 255, 255);
 }
-.entry:nth-child(odd) .dot{right:-6px}
-.entry:nth-child(even) .dot{left:-6px}
+.entry:nth-child(odd) .dot{right:-7px}
+.entry:nth-child(even) .dot{left:-7px}
 
 /* Text styles */
 .year{
@@ -55,17 +56,19 @@ main{margin-top:100px;padding:0 40px 150px}
   opacity:.7;line-height:1.6;max-width:320px;display:inline-block;
 }
 
-/* Media */
+/* Media - 移除hover效果 */
 .media{
-  margin-top:16px;width:400px;aspect-ratio:4/3;background:#111;overflow:hidden;
+  margin-top:16px;max-width:400px;width:100%;aspect-ratio:4/3;background:#111;overflow:hidden;
   position:relative;top:-5px;box-shadow:0 6px 20px rgba(0,0,0,0.5);border-radius:6px;
-  transition:transform .5s;
+}
+.entry:nth-child(odd) .media{
+  margin-left:auto;
+}
+.entry:nth-child(even) .media{
+  margin-right:auto;
 }
 .media img{
-  width:100%;height:100%;object-fit:cover;transition:transform .5s, filter .5s;
-}
-.media:hover img{
-  transform:scale(1.06);filter:brightness(1.1);
+  width:100%;height:100%;object-fit:cover;
 }
 
 /* Link */
@@ -77,24 +80,24 @@ main{margin-top:100px;padding:0 40px 150px}
 
 /* Responsive */
 @media(max-width:900px){
-  .line{left:20px}
+  .line{left:20px;transform:translateX(0)}
   .entry,.entry:nth-child(even),.entry:nth-child(odd){
     left:0;width:100%;text-align:left;padding:80px 20px 80px 40px
   }
-  .dot{left:13px}
-  .media{width:100%;max-width:520px}
+  .dot{left:13px;right:auto}
+  .media{max-width:520px;margin-left:0 !important;margin-right:0}
 }
 @media(max-width:600px){
   main{padding:0 20px}
   .entry{padding:60px 15px}
-  .media{width:100%;max-width:100%}
+  .media{max-width:100%}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>LYNN LIU</h1>
+  <h3>LYNN</h3>
   <nav>
     <a href="../index.html">Works</a>
     <a href="../resume.html">Resume</a>
@@ -111,34 +114,37 @@ main{margin-top:100px;padding:0 40px 150px}
 <script>
 // Data
 const works=[
+   {
+    title:"Big water guy",
+    year:1.2026,
+    img:"../assets/data2.jpg",
+    url:"project.html",
+    text:"The project surveyed popular bottled waters in Los Angeles to help enthusiasts quickly compare key details like pH, price, and ingredients."
+  },
+  
+  
   {
-    title:"Gen map",
-    year:5.2024,
-    img:"../assets/data5.jpg",
-    url:"project7.html",
-    text:"The body constructs belief the way scaffolding constructs height — temporarily, repeatedly, inevitably collapsing."
+    title:"Questionnaire Survey",
+    year:12.2024,
+    img:"../assets/data3.jpg",
+    url:"survey_chart copy.html",
+    text:"The chart dynamically visualizes 100 survey responses, proportionally displaying in four quadrants the key factors patients prioritize during surgery."
   },
   {
     title:"Star interview",
-    year:2024,
+    year:1.2024,
     img:"../assets/data4.jpg",
     url:"project.html",
-    text:"Particles behave like memory: only visible when illuminated at the right angle of time."
+    text:"This chart visualizes the density of responses from over 200 field interviews, integrating time, location, and key phrases to quickly convey rich information."
   },
   {
-    title:"Big water guy",
-    year:2025,
-    img:"../assets/data2.jpg",
+    title:"Gene map",
+    year:5.2024,
+    img:"../assets/data5.jpg",
     url:"project.html",
-    text:"The body constructs belief the way scaffolding constructs height — temporarily, repeatedly, inevitably collapsing."
+    text:"The chart presents a visualization of whole-genome data from a professional biology lab, with the data sourced from the author."
   },
-  {
-    title:"Questionnaire Survey",
-    year:12.2023,
-    img:"../assets/data3.jpg",
-    url:"survey_chart copy.html",
-    text:"牙医调研数据补充文本描述"
-  }
+
 ].sort((a,b)=>b.year-a.year);
 
 const timeline=document.getElementById('timeline');
