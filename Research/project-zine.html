@@ -3,151 +3,342 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Decode — Lynn Liu</title>
+<title>Decode the Everyday — Lynn Liu</title>
 <style>
-* {margin:0; padding:0; box-sizing:border-box;}
-body {
-  font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#000;
-  color:#fff;
-  line-height:1.7;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* 导航栏 */
+body {
+  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  background: #ffffff;      /* 白色背景 */
+  color: #111111;
+  line-height: 1.7;
+}
+
+/* ================= Header (白色半透明) ================= */
 header {
   position: fixed;
-  top:0; left:0; right:0;
-  width:100%;
-  padding:20px 60px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
-  background: rgba(0,0,0,0.3);   /* ✅ 初始半透明 */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(6px);
-  transition: all 0.4s ease;      /* ✅ 平滑过渡 */
+  transition: background 0.4s ease, transform 0.3s ease;
 }
 header.scrolled {
-  background: rgba(0,0,0,0.85);  /* ✅ 滚动后更不透明 */
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 header h1 {
-  font-size:1.5em;
-  font-weight:400;
-  letter-spacing:1px;
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #000000;
 }
 nav a {
-  color:#fff;
-  text-decoration:none;
-  margin-left:40px;
-  font-weight:400;
-  font-size:1em;
-  transition:color 0.3s;
+  color: #000000;
+  text-decoration: none;
+  margin-left: 40px;
+  font-size: 1em;
+  transition: color 0.3s;
 }
-nav a:hover {color:crimson;}
-
-/* 主体容器 */
-.container {
-  max-width:900px;
-  margin:100px auto 60px;
-  padding:0 40px;
-  display:flex;
-  flex-direction:column;
-  gap:32px;
+nav a:hover {
+  color: rgb(255, 0, 51);
 }
 
-/* 项目标题与简介 */
-.section h1 {
-  font-size:1.8em;
-  font-weight:700;
-  margin-bottom:12px;
-}
-.section .description {
-  color:#ddd;
-  font-size:1rem;
-  line-height:1.6;
-  margin-bottom:24px;
+/* ================= Main Layout ================= */
+main.layout {
+  max-width: 1400px;
+  margin: 110px auto 80px;
+  padding: 0 60px;
+  display: block;
 }
 
-/* 媒体比例统一 */
+/* ================= Sidebar (纯红高亮，白底黑字) ================= */
+.sidebar {
+  position: fixed;
+  top: 110px;
+  left: max(60px, calc(50% - 700px + 60px));
+  width: 260px;
+  z-index: 50;
+}
+.theme {
+  margin-bottom: 32px;
+}
+.theme-title {
+  background: none;
+  border: none;
+  color: #111;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+}
+.theme-title:hover {
+  color: #888;
+}
+.theme-title.active {
+  color: rgb(255, 0, 51);
+  font-weight: 600;
+}
+.theme-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
+}
+.theme-list li {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.theme-list li a {
+  color: #4a4a4a;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.3s;
+}
+.theme-list li a:hover {
+  color: rgb(255, 0, 51);
+}
+.theme-list li a.active {
+  color: rgb(255, 0, 51);
+  font-weight: bold;
+}
+
+/* ================= Content 区域 ================= */
+.content {
+  margin-left: 324px;
+  min-width: 0;
+}
+
+/* ================= 封面大图 (无圆角) ================= */
+.cover-wrapper {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 0;
+}
+.cover-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 0;
+}
+.cover-wrapper img:hover {
+  transform: scale(1.01);
+}
+
+/* ================= 项目正文 ================= */
+.project-body {
+  padding: 48px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.project-body h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.3px;
+}
+.project-body h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  /* 去掉红色竖标 */
+  border-left: none;
+  padding-left: 0;
+}
+.project-body p {
+  font-size: 0.95rem;
+  color: #2c2c2c;
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+.project-body .description {
+  font-size: 0.95rem;
+  color: #2c2c2c;
+  line-height: 1.75;
+}
+
+/* ================= 媒体容器 (无圆角) ================= */
 .media-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 比例 */
-  border-radius:8px;
-  overflow:hidden;
-  background:#ffffff;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 0;
+  margin: 8px 0;
 }
-
 .media-wrapper iframe,
 .media-wrapper img {
-  position:absolute;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border:none;
-  cursor:pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  cursor: pointer;
   transition: transform 0.3s ease;
+  border-radius: 0;
 }
-.media-wrapper img:hover {transform:scale(1.02);}
+.media-wrapper img:hover {
+  transform: scale(1.02);
+}
 
-/* Lightbox */
+/* ================= 底部项目导航 ================= */
+.project-nav {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+  border-top: 1px solid #e0e0e0;
+  font-weight: 500;
+  margin-top: 20px;
+}
+.project-nav a {
+  text-decoration: none;
+  color: #111;
+  font-size: 0.95em;
+  transition: color 0.2s;
+  font-weight: 500;
+  padding: 8px 0;
+}
+.project-nav a:hover {
+  color: rgb(255, 0, 51);
+}
+
+/* ================= Lightbox (增强版带左右箭头，无圆角) ================= */
 .lightbox {
-  display:none;
-  position:fixed;
-  z-index:3000;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background: rgba(255, 255, 255, 0.85);
-  justify-content:center;
-  align-items:center;
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(6px);
+}
+.lightbox.active {
+  display: flex;
 }
 .lightbox img {
-  max-width:90%;
-  max-height:80%;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  max-width: 88%;
+  max-height: 85%;
+  border-radius: 0;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
 }
-.lightbox.active {display:flex;}
-/* 底部项目导航 */
-.project-nav {display:flex; justify-content:space-between; margin-top:60px; padding-top:20px; border-top:1px solid #333; font-weight:600;}
-.project-nav a {text-decoration:none; color:#fff; transition:color .3s;}
-.project-nav a:hover {color: crimson;}
+.lightbox .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3em;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  width: 56px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 40px;
+  line-height: 1.2;
+}
+.lightbox .arrow:hover {
+  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.7);
+}
+.lightbox .arrow.left {
+  left: 30px;
+}
+.lightbox .arrow.right {
+  right: 30px;
+}
 
-
-/* ========= 响应式调整 ========= */
+/* ================= 响应式 ================= */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+  }
+  .cover-wrapper {
+    height: 260px;
+  }
+}
 @media (max-width: 768px) {
   header {
-    padding:8px 24px;        /* ✅ 菜单栏变细 */
+    padding: 12px 24px;
   }
   header h1 {
-    font-size:1.2em;         /* ✅ 字体稍小 */
+    font-size: 1.2em;
   }
   nav a {
-    font-size:0.9em;
-    margin-left:20px;        /* ✅ 间距缩小 */
+    font-size: 0.9em;
+    margin-left: 20px;
   }
-  .container {
-    margin-top:70px;         /* ✅ 内容下移防止被挡 */
+  main.layout {
+    padding: 0 24px;
+    margin-top: 85px;
+  }
+  .lightbox .arrow {
+    font-size: 2.5em;
+    width: 40px;
+  }
+  .lightbox .arrow.left {
+    left: 12px;
+  }
+  .lightbox .arrow.right {
+    right: 12px;
   }
 }
-
 @media (max-width: 500px) {
   header {
-    flex-direction:column;
-    align-items:center;
-    padding:10px 0;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
   }
   nav a {
-    margin:0 12px;
+    margin: 0 12px;
+  }
+  .project-body h1 {
+    font-size: 1.8em;
+  }
+  .project-nav {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
   }
 }
 </style>
 </head>
 <body>
 
-<header>
+<header id="header">
   <h1>LYNN LIU</h1>
   <nav>
     <a href="../index.html">Works</a>
@@ -156,99 +347,206 @@ nav a:hover {color:crimson;}
   </nav>
 </header>
 
-<div class="media-wrapper" style="position:relative;">
-    <img src="../assets/project-zine_img.jpg" alt="Project 1 image 1">
-    <div style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
-</div>
+<main class="layout">
 
+  <!-- 侧边栏导航 (纯红高亮，当前项目 active) -->
+  <aside class="sidebar">
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="project1.html">Self-comb</a></li>
+        <li><a href="project2.html">She is me</a></li>
+        <li><a href="project3.html">The Gifts of the Land</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative Design</a>
+      <ul class="theme-list">
+      <li><a href="../Research/project-zine.html" class="active">Decoding the Everyday</a></li>
+        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="project4.html">Acupoint</a></li>
+        
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title active" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+        <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
+        <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
+        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="../Research/project5.html">Hormone2.0</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Data and Video</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-data.html">Phantom</a></li>
+        <li><a href="../Practices/project-data.html">Data visualization</a></li>
+        <li><a href="../Practices/project9.html">Body temple</a></li>
+        <li><a href="../Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
 
-<div class="container section">
-  <h1>Decode the Everyday：</h1>
-<h3>A Field Guide to Spatial Codes</h3>
-   <h3>What I did</h3>
-<p>xxxxx</p>  
-<p class="description">
-    <h3>Introduction</h3>
-   The phenomena of life and society are both complex phenomena.The hormonal coordination of the human body is a complex system composed of numerous fundamental units. Each unit can exist in different states, and these states evolve over time under the influence of external disturbances, being affected by various factors.
-    <div class="media-wrapper">
-    <img src="../assets/project-zine_img1-1.jpg" alt="Project Five image 1">
-  
-  </div>
-<p>Estrogen production is influenced by three key factors: the body's ability to adapt its hormonal production, environmental disturbances, and the impact of food. The molecular bond structures within each unit interact locally, resulting in a variety of complex structures at the overall level. Ultimately, these interactions randomly form a comprehensive hormonal system. This system can, in turn, be used to simulate and demonstrate various bodily conditions and diseases.</p>
- <div class="media-wrapper">
-    <img src="../assets/project-zine_img1-2.jpg" alt="Project Five image 1">
-  </div>
-In conclusion, during the process of deduction and iteration, a wide range of abstract forms emerge. By capturing the instantaneous states of these variables, we can represent the specific forms of the micro-model of human hormones, thereby conducting a series of visual studies.
-  </p>
-<div class="media-wrapper">
-    <img src="../assets/project-zine_img1-3.jpg" alt="Project Five image 1">
-  </div>
-  <!-- 图片展示 -->
-  <div class="media-wrapper">
-    <img src="../assets/project-zine_img1.jpg" alt="Project Five image 1">
-  </div>
-  <div class="media-wrapper">
-    <img src="../assets/project-zine_img2.jpg" alt="Project Five image 2">
-  </div>
-  <div class="media-wrapper">
-    <img src="../assets/project-zine_img3.jpg" alt="Project Five image 3">
-  </div>
+  <!-- 主要内容区域 -->
+  <section class="content">
+    <!-- 封面图 -->
+    <div class="cover-wrapper">
+      <img src="../assets/project-zine_img.jpg" alt="Decode the Everyday cover">
+    </div>
 
-  <!-- 底部三连导航 -->
-  <div class="project-nav">
-    <a href="../index.html" class="overview">Works</a>
-    <a href="project5.html" class="next"> →</a>
-  </div>
-</div>
+    <div class="project-body">
+      <h1>Decode the Everyday：</h1>
+      <h3>A Field Guide to Spatial Codes</h3>
 
-<!-- Lightbox -->
+      <!-- What I did -->
+      <div>
+        <h3>What I did</h3>
+        <p>xxxxx</p>
+      </div>
+
+      <!-- Introduction -->
+      <div>
+        <h3>Introduction</h3>
+        <p>The phenomena of life and society are both complex phenomena. The hormonal coordination of the human body is a complex system composed of numerous fundamental units. Each unit can exist in different states, and these states evolve over time under the influence of external disturbances, being affected by various factors.</p>
+        <div class="media-wrapper">
+          <img src="../assets/project-zine_img1-1.jpg" alt="Zine image 1-1">
+        </div>
+        <p>Estrogen production is influenced by three key factors: the body's ability to adapt its hormonal production, environmental disturbances, and the impact of food. The molecular bond structures within each unit interact locally, resulting in a variety of complex structures at the overall level. Ultimately, these interactions randomly form a comprehensive hormonal system. This system can, in turn, be used to simulate and demonstrate various bodily conditions and diseases.</p>
+        <div class="media-wrapper">
+          <img src="../assets/project-zine_img1-2.jpg" alt="Zine image 1-2">
+        </div>
+        <p>In conclusion, during the process of deduction and iteration, a wide range of abstract forms emerge. By capturing the instantaneous states of these variables, we can represent the specific forms of the micro-model of human hormones, thereby conducting a series of visual studies.</p>
+        <div class="media-wrapper">
+          <img src="../assets/project-zine_img1-3.jpg" alt="Zine image 1-3">
+        </div>
+        <div class="media-wrapper">
+          <img src="../assets/project-zine_img1.jpg" alt="Zine image 1">
+        </div>
+        <div class="media-wrapper">
+          <img src="../assets/project-zine_img2.jpg" alt="Zine image 2">
+        </div>
+        <div class="media-wrapper">
+          <img src="../assets/project-zine_img3.jpg" alt="Zine image 3">
+        </div>
+      </div>
+
+      <!-- 底部项目导航 -->
+      <div class="project-nav">
+        <a href="../index.html">← Works</a>
+        <a href="project5.html">Next →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Lightbox 增强版（带左右箭头） -->
 <div class="lightbox" id="lightbox">
+  <span class="arrow left" id="prevArrow">&#10094;</span>
   <img src="" alt="Expanded view">
+  <span class="arrow right" id="nextArrow">&#10095;</span>
 </div>
 
 <script>
-  // Lightbox 功能
+  // ================= Lightbox 增强逻辑（支持所有 .media-wrapper 内的图片 + 封面图） =================
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = lightbox.querySelector('img');
-  document.querySelectorAll('.media-wrapper img').forEach(img => {
-    img.addEventListener('click', () => {
-      lightboxImg.src = img.src;
-      lightbox.classList.add('active');
+  const prevBtn = document.getElementById('prevArrow');
+  const nextBtn = document.getElementById('nextArrow');
+
+  const coverImg = document.querySelector('.cover-wrapper img');
+  const mediaImgs = Array.from(document.querySelectorAll('.media-wrapper img'));
+  let allImages = [];
+  if (coverImg) allImages.push(coverImg);
+  allImages = allImages.concat(mediaImgs);
+  
+  let currentIdx = 0;
+  
+  function openLightbox(index) {
+    if (!allImages.length) return;
+    if (index < 0) index = allImages.length - 1;
+    if (index >= allImages.length) index = 0;
+    currentIdx = index;
+    lightboxImg.src = allImages[currentIdx].src;
+    lightbox.classList.add('active');
+  }
+  
+  function showNext() {
+    if (!allImages.length) return;
+    currentIdx = (currentIdx + 1) % allImages.length;
+    lightboxImg.src = allImages[currentIdx].src;
+  }
+  
+  function showPrev() {
+    if (!allImages.length) return;
+    currentIdx = (currentIdx - 1 + allImages.length) % allImages.length;
+    lightboxImg.src = allImages[currentIdx].src;
+  }
+  
+  allImages.forEach((img, idx) => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIdx = idx;
+      openLightbox(currentIdx);
     });
   });
-  lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
-
-// 禁止右键菜单
-document.addEventListener('contextmenu', function(e){
+  
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPrev();
+  });
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showNext();
+  });
+  
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === lightboxImg) {
+      lightbox.classList.remove('active');
+    }
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') {
+      showPrev();
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      showNext();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      e.preventDefault();
+    }
+  });
+  
+  // ================= 禁止右键菜单 & 复制保护 =================
+  document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     alert("右键已禁用");
-});
-// 禁止复制、剪切、选择
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('cut', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
-// ✅ 滚动时隐藏/显示菜单栏 + 透明渐变效果
-let lastScrollTop = 0;
-const navbar = document.querySelector("header");
-
-window.addEventListener("scroll", function() {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  // 滚动方向控制隐藏/出现
-  if (scrollTop > lastScrollTop) {
-    navbar.style.transform = "translateY(-100%)";
-  } else {
-    navbar.style.transform = "translateY(0)";
-  }
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-  // ✅ 滚动距离控制透明度变化
-  if (scrollTop > 80) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
-});
+  });
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+  
+  // ================= 滚动时隐藏/显示导航栏 + 透明度变化 =================
+  let lastScrollTop = 0;
+  const navbar = document.querySelector("header");
+  window.addEventListener("scroll", function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 60) {
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      navbar.style.transform = "translateY(0)";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    if (scrollTop > 80) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
 </script>
 
 </body>

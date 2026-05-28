@@ -3,176 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The gifts of the land — Lynn Liu</title>
+<title>The Gifts of the Land — Lynn Liu</title>
 <style>
-* {margin:0; padding:0; box-sizing:border-box;}
-body {
-  font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#000000;
-  color:#F4B22D;
-  line-height:1.7;
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-/* 导航栏 */
+body {
+  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  background: #ffffff;      /* 保留白色背景，不变 */
+  color: #111111;
+  line-height: 1.7;
+}
+
+/* ================= Header (白色系风格) ================= */
 header {
   position: fixed;
-  top:0; left:0; right:0;
-  width:100%;
-  padding:20px 60px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
-  background: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgb(255, 255, 255);
   backdrop-filter: blur(6px);
-  transition: all 0.4s ease;
+  transition: background 0.4s ease, transform 0.3s ease;
 }
-header.scrolled {background: rgba(0,0,0,0.85);}
+header.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
 header h1 {
-  font-size:1.5em;
-  font-weight:400;
-  letter-spacing:1px;
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #000000;
 }
 nav a {
-  color:#F4B22D;
-  text-decoration:none;
-  margin-left:40px;
-  font-weight:400;
-  font-size:1em;
-  transition:color 0.3s;
+  color: #000000;
+  text-decoration: none;
+  margin-left: 40px;
+  font-size: 1em;
+  transition: color 0.3s;
 }
-nav a:hover {color:crimson;}
-
-/* 主体容器 */
-.container {
-  max-width:900px;
-  margin:100px auto 60px;
-  padding:0 40px;
-  display:flex;
-  flex-direction:column;
-  gap:32px;
+nav a:hover {
+  color: rgb(255, 0, 51);
 }
 
-/* 标题 */
-.section h1 {
-  font-size:1.8em;
-  font-weight:700;
-  margin-bottom:12px;
-}
-.section .description {
-  color:#666565;
-  font-size:1rem;
-  line-height:1.6;
-  margin-bottom:24px;
+/* ================= Main Layout ================= */
+main.layout {
+  max-width: 1400px;
+  margin: 110px auto 80px;
+  padding: 0 60px;
+  display: block;
 }
 
-/* 媒体 */
+/* ================= Sidebar (左侧导航，白底黑字) ================= */
+.sidebar {
+  position: fixed;
+  top: 110px;
+  left: max(60px, calc(50% - 700px + 60px));
+  width: 260px;
+  z-index: 50;
+}
+.theme {
+  margin-bottom: 32px;
+}
+.theme-title {
+  background: none;
+  border: none;
+  color: #111;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+}
+.theme-title:hover {
+  color: #ffffff;
+}
+.theme-title.active {
+  color: rgb(255, 0, 51);
+  font-weight: 600;
+}
+.theme-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
+}
+.theme-list li {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.theme-list li a {
+  color: #4a4a4a;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.3s;
+}
+.theme-list li a:hover {
+  color: rgb(255, 0, 51);
+}
+.theme-list li a.active {
+  color: rgb(255, 0, 51);
+  font-weight: bold;
+}
+
+/* ================= Content 区域 ================= */
+.content {
+  margin-left: 324px;
+  min-width: 0;
+}
+
+/* ================= 封面大图 ================= */
+.cover-wrapper {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 0;
+  background: #ffffff;
+}
+.cover-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  background: #ffffff;
+}
+.cover-wrapper img:hover {
+  transform: scale(1.01);
+}
+
+/* ================= 项目正文 ================= */
+.project-body {
+  padding: 48px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.project-body h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: -0.3px;
+}
+.project-body h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  /* border-left: 3px solid rgb(255, 0, 51); */
+  /* padding-left: 12px; */
+}
+.project-body p {
+  font-size: 0.95rem;
+  color: #2c2c2c;
+  line-height: 1.75;
+}
+.project-body .description {
+  font-size: 0.95rem;
+  color: #2c2c2c;
+  line-height: 1.75;
+}
+
+/* ================= 媒体容器 ================= */
 .media-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%;
-  border-radius:8px;
-  overflow:hidden;
-  background:#000000;
+  padding-top: 56.25%;   /* 16:9 */
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 0;
+  margin: 8px 0;
 }
 .media-wrapper iframe,
 .media-wrapper img {
-  position:absolute;
-  top:0; left:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  border:none;
-  cursor:pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+  cursor: pointer;
   transition: transform 0.3s ease;
 }
-.media-wrapper img:hover {transform:scale(1.02);}
+.media-wrapper img:hover {
+  transform: scale(1.02);
+}
 
-/* ===== 多图画廊布局 ===== */
+/* ================= 多图画廊 (优雅网格) ================= */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 10px;
-  margin: 20px 0;
+  gap: 16px;
+  margin: 12px 0 8px;
 }
 .gallery img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 0;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.2s;
+  
 }
 .gallery img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transform: scale(1.02);
+  
 }
 
-/* ===== Lightbox 全屏查看 + 切换箭头 ===== */
-.lightbox {
-  display:none;
-  position:fixed;
-  z-index:3000;
-  top:0; left:0;
-  width:100%; height:100%;
-  background: rgba(0, 0, 0, 0.9);
-  justify-content:center;
-  align-items:center;
-}
-.lightbox.active {display:flex;}
-.lightbox img {
-  max-width:90%;
-  max-height:80%;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
-}
-.lightbox .arrow {
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  font-size:2.5em;
-  color:#F4B22D;
-  cursor:pointer;
-  user-select:none;
-  transition:opacity 0.3s;
-}
-.lightbox .arrow:hover {opacity:0.6;}
-.lightbox .arrow.left {left:40px;}
-.lightbox .arrow.right {right:40px;}
-
-/* 底部项目导航 */
+/* ================= 项目底部导航 ================= */
 .project-nav {
-  display:flex;
-  justify-content:space-between;
-  margin-top:60px;
-  padding-top:20px;
-  border-top:1px solid #ff8000;
-  font-weight:600;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+  border-top: 1px solid #000000;
+  font-weight: 500;
+  margin-top: 20px;
 }
 .project-nav a {
-  text-decoration:none;
-  color:#ff8000;
-  transition:color .3s;
+  text-decoration: none;
+  color: #111;
+  font-size: 0.95em;
+  transition: color 0.2s;
+  font-weight: 500;
 }
-.project-nav a:hover {color: crimson;}
+.project-nav a:hover {
+  color: rgb(255, 0, 51);
+}
 
-/* ========= 响应式调整 ========= */
+/* ================= Lightbox 增强版 (带左右箭头) ================= */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(6px);
+}
+.lightbox.active {
+  display: flex;
+}
+.lightbox img {
+  max-width: 88%;
+  max-height: 85%;
+  border-radius: 0;
+  box-shadow: 0 20px 35px rgb(255, 255, 255);
+  object-fit: contain;
+}
+.lightbox .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3em;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  width: 56px;
+  text-align: center;
+  background: rgb(255, 255, 255);
+  border-radius: 0;
+  line-height: 1.2;
+}
+.lightbox .arrow:hover {
+  opacity: 0.7;
+  background: rgb(255, 255, 255);
+}
+.lightbox .arrow.left {
+  left: 30px;
+}
+.lightbox .arrow.right {
+  right: 30px;
+}
+
+/* ================= 响应式 ================= */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+  }
+  .cover-wrapper {
+    height: 260px;
+  }
+}
 @media (max-width: 768px) {
-  header {padding:8px 24px;}
-  header h1 {font-size:1.2em;}
-  nav a {font-size:0.9em; margin-left:20px;}
-  .container {margin-top:70px;}
-  .lightbox .arrow.left {left:20px;}
-  .lightbox .arrow.right {right:20px;}
+  header {
+    padding: 12px 24px;
+  }
+  header h1 {
+    font-size: 1.2em;
+  }
+  nav a {
+    font-size: 0.9em;
+    margin-left: 20px;
+  }
+  main.layout {
+    padding: 0 24px;
+    margin-top: 85px;
+  }
+  .lightbox .arrow {
+    font-size: 2.5em;
+    width: 40px;
+  }
+  .lightbox .arrow.left {
+    left: 12px;
+  }
+  .lightbox .arrow.right {
+    right: 12px;
+  }
 }
 @media (max-width: 500px) {
-  header {flex-direction:column; align-items:center; padding:10px 0;}
-  nav a {margin:0 12px;}
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+  }
+  nav a {
+    margin: 0 12px;
+  }
+  .project-body h1 {
+    font-size: 1.8em;
+  }
 }
 </style>
 </head>
 <body>
 
-<header>
+<header id="header">
   <h1>LYNN LIU</h1>
   <nav>
     <a href="../index.html">Works</a>
@@ -181,147 +359,245 @@ nav a:hover {color:crimson;}
   </nav>
 </header>
 
-<div class="media-wrapper" style="position:relative;">
-  <img src="../assets/project3_img0.jpg" alt="Project 1 image 1">
-  <div style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
-</div>
+<main class="layout">
 
-<div class="container section">
-  <h1>The Gift of the Land</h1>
-  <p class="description">
-  <p>As the Project Lead, I spearheaded this mixed-media initiative from concept to physical exhibit. I designed and built the core circuitry using crystal oscillators and RF components, and created tangible models via 3D printing and fabrication. I also directed the photography to capture the project's narrative, delivering a final installation that bridges technology, art, and craftsmanship.</p>
-    <h3>Introduction</h3>
-  
-    Planets colliding in space trigger oscillations, leaving the Earth with distinct cosmic imprints. 
-    This represents the evidence of space's presence on Earth and a tangible touchpoint for human engagement with space. We endeavor to convert the intangible love beyond the dome into tangible love on Earth. Targeting meteorite craters for exploration, activation, and response. 
- <div class="media-wrapper">
-      <img src="../assets/project3_img4.jpg" alt="Project Four image 1">
+  <!-- ===== 侧边栏: 作品分类 (格式完全仿照 Self-comb 页面，配色适配白底) ===== -->
+  <aside class="sidebar">
+    <div class="theme">
+      <a class="theme-title active" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="project1.html">Self-comb</a></li>
+        <li><a href="project2.html">She is me</a></li>
+        <li><a href="project3.html" class="active">The Gifts of the Land</a></li>
+      </ul>
     </div>
-    We invite the public to collaboratively create, interweave real-life vignettes, recreate circular routes, and design transceivers that convert actual sounds into wireless signals. These signals are transmitted in real-time at chosen locations, completing the oscillation cycle. 
-  </p>
-  <h3>Finding Star Interview</h3>
-  <div class="media-wrapper">
-    <img src="../assets/project3_img2.jpg" alt="Project Four image 2">
-  </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative Design</a>
+      <ul class="theme-list">
+        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="../Machine/project4.html">Acupoint</a></li>
+        <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
+        <li><a href="../Product/project10.html">Future Robot</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+        <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
+        <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
+        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="../Research/project5.html">Hormone2.0</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Data and Video</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-data.html">Phantom</a></li>
+        <li><a href="../Practices/project-data.html">Data visualization</a></li>
+        <li><a href="../Practices/project9.html">Body temple</a></li>
+        <li><a href="../Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
 
-  <!-- ✅ 多图画廊开始 -->
-   <h3> Anatomy Diagram</h3>
-  <div class="gallery">
-    <img src="../assets/gallery1.jpg" alt="Gallery Image 1">
-    <img src="../assets/gallery2.jpg" alt="Gallery Image 2">
-    <img src="../assets/gallery3.jpg" alt="Gallery Image 3">
-    <img src="../assets/gallery4.jpg" alt="Gallery Image 4">
-  
-  </div>
-  <!-- ✅ 多图画廊结束 -->
-  <h3> Multiple Pits We Can Choose</h3>
-  <div class="media-wrapper">
-    <img src="../assets/project3_img8.jpg" alt="Project Four image 3">
-  </div>
-  <h3> Final Outcome</h3>
-  In the presentation of the exhibition, I have chosen to juxtapose real meteorites with artificial ones, while also presenting a self-curated meteorite archive. Additionally, responses from participants are displayed on-site, and signals received from deep space are quietly transmitted.
-  On Earth, within the exhibition, we aspire to engage in a ritualistic "look back" at the universe with the participants.
-  <div class="media-wrapper">
-    <img src="../assets/project3_img6.jpg" alt="Project Four image 2">
-  </div>
-  <div class="media-wrapper">
-    <img src="../assets/project3_img7.jpg" alt="Project Four image 3">
-  </div>
-<!-- Vimeo 视频 -->
- <h3>Field Practice</h3>
-  <div class="media-wrapper">
-    <iframe src="https://player.vimeo.com/video/1043935673" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-  </div>
-  <!-- 底部三连导航 -->
-  <div class="project-nav">
-    <a href="project2.html" class="prev">← </a>
-    <a href="../index.html" class="overview">Works</a>
-  </div>
-</div>
+  <!-- ===== 主要内容区 ===== -->
+  <section class="content">
 
-<!-- Lightbox -->
+    <!-- 封面大图 (原版第一个 media-wrapper 视觉) -->
+    <div class="cover-wrapper">
+      <img src="../assets/project3_img0.jpg" alt="The Gift of the Land cover">
+    </div>
+
+    <div class="project-body">
+
+      <h1>The Gift of the Land</h1>
+
+      <!-- What I did (职责/项目主导) -->
+      <div>
+        <h3>What I did</h3>
+        <p>As the Project Lead, I spearheaded this mixed-media initiative from concept to physical exhibit. I designed and built the core circuitry using crystal oscillators and RF components, and created tangible models via 3D printing and fabrication. I also directed the photography to capture the project's narrative, delivering a final installation that bridges technology, art, and craftsmanship.</p>
+      </div>
+
+      <!-- Introduction -->
+      <div>
+        <h3>Introduction</h3>
+        <p>Planets colliding in space trigger oscillations, leaving the Earth with distinct cosmic imprints. This represents the evidence of space's presence on Earth and a tangible touchpoint for human engagement with space. We endeavor to convert the intangible love beyond the dome into tangible love on Earth. Targeting meteorite craters for exploration, activation, and response. We invite the public to collaboratively create, interweave real-life vignettes, recreate circular routes, and design transceivers that convert actual sounds into wireless signals. These signals are transmitted in real-time at chosen locations, completing the oscillation cycle.</p>
+      </div>
+
+      <!-- Introduction 配图: 概念图 / 现场记录 -->
+      <div class="media-wrapper">
+        <img src="../assets/project3_img4.jpg" alt="Cosmic oscillation concept">
+      </div>
+
+      <!-- Finding Star Interview -->
+      <div>
+        <h3>Finding Star Interview</h3>
+        <div class="media-wrapper">
+          <img src="../assets/project3_img2.jpg" alt="Interview documentation">
+        </div>
+      </div>
+
+      <!-- Anatomy Diagram (多图画廊) -->
+      <div>
+        <h3>Anatomy Diagram</h3>
+        <div class="gallery">
+          <img src="../assets/gallery1.jpg" alt="Anatomy 1">
+          <img src="../assets/gallery2.jpg" alt="Anatomy 2">
+          <img src="../assets/gallery3.jpg" alt="Anatomy 3">
+          <img src="../assets/gallery4.jpg" alt="Anatomy 4">
+        </div>
+      </div>
+
+      <!-- Multiple Pits We Can Choose -->
+      <div>
+        <h3>Multiple Pits We Can Choose</h3>
+        <div class="media-wrapper">
+          <img src="../assets/project3_img8.jpg" alt="Craters selection">
+        </div>
+      </div>
+
+      <!-- Final Outcome 完整文本 + 双图 -->
+      <div>
+        <h3>Final Outcome</h3>
+        <p>In the presentation of the exhibition, I have chosen to juxtapose real meteorites with artificial ones, while also presenting a self-curated meteorite archive. Additionally, responses from participants are displayed on-site, and signals received from deep space are quietly transmitted. On Earth, within the exhibition, we aspire to engage in a ritualistic "look back" at the universe with the participants.</p>
+        <div class="media-wrapper">
+          <img src="../assets/project3_img6.jpg" alt="Final exhibition view 1">
+        </div>
+        <div class="media-wrapper">
+          <img src="../assets/project3_img7.jpg" alt="Final exhibition view 2">
+        </div>
+      </div>
+
+      <!-- Field Practice (Vimeo Video) -->
+      <div>
+        <h3>Field Practice</h3>
+        <div class="media-wrapper">
+          <iframe src="https://player.vimeo.com/video/1043935673" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- 底部项目导航 (三个链接, 仿造 Self-comb 风格) -->
+      <div class="project-nav">
+        <a href="project2.html">← Prev</a>
+        <a href="../index.html">All Works</a>
+        <a href="project4.html">Next →</a>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- 增强版 Lightbox (带左右箭头，支持画廊 + 所有 media-wrapper 图片) -->
 <div class="lightbox" id="lightbox">
-  <span class="arrow left" id="prev">&#10094;</span>
+  <span class="arrow left" id="prevArrow">&#10094;</span>
   <img src="" alt="Expanded view">
-  <span class="arrow right" id="next">&#10095;</span>
+  <span class="arrow right" id="nextArrow">&#10095;</span>
 </div>
 
 <script>
-// 获取元素
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = lightbox.querySelector('img');
-// ✅ 包含 gallery 和所有 media-wrapper 中的图片
-const images = document.querySelectorAll('.gallery img, .media-wrapper img');
-const prev = document.getElementById('prev');
-const next = document.getElementById('next');
-let currentIndex = 0;
+  // ================= LIGHTBOX 完整增强逻辑 =================
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  const prevBtn = document.getElementById('prevArrow');
+  const nextBtn = document.getElementById('nextArrow');
 
-// 打开 Lightbox
-images.forEach((img, index) => {
-  img.addEventListener('click', () => {
-    currentIndex = index;
-    lightboxImg.src = img.src;
+  // 收集所有可点击的图片：包括 .media-wrapper img 以及 .gallery img （封面图不参与lightbox轮播）
+  const clickableImages = Array.from(document.querySelectorAll('.media-wrapper img, .gallery img'));
+  let currentIdx = 0;
+
+  // 打开 lightbox 并显示指定索引的图片
+  function openLightbox(index) {
+    if (!clickableImages.length) return;
+    if (index < 0) index = clickableImages.length - 1;
+    if (index >= clickableImages.length) index = 0;
+    currentIdx = index;
+    lightboxImg.src = clickableImages[currentIdx].src;
     lightbox.classList.add('active');
+  }
+
+  // 显示下一张/上一张
+  function showNext() {
+    if (!clickableImages.length) return;
+    currentIdx = (currentIdx + 1) % clickableImages.length;
+    lightboxImg.src = clickableImages[currentIdx].src;
+  }
+  function showPrev() {
+    if (!clickableImages.length) return;
+    currentIdx = (currentIdx - 1 + clickableImages.length) % clickableImages.length;
+    lightboxImg.src = clickableImages[currentIdx].src;
+  }
+
+  // 绑定图片点击事件
+  clickableImages.forEach((img, idx) => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIdx = idx;
+      openLightbox(currentIdx);
+    });
   });
-});
 
-// 切换函数
-function showImage(index) {
-  if (index < 0) index = images.length - 1;
-  if (index >= images.length) index = 0;
-  currentIndex = index;
-  lightboxImg.src = images[currentIndex].src;
-}
+  // 箭头事件
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPrev();
+  });
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showNext();
+  });
 
-prev.addEventListener('click', e => {
-  e.stopPropagation();
-  showImage(currentIndex - 1);
-});
-next.addEventListener('click', e => {
-  e.stopPropagation();
-  showImage(currentIndex + 1);
-});
+  // 点击背景关闭 lightbox
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === lightboxImg) {
+      lightbox.classList.remove('active');
+    }
+  });
 
-// 点击退出
-lightbox.addEventListener('click', () => {
-  lightbox.classList.remove('active');
-});
+  // 键盘事件：左右箭头切换 + ESC 关闭
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') {
+      showPrev();
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      showNext();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      e.preventDefault();
+    }
+  });
 
-// 键盘导航
-document.addEventListener('keydown', e => {
-  if (!lightbox.classList.contains('active')) return;
-  if (e.key === 'ArrowLeft') showImage(currentIndex - 1);
-  if (e.key === 'ArrowRight') showImage(currentIndex + 1);
-  if (e.key === 'Escape') lightbox.classList.remove('active');
-});
+  // ================= 右键禁用 & 复制保护 =================
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    alert("右键已禁用");
+  });
+  document.addEventListener('copy', (e) => e.preventDefault());
+  document.addEventListener('cut', (e) => e.preventDefault());
+  document.addEventListener('selectstart', (e) => e.preventDefault());
 
-// 禁止右键和复制
-document.addEventListener('contextmenu', e => {
-  e.preventDefault();
-  alert("右键已禁用");
-});
-document.addEventListener('copy', e => e.preventDefault());
-document.addEventListener('cut', e => e.preventDefault());
-document.addEventListener('selectstart', e => e.preventDefault());
+  // ================= 滚动隐藏/显示导航栏 (仿原版 + 白底效果) =================
+  let lastScrollTop = 0;
+  const navbar = document.querySelector("header");
+  window.addEventListener("scroll", function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 60) {
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      navbar.style.transform = "translateY(0)";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    if (scrollTop > 80) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
 
-// 滚动控制导航栏透明变化
-let lastScrollTop = 0;
-const navbar = document.querySelector("header");
-window.addEventListener("scroll", function() {
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  if (scrollTop > lastScrollTop) {
-    navbar.style.transform = "translateY(-100%)";
-  } else {
-    navbar.style.transform = "translateY(0)";
-  }
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  if (scrollTop > 80) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
-});
-
+  // 确保侧边栏高亮一致，初始化触发无额外动作
+  // 并解决偶尔图片资源缺失不影响体验（只是展示）
 </script>
 
 </body>

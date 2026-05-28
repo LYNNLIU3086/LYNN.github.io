@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>She is me — Lynn Liu</title>
+<title>She is Me — Lynn Liu</title>
 <style>
 * {margin:0; padding:0; box-sizing:border-box;}
 body {
   font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#000;
-  color:#aa008a;
+  background:#ffffff;
+  color:#000000;
   line-height:1.7;
 }
 
-/* 导航栏 */
+/* ================= Header ================= */
 header {
   position: fixed;
   top:0; left:0; right:0;
@@ -23,61 +23,142 @@ header {
   justify-content:space-between;
   align-items:center;
   z-index:100;
-  background: rgba(0,0,0,0.3);   /* ✅ 初始半透明 */
+  background: rgba(255,255,255,0.6);
   backdrop-filter: blur(6px);
-  transition: all 0.4s ease;      /* ✅ 平滑过渡 */
+  transition: background 0.4s ease;
 }
 header.scrolled {
-  background: rgba(0,0,0,0.85);  /* ✅ 滚动后更不透明 */
+  background: rgba(255,255,255,0.95);
 }
 header h1 {
   font-size:1.5em;
   font-weight:400;
   letter-spacing:1px;
+  color:#000;
 }
 nav a {
-  color:#aa008a;
+  color:#000;
   text-decoration:none;
   margin-left:40px;
-  font-weight:400;
   font-size:1em;
-  transition:color 0.3s;
+  transition: color 0.3s;
 }
-nav a:hover {color:crimson;}
+nav a:hover { color:#ff0000; }
 
-/* 主体容器 */
-.container {
-  max-width:900px;
-  margin:100px auto 60px;
-  padding:0 40px;
-  display:flex;
-  flex-direction:column;
-  gap:32px;
+/* ================= Layout ================= */
+main.layout {
+  max-width:1400px;
+  margin: 100px auto 100px;
+  padding:0 60px;
+  display:block;
 }
 
-/* 项目标题与简介 */
-.section h1 {
-  font-size:1.8em;
+/* ================= Sidebar ================= */
+.sidebar {
+  position: fixed;
+  top: 100px;
+  left: max(60px, calc(50% - 700px + 60px));
+  width:260px;
+  z-index:50;
+}
+
+.theme {
+  margin-bottom:32px;
+}
+.theme-title {
+  background:none;
+  border:none;
+  color:#000;
+  font-size:14px;
+  letter-spacing:1px;
+  cursor:pointer;
+  padding:0;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+}
+.theme-title:hover { color:#999; }
+.theme-title.active { color:#ff0000; }
+
+.theme-list {
+  list-style:none;
+  margin-top:10px;
+  padding-left:12px;
+}
+.theme-list li {
+  font-size:12px;
+  color:#777;
+  margin:6px 0;
+}
+.theme-list li a {
+  color:#777;
+  font-size:12px;
+  text-decoration:none;
+  display:block;
+  padding-left:6px;
+  transition: color 0.3s;
+}
+.theme-list li a:hover { color:#ff0000; }
+.theme-list li a.active {
+  color:#ff0000;
+  font-weight:bold;
+}
+
+/* ================= Content ================= */
+.content {
+  margin-left:324px;
+  min-width:0;
+}
+
+/* ================= Cover image (full-width above layout) ================= */
+.cover-wrapper {
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.cover-wrapper img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ================= Project body ================= */
+.project-body {
+  padding: 48px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.project-body h1 {
+  font-size:2em;
   font-weight:700;
-  margin-bottom:12px;
+  color:#000;
+  margin-bottom:4px;
 }
-.section .description {
-  color:#aa008a;
-  font-size:1rem;
-  line-height:1.6;
-  margin-bottom:24px;
+.project-body h3 {
+  font-size:1em;
+  font-weight:600;
+  color:#000;
+  margin-top:8px;
+  margin-bottom:4px;
+  letter-spacing:0.5px;
+}
+.project-body p {
+  font-size:0.95rem;
+  color:#333;
+  line-height:1.75;
 }
 
-/* 媒体比例统一 */
+/* ================= Media ================= */
 .media-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 比例 */
-  border-radius:8px;
+  padding-top: 56.25%;
   overflow:hidden;
   background:#111;
 }
-
 .media-wrapper iframe,
 .media-wrapper img {
   position:absolute;
@@ -89,65 +170,58 @@ nav a:hover {color:crimson;}
   cursor:pointer;
   transition: transform 0.3s ease;
 }
-.media-wrapper img:hover {transform:scale(1.02);}
+.media-wrapper img:hover { transform:scale(1.02); }
 
-/* Lightbox */
+/* ================= Project Nav ================= */
+.project-nav {
+  display:flex;
+  justify-content:space-between;
+  padding-top:30px;
+  border-top:1px solid #ddd;
+  font-weight:600;
+  margin-top:20px;
+}
+.project-nav a {
+  text-decoration:none;
+  color:#000;
+  font-size:0.95em;
+  transition: color 0.3s;
+}
+.project-nav a:hover { color:#ff0000; }
+
+/* ================= Lightbox ================= */
 .lightbox {
   display:none;
   position:fixed;
   z-index:3000;
   top:0; left:0;
-  width:100%;
-  height:100%;
+  width:100%; height:100%;
   background: rgba(0,0,0,0.85);
   justify-content:center;
   align-items:center;
 }
 .lightbox img {
   max-width:90%;
-  max-height:80%;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  max-height:85%;
+  box-shadow:0 0 30px rgba(0,0,0,0.5);
 }
-.lightbox.active {display:flex;}
-/* 底部项目导航 */
-.project-nav {display:flex; justify-content:space-between; margin-top:60px; padding-top:20px; border-top:1px solid #333; font-weight:600;}
-.project-nav a {text-decoration:none; color:#fff; transition:color .3s;}
-.project-nav a:hover {color: crimson;}
+.lightbox.active { display:flex; }
 
-
-/* ========= 响应式调整 ========= */
-@media (max-width: 768px) {
-  header {
-    padding:8px 24px;        /* ✅ 菜单栏变细 */
-  }
-  header h1 {
-    font-size:1.2em;         /* ✅ 字体稍小 */
-  }
-  nav a {
-    font-size:0.9em;
-    margin-left:20px;        /* ✅ 间距缩小 */
-  }
-  .container {
-    margin-top:70px;         /* ✅ 内容下移防止被挡 */
-  }
+/* ================= Responsive ================= */
+@media(max-width:900px){
+  .sidebar { display:none; }
+  .content { margin-left:0; }
+  .cover-wrapper { height:260px; }
 }
-
-@media (max-width: 500px) {
-  header {
-    flex-direction:column;
-    align-items:center;
-    padding:10px 0;
-  }
-  nav a {
-    margin:0 12px;
-  }
+@media(max-width:600px){
+  main.layout { padding:0 24px; }
+  header { padding:14px 24px; }
 }
 </style>
 </head>
 <body>
 
-<header>
+<header id="header">
   <h1>LYNN LIU</h1>
   <nav>
     <a href="../index.html">Works</a>
@@ -156,66 +230,114 @@ nav a:hover {color:crimson;}
   </nav>
 </header>
 
-<div class="media-wrapper" style="position:relative;">
-    <img src="../assets/project2_img1.jpg" alt="Project 1 image 1">
-    <div style="position:absolute; top:0; left:0; width:100%; height:100%;"></div>
-</div>
+<main class="layout">
 
-<div class="container section">
-  <h1>She is Me</h1>
-  <!-- 视频展示 -->
-   <p class="description">
-  <h3>What I did</h3>
-  <p>Spearheaded the creation of a large-scale immersive experience by integrating Unreal Engine, Blender, and EEG technology to visualize emotional data and create a novel narrative.</p>
-    <h3>Introduction</h3>
-    <p>The complex interconnections of cognition as well as physiological traits such as blood composition and genetic inheritance between a mother and daughter are capable of being distilled into quantifiable data. 
-    I consistently endeavor to identify these underlying ties that unify us across various scales - from macroscopic manifestations to microscopic subtleties - while seeking her presence within myself. By analyzing extensive datasets encompassing behavioral patterns including verbal exchanges, physical interactions, and emotional states; it becomes feasible to reconstruct absent components related to nurturing care and mutual understanding. </p>
-  </p>
+  <!-- ===== Sidebar ===== -->
+   <aside class="sidebar">
+    <div class="theme">
+      <a class="theme-title active" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="project1.html">Self-comb</a></li>
+        <li><a href="project2.html"class="active">She is me</a></li>
+        <li><a href="project3.html">The Gifts of the Land</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative Design</a>
+      <ul class="theme-list">
+         <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
+        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="../Machine/project4.html">Acupoint</a></li>
+      
+        <li><a href="../Product/project10.html">Future Robot</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+       
+        <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
+          <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
+        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="../Research/project5.html">Hormone2.0</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Data and Video</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-data.html">Phantom</a></li>
+        <li><a href="../Practices/project-data.html">Data visualization</a></li>
+        <li><a href="../Practices/project9.html">Body temple</a></li>
+        <li><a href="../Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
 
-  <div class="media-wrapper">
-    <iframe src="https://player.vimeo.com/video/1043937421" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-  </div>
-  <p>As we reflect upon each other's emotional experiences over time, I am able to recollect our overlooked 'intimate relationship.'</p>
-  
-  <!-- 图片展示 -->
-  <div class="media-wrapper">
-    <img src="../assets/project2_img2.jpg" alt="Project Two image 2">
-  </div>
-  <div class="media-wrapper">
-    <img src="../assets/project2_img3.jpg" alt="Project Two image 3">
-  </div>
+  <!-- ===== Content ===== -->
+  <section class="content">
 
-  <p>Through my individual perspective, I meticulously examine our maternal bond in order to consolidate diverse data points while creating an integrated biological profile. Privately, verbal communication gives way to silence, and subtle nuances in thoughts and bodily expressions infuse daily existence with profound significance. </p>
+    <!-- Cover -->
+    <div class="cover-wrapper">
+      <img src="../assets/project2_img1.jpg" alt="She is Me cover">
+    </div>
 
-  <div class="media-wrapper">
-    <img src="../assets/project2_img6.gif" alt="Project Two image 3">
-  </div>
-   <div class="media-wrapper">
-    <img src="../assets/project2_img7.gif" alt="Project Two image 3">
-  </div>
-   <!-- <div class="media-wrapper">
-    <img src="../assets/project2_img8.gif" alt="Project Two image 3">
-  </div> -->
-    <div class="media-wrapper">
-    <img src="../assets/project2_img9.gif" alt="Project Two image 3">
-  </div>
-    <p></p>
+    <div class="project-body">
+      <h1>She is Me</h1>
 
+      <div>
+        <h3>What I did</h3>
+        <p>Spearheaded the creation of a large-scale immersive experience by integrating Unreal Engine, Blender, and EEG technology to visualize emotional data and create a novel narrative.</p>
+      </div>
 
-  <!-- 底部导航 - 移动到container内部 -->
-  <div class="project-nav">
-    <a href="project1.html" class="prev">← </a>
-    <a href="../index.html" class="overview">Works</a>
-    <a href="project3.html" class="next"> →</a>
-  </div>
-</div> <!-- 这里正确闭合container -->
+      <div>
+        <h3>Introduction</h3>
+        <p>The complex interconnections of cognition as well as physiological traits such as blood composition and genetic inheritance between a mother and daughter are capable of being distilled into quantifiable data. I consistently endeavor to identify these underlying ties that unify us across various scales — from macroscopic manifestations to microscopic subtleties — while seeking her presence within myself. By analyzing extensive datasets encompassing behavioral patterns including verbal exchanges, physical interactions, and emotional states; it becomes feasible to reconstruct absent components related to nurturing care and mutual understanding.</p>
+      </div>
 
+      <div class="media-wrapper">
+        <iframe src="https://player.vimeo.com/video/1043937421" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
+      <p>As we reflect upon each other's emotional experiences over time, I am able to recollect our overlooked 'intimate relationship.'</p>
+
+      <div class="media-wrapper">
+        <img src="../assets/project2_img2.jpg" alt="Project Two image 2">
+      </div>
+      <div class="media-wrapper">
+        <img src="../assets/project2_img3.jpg" alt="Project Two image 3">
+      </div>
+
+      <p>Through my individual perspective, I meticulously examine our maternal bond in order to consolidate diverse data points while creating an integrated biological profile. Privately, verbal communication gives way to silence, and subtle nuances in thoughts and bodily expressions infuse daily existence with profound significance.</p>
+
+      <div class="media-wrapper">
+        <img src="../assets/project2_img6.gif" alt="Project Two gif 1">
+      </div>
+      <div class="media-wrapper">
+        <img src="../assets/project2_img7.gif" alt="Project Two gif 2">
+      </div>
+      <div class="media-wrapper">
+        <img src="../assets/project2_img9.gif" alt="Project Two gif 3">
+      </div>
+
+      <div class="project-nav">
+        <a href="project1.html">← Prev</a>
+        <a href="../index.html">All Works</a>
+        <a href="project3.html">Next →</a>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<!-- Lightbox -->
 <div class="lightbox" id="lightbox">
   <img src="" alt="Expanded view">
 </div>
 
 <script>
-// Lightbox 图片放大
+// Lightbox
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = lightbox.querySelector('img');
 document.querySelectorAll('.media-wrapper img').forEach(img => {
@@ -226,39 +348,20 @@ document.querySelectorAll('.media-wrapper img').forEach(img => {
 });
 lightbox.addEventListener('click', () => lightbox.classList.remove('active'));
 
-
-// 禁止右键菜单
-document.addEventListener('contextmenu', function(e){
-    e.preventDefault();
-    alert("右键已禁用");
-});
-
-// 禁止复制、剪切、选择
+// 禁止右键
+document.addEventListener('contextmenu', e => { e.preventDefault(); });
 document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 document.addEventListener('selectstart', e => e.preventDefault());
 
-// ✅ 滚动时隐藏/显示菜单栏 + 透明渐变效果
+// 滚动隐藏/显示 header + 透明度
 let lastScrollTop = 0;
 const navbar = document.querySelector("header");
-
 window.addEventListener("scroll", function() {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-  // 滚动方向控制隐藏/出现
-  if (scrollTop > lastScrollTop) {
-    navbar.style.transform = "translateY(-100%)";
-  } else {
-    navbar.style.transform = "translateY(0)";
-  }
+  navbar.style.transform = scrollTop > lastScrollTop ? "translateY(-100%)" : "translateY(0)";
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-  // ✅ 滚动距离控制透明度变化
-  if (scrollTop > 80) {
-    navbar.classList.add("scrolled");
-  } else {
-    navbar.classList.remove("scrolled");
-  }
+  navbar.classList.toggle("scrolled", scrollTop > 80);
 });
 </script>
 

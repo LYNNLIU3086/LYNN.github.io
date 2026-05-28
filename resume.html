@@ -8,8 +8,8 @@
 * {margin:0; padding:0; box-sizing:border-box;}
 body {
   font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#000;
-  color:#fff;
+  background:#fcfcfc;
+  color:#000000;
   line-height:1.8;
 }
 
@@ -24,7 +24,7 @@ header {
   justify-content:space-between;
   align-items:center;
   z-index:100;
-  background: rgba(0,0,0,0.6);
+  background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(6px);
   transition: transform 0.3s;
 }
@@ -36,7 +36,7 @@ header h1 {
 }
 
 header nav a {
-  color:#fff;
+  color:#000000;
   text-decoration:none;
   margin-left:40px;
   font-weight:400;
@@ -45,7 +45,7 @@ header nav a {
 }
 
 header nav a:hover {
-  color:#aaa;
+  color:#ff0000;
 }
 
 /* 页面主体容器 */
@@ -60,14 +60,14 @@ header nav a:hover {
   display:inline-block;
   margin-bottom:40px;
   padding:10px 18px;
-  border:1px solid rgba(255,255,255,0.12);
+  border:1px solid rgba(0, 0, 0, 0.12);
   border-radius:6px;
-  color:#fff;
+  color:#000000;
   text-decoration:none;
   transition:0.2s;
 }
 .back-btn:hover {
-  background:rgba(255,255,255,0.03);
+  background:rgba(0, 0, 0, 0.03);
   transform:translateY(-2px);
 }
 
@@ -93,8 +93,8 @@ header nav a:hover {
 .section h2 {
   font-size:1.4em;
   margin-bottom:20px;
-  color:#ccc;
-  border-bottom:1px solid #333;
+  color:#000000;
+  border-bottom:1px solid #000000;
   padding-bottom:5px;
 }
 
@@ -106,14 +106,14 @@ header nav a:hover {
 .item .role {
   font-weight:600;
   font-size:1.05em;
-  color:#fff;
+  color:#000000;
   margin-bottom:4px;
 }
 
 .item .company {
   font-weight:400;
   font-size:0.95em;
-  color:#ccc;
+  color:#000000;
   margin-bottom:4px;
 }
 
@@ -125,7 +125,7 @@ header nav a:hover {
 
 .item ul {
   margin-left:25px;
-  color:#eee;
+  color:#595959;
   font-size:0.9em;
   line-height:1.5;
 }
@@ -134,7 +134,7 @@ header nav a:hover {
 ul.skills, ul.exhibitions {
   margin-left:25px;
   font-size:0.95em;
-  color:#eee;
+  color:#595959;
   margin-bottom:20px;
 }
 
@@ -297,13 +297,13 @@ ul.exhibitions li {
         <h2>ART and EVENTS</h2>
 
       <div class="item">
-          <li>International Consumer Electronics Show 2026</li>  
+          <p class="company">International Consumer Electronics Show 2026</p> 
           <p class="date"> 1. 2026 | Las Vegas, CA</p>
-          <li>LABELHOOD Pioneer Fashion & Arts Festival</li>
+           <p class="company">LABELHOOD Pioneer Fashion & Arts Festival</p>
            <p class="date"> 7. 2024 | Beijing</p>
-          <li>Social Innovation Open House of School of Visual Arts </li>
+          <p class="company">Social Innovation Open House of School of Visual Arts </p>
           <p class="date">11. 2023 | New York, NY</p>
-          <li>Cumulus Beijing 2023 at Central Academy of Fine Arts </li>
+          <p class="company">Cumulus Beijing 2023 at Central Academy of Fine Arts </p>
           <p class="date">12. 2023 | Beijing</p>
         </ul>
       </div>

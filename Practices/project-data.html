@@ -5,99 +5,314 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lynn Liu — Timeline Archive</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:"Helvetica Neue","PingFang SC",sans-serif;overflow-x:hidden;scroll-behavior:smooth}
-
-/* Header */
-header{
-  position:fixed;top:0;left:0;right:0;
-  padding:20px 40px;display:flex;justify-content:space-between;align-items:center;
-  background:rgba(0,0,0,.35);backdrop-filter:blur(8px);z-index:1000;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-header h1{font-weight:500;letter-spacing:2px}
-nav a{color:#fff;text-decoration:none;margin-left:28px;opacity:.75;transition:opacity .3s}
-nav a:hover{opacity:1}
 
-/* Main timeline */
-main{margin-top:100px;padding:0 40px 150px}
-.timeline{position:relative;margin:auto;max-width:1200px}
-.line{
-  position:absolute;left:50%;top:0;bottom:0;width:2px;
-  background: linear-gradient(to bottom, rgb(255, 255, 255), #333, rgb(255, 255, 255));
-  box-shadow:0 0 10px rgba(0,255,255,.4);
+body {
+  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  background: #ffffff;
+  color: #111111;
+  line-height: 1.7;
+}
+
+/* ================= Header (白色半透明) ================= */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(6px);
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+header.scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+header h1 {
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #000000;
+}
+nav a {
+  color: #000000;
+  text-decoration: none;
+  margin-left: 40px;
+  font-size: 1em;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: rgb(255, 0, 51);
+}
+
+/* ================= Main Layout ================= */
+main.layout {
+  max-width: 1400px;
+  margin: 110px auto 80px;
+  padding: 0 60px;
+  display: block;
+}
+
+/* ================= Sidebar (纯红高亮，白底黑字) ================= */
+.sidebar {
+  position: fixed;
+  top: 110px;
+  left: max(60px, calc(50% - 700px + 60px));
+  width: 260px;
+  z-index: 50;
+}
+.theme {
+  margin-bottom: 32px;
+}
+.theme-title {
+  background: none;
+  border: none;
+  color: #111;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+}
+.theme-title:hover {
+  color: #888;
+}
+.theme-title.active {
+  color: rgb(255, 0, 51);
+  font-weight: 600;
+}
+.theme-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
+}
+.theme-list li {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.theme-list li a {
+  color: #4a4a4a;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.3s;
+}
+.theme-list li a:hover {
+  color: rgb(255, 0, 51);
+}
+.theme-list li a.active {
+  color: rgb(255, 0, 51);
+  font-weight: bold;
+}
+
+/* ================= Content 区域 ================= */
+.content {
+  margin-left: 324px;
+  min-width: 0;
+}
+
+/* ================= Timeline 容器 ================= */
+.timeline {
+  position: relative;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 20px 0 60px;
+}
+.line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: linear-gradient(to bottom, #ccc, #ffffff, #ccc);
   transform: translateX(-50%);
 }
 
 /* Entry */
-.entry{
-  position:relative;width:50%;padding:80px 30px;opacity:0;transform:translateY(30px);
-  transition:opacity 0.6s ease, transform 0.6s ease;
+.entry {
+  position: relative;
+  width: 50%;
+  padding: 80px 30px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.7s ease;
 }
-.entry.visible{opacity:1;transform:translateY(0);}
-.entry:nth-child(odd){left:0;text-align:right}
-.entry:nth-child(even){left:50%}
+.entry.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.entry:nth-child(odd) {
+  left: 0;
+  text-align: right;
+}
+.entry:nth-child(even) {
+  left: 50%;
+}
 
-/* Dot - 完全居中在线上 */
-.dot{
-  position:absolute;top:140px;width:14px;height:14px;border-radius:50%;
-  background:#ffffff;box-shadow:0 0 12px rgb(255, 255, 255);
+/* Dot - 完全居中在线条上 */
+.dot {
+  position: absolute;
+  top: 140px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #111;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
 }
-.entry:nth-child(odd) .dot{right:-7px}
-.entry:nth-child(even) .dot{left:-7px}
+.entry:nth-child(odd) .dot {
+  right: -6px;
+}
+.entry:nth-child(even) .dot {
+  left: -6px;
+}
 
 /* Text styles */
-.year{
-  font-family:monospace;font-size:14px;opacity:.45;margin-bottom:6px;letter-spacing:1px;
+.year {
+  font-family: monospace;
+  font-size: 13px;
+  opacity: 0.55;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
 }
-.title{
-  font-size:26px;font-weight:600;margin-bottom:10px;text-shadow:0 2px 6px rgba(0,0,0,0.4);
+.title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.2;
 }
-.text{
-  opacity:.7;line-height:1.6;max-width:320px;display:inline-block;
+.text {
+  opacity: 0.75;
+  line-height: 1.6;
+  max-width: 320px;
+  display: inline-block;
+  font-size: 0.95rem;
 }
 
-/* Media - 移除hover效果 */
-.media{
-  margin-top:16px;max-width:400px;width:100%;aspect-ratio:4/3;background:#111;overflow:hidden;
-  position:relative;top:-5px;box-shadow:0 6px 20px rgba(0,0,0,0.5);border-radius:6px;
+/* Media - 无圆角，无hover缩放 */
+.media {
+  margin-top: 18px;
+  max-width: 400px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: #f5f5f5;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 0;
 }
-.entry:nth-child(odd) .media{
-  margin-left:auto;
+.entry:nth-child(odd) .media {
+  margin-left: auto;
 }
-.entry:nth-child(even) .media{
-  margin-right:auto;
+.entry:nth-child(even) .media {
+  margin-right: auto;
 }
-.media img{
-  width:100%;height:100%;object-fit:cover;
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: none;
 }
 
 /* Link */
-.open{
-  margin-top:12px;font-size:13px;opacity:.6;display:inline-block;text-decoration:none;
-  color:#fff;border-bottom:1px solid #888;transition:all .3s;
+.open {
+  margin-top: 14px;
+  font-size: 13px;
+  opacity: 0.7;
+  display: inline-block;
+  text-decoration: none;
+  color: #111;
+  border-bottom: 1px solid #ccc;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
 }
-.open:hover{opacity:1;color:#fff;border-color:#0ff}
+.open:hover {
+  opacity: 1;
+  color: rgb(255, 0, 51);
+  border-bottom-color: rgb(255, 0, 51);
+}
 
-/* Responsive */
-@media(max-width:900px){
-  .line{left:20px;transform:translateX(0)}
-  .entry,.entry:nth-child(even),.entry:nth-child(odd){
-    left:0;width:100%;text-align:left;padding:80px 20px 80px 40px
+/* ================= 响应式 ================= */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
   }
-  .dot{left:13px;right:auto}
-  .media{max-width:520px;margin-left:0 !important;margin-right:0}
+  .content {
+    margin-left: 0;
+  }
+  .line {
+    left: 20px;
+    transform: translateX(0);
+  }
+  .entry,
+  .entry:nth-child(even),
+  .entry:nth-child(odd) {
+    left: 0;
+    width: 100%;
+    text-align: left;
+    padding: 80px 20px 80px 50px;
+  }
+  .dot {
+    left: 14px;
+    right: auto;
+  }
+  .media {
+    max-width: 520px;
+    margin-left: 0 !important;
+    margin-right: 0;
+  }
+  .entry:nth-child(odd) .text,
+  .entry:nth-child(even) .text {
+    max-width: 90%;
+  }
 }
-@media(max-width:600px){
-  main{padding:0 20px}
-  .entry{padding:60px 15px}
-  .media{max-width:100%}
+@media (max-width: 768px) {
+  header {
+    padding: 12px 24px;
+  }
+  header h1 {
+    font-size: 1.2em;
+  }
+  nav a {
+    font-size: 0.9em;
+    margin-left: 20px;
+  }
+  main.layout {
+    padding: 0 24px;
+    margin-top: 85px;
+  }
+}
+@media (max-width: 600px) {
+  .entry {
+    padding: 60px 16px 60px 45px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .media {
+    max-width: 100%;
+  }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <h3>LYNN</h3>
+<header id="header">
+  <h1>LYNN LIU</h1>
   <nav>
     <a href="../index.html">Works</a>
     <a href="../resume.html">Resume</a>
@@ -105,78 +320,156 @@ main{margin-top:100px;padding:0 40px 150px}
   </nav>
 </header>
 
-<main>
-  <div class="timeline" id="timeline">
-    <div class="line"></div>
-  </div>
+<main class="layout">
+
+  <!-- 侧边栏导航 (白色风格，无高亮) -->
+  <aside class="sidebar">
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="/Exhibition/project1.html">Self-comb</a></li>
+        <li><a href="/Exhibition/project2.html">She is me</a></li>
+        <li><a href="/Exhibition/project3.html">The Gifts of the Land</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative Design</a>
+      <ul class="theme-list">
+        <li><a href="Research/project-zine.html">Decoding the Everyday</a></li>
+        <li><a href="/Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="/Machine/project4.html">Acupoint</a></li>
+    
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+        
+        <li><a href="Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="Research/project6.html">The Brainy Gut1.0</a></li>
+        <li><a href="/Research/project8.html">The Brainy Gut2.0</a></li>
+        <li><a href="Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="Research/project5.html">Hormone2.0</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html" class="active">Data and Video</a>
+      <ul class="theme-list">
+        <li><a href="/Machine/project-narrtive map.html">Phantom</a></li>
+        <li><a href="/Practices/project-data.html" class="active">Data visualization</a></li>
+        <li><a href="/Practices/project9.html">Body temple</a></li>
+        <li><a href="/Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- 主要内容区域：时间线 -->
+  <section class="content">
+    <div class="timeline" id="timeline"></div>
+  </section>
 </main>
 
 <script>
-// Data
-const works=[
-   {
-    title:"Big water guy",
-    year:1.2026,
-    img:"../assets/data2.jpg",
-    url:"project.html",
-    text:"The project surveyed popular bottled waters in Los Angeles to help enthusiasts quickly compare key details like pH, price, and ingredients."
-  },
-  
-  {
-    title:"Questionnaire Survey",
-    year:12.2024,
-    img:"../assets/data3.jpg",
-    url:"survey_chart copy.html",
-    text:"The chart dynamically visualizes 100 survey responses, proportionally displaying in four quadrants the key factors patients prioritize during surgery."
-  },
+  // 项目数据（按年份从早到晚排序）
+  const worksRaw = [
+    {
+      title: "Star interview",
+      year: "1.2024",
+      yearNum: 2024.01,
+      img: "../assets/data4.jpg",
+      url: "project.html",
+      text: "This chart visualizes the density of responses from over 200 field interviews, integrating time, location, and key phrases to quickly convey rich information."
+    },
+    {
+      title: "Gene map",
+      year: "5.2024",
+      yearNum: 2024.05,
+      img: "../assets/data5.jpg",
+      url: "project.html",
+      text: "The chart presents a visualization of whole-genome data from a professional biology lab, with the data sourced from the author."
+    },
+    {
+      title: "Questionnaire Survey",
+      year: "12.2024",
+      yearNum: 2024.12,
+      img: "../assets/data3.jpg",
+      url: "survey_chart copy.html",
+      text: "The chart dynamically visualizes 100 survey responses, proportionally displaying in four quadrants the key factors patients prioritize during surgery."
+    },
+    {
+      title: "Big water guy",
+      year: "1.2026",
+      yearNum: 2026.01,
+      img: "../assets/data2.jpg",
+      url: "project.html",
+      text: "The project surveyed popular bottled waters in Los Angeles to help enthusiasts quickly compare key details like pH, price, and ingredients."
+    }
+  ];
 
-  {
-    title:"Gene map",
-    year:5.2024,
-    img:"../assets/data5.jpg",
-    url:"project.html",
-    text:"The chart presents a visualization of whole-genome data from a professional biology lab, with the data sourced from the author."
-  },
-  
-  {
-    title:"Star interview",
-    year:1.2024,
-    img:"../assets/data4.jpg",
-    url:"project.html",
-    text:"This chart visualizes the density of responses from over 200 field interviews, integrating time, location, and key phrases to quickly convey rich information."
-  },
+  // 按年份从早到晚排序
+  const works = worksRaw.sort((a, b) => a.yearNum - b.yearNum);
 
-]
+  const timelineContainer = document.getElementById('timeline');
+  if (timelineContainer) {
+    // 添加时间轴线
+    const lineDiv = document.createElement('div');
+    lineDiv.className = 'line';
+    timelineContainer.appendChild(lineDiv);
+    
+    works.forEach(work => {
+      const entryDiv = document.createElement('div');
+      entryDiv.className = 'entry';
+      entryDiv.innerHTML = `
+        <div class="dot"></div>
+        <div class="year">${work.year}</div>
+        <div class="title">${work.title}</div>
+        <div class="text">${work.text}</div>
+        <div class="media"><img src="${work.img}" alt="${work.title}" loading="lazy"></div>
+        <a class="open" href="${work.url}" target="_blank">enter project →</a>
+      `;
+      timelineContainer.appendChild(entryDiv);
+    });
+  }
 
-const timeline=document.getElementById('timeline');
+  // 滚动淡入效果
+  const entries = document.querySelectorAll('.entry');
+  function revealEntries() {
+    entries.forEach(entry => {
+      const rect = entry.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 100) {
+        entry.classList.add('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', revealEntries);
+  revealEntries();
 
-// Render timeline entries
-works.forEach(w=>{
-  const div=document.createElement('div');
-  div.className='entry';
-  div.innerHTML=`
-    <div class="dot"></div>
-    <div class="year">${w.year}</div>
-    <div class="title">${w.title}</div>
-    <div class="text">${w.text}</div>
-    <div class="media"><img src="${w.img}"></div>
-    <a class="open" href="${w.url}">enter project →</a>
-  `;
-  timeline.appendChild(div);
-});
+  // 禁止右键菜单 & 复制保护
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    alert("右键已禁用");
+  });
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
 
-// Scroll reveal effect
-const entries=document.querySelectorAll('.entry');
-function revealEntries(){
-  entries.forEach(e=>{
-    const rect=e.getBoundingClientRect();
-    if(rect.top<window.innerHeight-100){
-      e.classList.add('visible');
+  // 滚动时隐藏/显示导航栏 + 透明度变化
+  let lastScrollTop = 0;
+  const navbar = document.querySelector("header");
+  window.addEventListener("scroll", function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 60) {
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      navbar.style.transform = "translateY(0)";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    if (scrollTop > 80) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
     }
   });
-}
-window.addEventListener('scroll',revealEntries);
-revealEntries();
 </script>
 
 </body>

@@ -1,229 +1,275 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Works | Lynn Liu</title>
 
 <style>
-* {margin:0; padding:0; box-sizing:border-box;}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-  font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#ffffff;
-  color:#000000;
-  line-height:1.8;
+  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  background: #ffffff;
+  color: #000000;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ================= Intro 开场动画 ================= */
+.intro {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease;
+}
+.intro video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.intro.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ================= Header ================= */
-
 header {
   position: fixed;
-  top:0; left:0;
-  width:100%;
-  padding:20px 60px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(6px);
 }
 header h1 {
-  font-size:1.5em;
-  font-weight:400;
-  letter-spacing:1px;
-  color:#000000;
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #000000;
 }
 header nav a {
-  color:#000000;
-  text-decoration:none;
-  margin-left:40px;
-  font-size:1em;
+  color: #000000;
+  text-decoration: none;
+  margin-left: 40px;
+  font-size: 1em;
+  transition: color 0.2s;
 }
-header nav a:hover { color:#ff0000; }
-
-/* ================= Layout ================= */
-
-main.layout{
-  max-width:1400px;
-  margin:140px auto 80px;
-  padding:0 60px;
-  display:block;
+header nav a:hover {
+  color: #ff0000;
 }
 
-/* ================= Sidebar — FIXED ================= */
+/* ================= 主布局 ================= */
+main.layout {
+  max-width: 1400px;
+  margin: 100px auto 80px;
+  padding: 0 60px;
+  display: block;
+}
 
-.sidebar{
+/* ================= 侧边栏 (固定) ================= */
+.sidebar {
   position: fixed;
-  top:140px;
-
-  /* 响应式定位：在宽屏时对齐容器，窄屏时保持可见 */
+  top: 100px;
   left: max(60px, calc(50% - 700px + 60px));
-
-  width:260px;
-  z-index:50;
+  width: 260px;
+  z-index: 50;
 }
 
-/* ================= Sidebar Content ================= */
-
-.theme{
-  margin-bottom:32px;
+.theme {
+  margin-bottom: 32px;
 }
 
-.theme-title{
-  background:none;
-  border:none;
-  color:#000000;
-  font-size:14px;
-  letter-spacing:1px;
-  cursor:pointer;
-  padding:0;
+.theme-title {
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
   transition: color 0.3s;
+  font-weight: 500;
 }
-
 .theme-title:hover {
-  color:#292929;
+  color: #292929;
 }
-
 .theme-title.active {
-  color:#ff0000;
+  color: #ff0000;
+  font-weight: 600;
 }
 
-.theme-list{
-  list-style:none;
-  margin-top:10px;
-  padding-left:12px;
+.theme-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
 }
-
-.theme-list li{
-  font-size:12px;
-  color:#777;
-  margin:6px 0;
+.theme-list li {
+  font-size: 12px;
+  margin: 6px 0;
 }
-
-.theme-list li a{
-  color:#777;
-  font-size:12px;
-  text-decoration:none;
-  display:block;
-  padding-left:6px;
-  transition: all 0.3s;
+.theme-list li a {
+  color: #777;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.2s;
 }
-
-.theme-list li a:hover{
-  color:#ff0000;
-  transform:translateX(4px);
+.theme-list li a:hover {
+  color: #ff0000;
 }
-
 .theme-list li a.active {
-  color:#ff0000;
-  font-weight:bold;
+  color: #ff0000;
+  font-weight: bold;
 }
 
-/* ================= Content ================= */
-
-.content{
-  margin-left:324px; /* 260 sidebar + 64 gap */
-  min-width:0;
+/* ================= 内容区域 ================= */
+.content {
+  margin-left: 324px;
+  min-width: 0;
 }
 
-/* ================= Grid ================= */
-
-.grid{
-  display:grid;
-  gap:40px;
-  grid-template-columns:1fr;
+/* ================= 项目网格 ================= */
+.grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1fr;
+  margin-top: 0;
 }
 
-@media(max-width:720px){
-  .grid{grid-template-columns:1fr;}
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ================= Project ================= */
-
-.project{
-  position:relative;
-  overflow:hidden;
-  cursor:pointer;
-  display:block;
-  text-decoration:none;
-  color:inherit;
-  transform:translateY(12px);
-  opacity:0;
-  transition:transform .7s cubic-bezier(.2,.9,.2,1),opacity .7s;
+.project {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transform: translateY(12px);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.7s;
 }
-
-.project.is-visible{transform:none;opacity:1;}
-
-/* 隐藏未匹配筛选的项目 */
+.project.is-visible {
+  transform: none;
+  opacity: 1;
+}
 .project.filtered-out {
   display: none;
 }
 
-.project__media{
-  width:100%;
-  height:300px;
-  object-fit:cover;
-  transition:transform .6s ease,filter .5s ease;
+.project__media {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.6s ease, filter 0.5s ease;
 }
-.project:hover .project__media{
-  transform:scale(1.06);
-  filter:brightness(.6);
-}
-
-.overlay{
-  position:absolute;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  opacity:0;
-  transition:.45s ease;
-}
-.project:hover .overlay{opacity:1;}
-
-.overlay h2{
-  font-size:22px;
-  margin-bottom:8px;
-}
-.overlay p{
-  font-size:13px;
-  color:#ccc;
+.project:hover .project__media {
+  transform: scale(1.06);
+  filter: brightness(0.6);
 }
 
-.meta{
-  position:absolute;
-  left:12px;
-  bottom:12px;
-  font-size:12px;
-  color:#aaa;
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  opacity: 0;
+  transition: 0.45s ease;
+}
+.project:hover .overlay {
+  opacity: 1;
+}
+.overlay h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 600;
+}
+.overlay p {
+  font-size: 13px;
+  color: #ddd;
+}
+
+.meta {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  font-size: 12px;
+  color: rgba(70, 70, 70, 0.85);
+  background: rgba(255, 255, 255, 0);
+  padding: 4px 12px;
+  border-radius: 0;
+  backdrop-filter: blur(4px);
+  font-weight: 500;
 }
 
 /* ================= Footer ================= */
-
-footer{
-  text-align:center;
-  padding:20px 0;
-  color:#666;
+footer {
+  text-align: center;
+  padding: 20px 0;
+  color: #666;
+  font-size: 13px;
 }
 
-/* ================= Responsive ================= */
-
-@media(max-width:900px){
-  .sidebar{display:none;}
-  .content{margin-left:0;}
+/* ================= 响应式 ================= */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+  }
+  main.layout {
+    padding: 0 24px;
+  }
+  header {
+    padding: 12px 24px;
+  }
+  header h1 {
+    font-size: 1.2rem;
+  }
+  header nav a {
+    margin-left: 20px;
+    font-size: 0.9rem;
+  }
+}
+@media (max-width: 550px) {
+  .project__media {
+    height: 220px;
+  }
+  .overlay h2 {
+    font-size: 18px;
+  }
 }
 </style>
-
-
 </head>
-
 <body>
 
-<!-- intro（原样） -->
 <div class="intro" id="intro">
   <video autoplay muted loop playsinline id="introVideo">
     <source src="assets/intro.mp4" type="video/mp4">
@@ -239,320 +285,277 @@ footer{
   </nav>
 </header>
 
-<!-- ================= NEW Layout Wrapper ================= -->
-
 <main class="layout">
 
-<!-- ========== Sidebar（Theme → Project Name） ========== -->
+  <!-- ================= 侧边栏导航 ================= -->
+  <aside class="sidebar">
+    <div class="theme">
+      <button class="theme-title" data-theme="exhibition">Exhibition</button>
+      <ul class="theme-list">
+        <li><a href="Exhibition/project1.html" data-project="self-comb">Self-comb</a></li>
+        <li><a href="Exhibition/project2.html" data-project="she-is-me">She is me</a></li>
+        <li><a href="Exhibition/project3.html" data-project="gifts-land">The Gifts of the Land</a></li>
+      </ul>
+    </div>
 
-<aside class="sidebar">
+    <div class="theme">
+      <button class="theme-title" data-theme="speculative">Speculative Design</button>
+      <ul class="theme-list">
+        <li><a href="Research/project-zine.html" data-project="zine">Decoding the Everyday</a></li>
+        <li><a href="Research/project-map.html" data-project="nothing-far">Nothing is too far</a></li>
+        <li><a href="Machine/project4.html" data-project="acupoint">Acupoint</a></li>
+      </ul>
+    </div>
 
-  <div class="theme">
-    <button class="theme-title" data-theme="exhibition">Exhibition</button>
-    <ul class="theme-list">
-      <li><a href="Exhibition/project1.html" data-project="self-comb">Self-comb</a></li>
-      <li><a href="Exhibition/project2.html" data-project="she-is-me">She is me</a></li>
-      <li><a href="Exhibition/project3.html" data-project="gifts-land">The Gifts of the Land</a></li>
-    </ul>
-  </div>
+    <div class="theme">
+      <button class="theme-title" data-theme="research">Personal Research</button>
+      <ul class="theme-list">
+        <li><a href="Machine/project4-2.html" data-project="beyond-skies-1">Beyond the skies series1.0</a></li>
+        <li><a href="Research/project6.html" data-project="brainy-gut-1">The Brainy Gut1.0</a></li>
+        <li><a href="Research/project8.html" data-project="brainy-gut-2">The Brainy Gut2.0</a></li>
+        <li><a href="Research/project5-2.html" data-project="hormone-1">Hormone1.0</a></li>
+        <li><a href="Research/project5.html" data-project="hormone-2">Hormone2.0</a></li>
+      </ul>
+    </div>
 
-  <div class="theme">
-    <button class="theme-title" data-theme="speculative">Speculative Design</button>
-    <ul class="theme-list">
-      <li><a href="Research/project-map.html" data-project="nothing-far">Nothing is too far</a></li>
-      <li><a href="Machine/project4.html" data-project="acupoint">Acupoint</a></li>
-      <li><a href="Research/project8.html" data-project="brainy-gut-2">The Brainy Gut2.0</a></li>
-      <li><a href="Product/project10.html" data-project="future-robot">Future Robot</a></li>
-    </ul>
-  </div>
+    <div class="theme">
+      <button class="theme-title" data-theme="data-video">Data and Storyteller</button>
+      <ul class="theme-list">
+        <li><a href="Practices/project-data.html" data-project="phantom">Phantom</a></li>
+        <li><a href="Practices/project-data.html" data-project="data-viz">Data visualization</a></li>
+        <li><a href="Practices/project9.html" data-project="body-temple">Body temple</a></li>
+        <li><a href="Practices/project7.html" data-project="ecuador">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
 
-  <div class="theme">
-    <button class="theme-title" data-theme="research">Personal Research</button>
-    <ul class="theme-list">
-      <li><a href="Research/project-zine.html" data-project="zine">Decoding the Everyday</a></li>
-      <li><a href="Machine/project4-2.html" data-project="beyond-skies-1">Beyond the skies series1.0</a></li>
-      <!-- <li><a href="Machine/project4-3.html">Beyond the skies series2.0</a></li> -->
-      <li><a href="Research/project6.html" data-project="brainy-gut-1">The Brainy Gut1.0</a></li>
-      <li><a href="Research/project5-2.html" data-project="hormone-1">Hormone1.0</a></li>
-      <li><a href="Research/project5.html" data-project="hormone-2">Hormone2.0</a></li>
-    </ul>
-  </div>
+  <!-- ================= 项目网格（唯一一份） ================= -->
+  <section class="content">
+    <div class="grid" id="projectsGrid">
+      <!-- Exhibition -->
+      <a href="Exhibition/project2.html" class="project" data-category="exhibition" data-project-id="she-is-me">
+        <img class="project__media" src="assets/thumb2.jpg" alt="She is me">
+        <div class="overlay"><h2>She is me</h2><p>Data visualization & Hardware</p></div>
+        <div class="meta">Exhibition and Installation · 1.2024-7.2024</div>
+      </a>
 
-  <div class="theme">
-    <button class="theme-title" data-theme="data-video">Data and Video</button>
-    <ul class="theme-list">
-      <li><a href="Practices/project-data.html" data-project="phantom">Phantom</a></li>
-      <li><a href="Practices/project-data.html" data-project="data-viz">Data visualization</a></li>
-      <li><a href="Practices/project9.html" data-project="body-temple">Body temple</a></li>
-      <li><a href="Practices/project7.html" data-project="ecuador">Ecuador</a></li>
-    </ul>
-  </div>
+      <a href="Exhibition/project3.html" class="project" data-category="exhibition" data-project-id="gifts-land">
+        <img class="project__media" src="assets/thumb3.jpg" alt="The Gifts of the Land">
+        <div class="overlay"><h2>The Gifts of the Land</h2><p>Data Visualization & Hardware</p></div>
+        <div class="meta">Exhibition and Social practice · 7.2023-9.2023</div>
+      </a>
 
-</aside>
+      <a href="Exhibition/project1.html" class="project" data-category="exhibition" data-project-id="self-comb">
+        <img class="project__media" src="assets/thumb1.jpg" alt="Self-comb">
+        <div class="overlay"><h2>Self-comb</h2><p>Immersive Spatial & Interactive Experience</p></div>
+        <div class="meta">Virtual Reality · 2.2023-1.2025</div>
+      </a>
 
-<!-- ========== Content（原封不动） ========== -->
+      <!-- Speculative Design -->
+       <a href="Research/project-zine.html" class="project" data-category="speculative" data-project-id="zine">
+        <img class="project__media" src="assets/zine.jpg" alt="Decoding the Everyday">
+        <div class="overlay"><h2>Decoding the Everyday</h2><p>Graphic Design & Visual Essay</p></div>
+        <div class="meta">Zine · 2.2026-4.2026</div>
+      </a>
 
-<section class="content">
-<section class="grid" id="projectsGrid">
-    
-   <a href="Exhibition/project2.html" class="project" data-category="exhibition" data-project-id="she-is-me">
-      <img class="project__media" src="assets/thumb2.jpg" alt="She is me">
-      <div class="overlay"><h2>She is me</h2><p>Data visualization & Hardware</p></div>
-      <div class="meta">Exhibition and Installation · 1.2024-7.2024</div>
-    </a>
-    
-    
-    <a href="Machine/project-map.html" class="project" data-category="speculative" data-project-id="nothing-far">
-      <img class="project__media" src="assets/project-maptop.png" alt="Not too far">
-      <div class="overlay"><h2>Nothing is too far</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
-      <div class="meta">Specultive Design Research · 9.2025-12.2025</div>
-    </a>
+      <a href="Research/project-map.html" class="project" data-category="speculative" data-project-id="nothing-far">
+        <img class="project__media" src="assets/project-maptop.png" alt="Nothing is too far">
+        <div class="overlay"><h2>Nothing is too far</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
+        <div class="meta">Speculative Design Research · 9.2025-12.2025</div>
+      </a>
 
-    <a href="Research/project-zine.html" class="project" data-category="research" data-project-id="Zine
-  ">
-      <img class="project__media" src="assets/zine.jpg" alt="Decode the way we live">
-      <div class="overlay"><h2>Decoding the Everyday</h2><p>Graphic Design</p></div>
-      <div class="meta">Zine · 2.2026-4.2026</div>
-    </a>
+      <a href="Machine/project4.html" class="project" data-category="speculative" data-project-id="acupoint">
+        <img class="project__media" src="assets/thumb4ti.png" alt="Acupoint">
+        <div class="overlay"><h2>Acupoint</h2><p>Object Detection & Fashion</p></div>
+        <div class="meta">Machine Learning · 10.2023-12.2023</div>
+      </a>
 
-    
-    <a href="Machine/project-narrtive map.html" class="project" data-category="data-video" data-project-id="phantom">
-      <img class="project__media" src="assets/thumbmap.jpg" alt="Robot">
-      <div class="overlay"><h2>Phantom</h2><p>Coordinate Archive</p></div>
-      <div class="meta">9.2025-12.2025</div>
-    </a>
+      <!-- Personal Research -->
 
-    <a href="Exhibition/project3.html" class="project" data-category="exhibition" data-project-id="gifts-land">
-      <img class="project__media" src="assets/thumb3.jpg" alt="The gifts of the land">
-      <div class="overlay"><h2>The Gifts of the Land</h2><p>Data Visualization & Hardware</p></div>
-      <div class="meta">Exhibition and Social practice · 7.2023-9.2023</div>
-    </a>
+      <a href="Machine/project4-2.html" class="project" data-category="research" data-project-id="beyond-skies-1">
+        <img class="project__media" src="assets/project4-4.jpg" alt="Beyond the Skies Series1.0">
+        <div class="overlay"><h2>Beyond the Skies Series1.0</h2><p>Archival data work</p></div>
+        <div class="meta">Comprehensive Data Processing · 10.2023-11.2025</div>
+      </a>
 
-     <a href="Exhibition/project1.html" class="project project--lead" data-category="exhibition" data-project-id="self-comb">
-      <img class="project__media" src="assets/thumb1.jpg" alt="Self-comb">
-      <div class="overlay"><h2>Self-comb</h2><p>Immersive Spatial & Interactive Experience</p></div>
-      <div class="meta">Virtual Reality · 2.2023-1.2025</div>
-    </a>
-   
-    <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="data-viz">
-      <img class="project__media" src="assets/thumb-data.png" alt="Robot">
-      <div class="overlay"><h2>Data</h2><p>Data & Chart Visualization</p></div>
-      <div class="meta">2024-2026</div>
-    </a>
+      <a href="Research/project6.html" class="project" data-category="research" data-project-id="brainy-gut-1">
+        <img class="project__media" src="assets/thumb6.jpg" alt="The Brainy Gut1.0">
+        <div class="overlay"><h2>The Brainy Gut1.0</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
+        <div class="meta">Creative Design Research · 10.2024-12.2024</div>
+      </a>
 
-    <a href="Machine/project4-2.html" class="project" data-category="research" data-project-id="beyond-skies-1">
-      <img class="project__media" src="assets/project4-4.jpg" alt="Meteorite-Crater">
-      <div class="overlay"><h2>Beyond the Skies Series1.0</h2><p>Archival data work</p></div>
-      <div class="meta">Comprehensive Data Processing · 10.2023-11.2025</div>
-    </a>
+      <a href="Research/project8.html" class="project" data-category="research" data-project-id="brainy-gut-2">
+        <img class="project__media" src="assets/thumb6-2.jpg" alt="A Kaleidoscopic World">
+        <div class="overlay"><h2>A Kaleidoscopic World</h2><p>Interactive Installation & Optical Visualization</p></div>
+        <div class="meta">Creative Design Research · 12.2024-1.2025</div>
+      </a>
 
-    <a href="Machine/project4.html" class="project" data-category="speculative" data-project-id="acupoint">
-      <img class="project__media" src="assets/thumb4ti.png" alt="Acupoint">
-      <div class="overlay"><h2>Acupoint</h2><p>Object Detection & Fashion</p></div>
-      <div class="meta">Machine Learning · 10.2023-12.2023</div>
-    </a>
+      <a href="Research/project5-2.html" class="project" data-category="research" data-project-id="hormone-1">
+        <img class="project__media" src="assets/thumb5.jpg" alt="Hormone1.0">
+        <div class="overlay"><h2>Hormone1.0</h2><p>Imagination, Digital Sculpture, and Experimentation</p></div>
+        <div class="meta">Creative Design Research · 8.2022-8.2023</div>
+      </a>
 
-    <a href="Research/project6.html" class="project" data-category="research" data-project-id="brainy-gut-1">
-      <img class="project__media" src="assets/thumb6.jpg" alt="The Brainy Gut">
-      <div class="overlay"><h2>The Brainy Gut</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
-      <div class="meta">Creative Design Research · 10.2024-12.2024</div>
-    </a>
+      <a href="Research/project5.html" class="project" data-category="research" data-project-id="hormone-2">
+        <img class="project__media" src="assets/thumb5-2.jpg" alt="Hormone2.0">
+        <div class="overlay"><h2>Hormone2.0</h2><p>Imagination, Digital Sculpture, and Experimentation</p></div>
+        <div class="meta">Creative Design Research · 6.2023-9.2023</div>
+      </a>
 
-      <a href="Research/project8.html" class="project" data-category="speculative" data-project-id="brainy-gut-2">
-      <img class="project__media" src="assets/thumb6-2.jpg" alt="The Brainy Gut">
-      <div class="overlay"><h2>A Kaleidoscopic World</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
-      <div class="meta">Creative Design Research · 12.2024-1.2025</div>
-    </a>
+      <!-- Data and Video -->
+      <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="phantom">
+        <img class="project__media" src="assets/thumbmap.jpg" alt="Phantom">
+        <div class="overlay"><h2>Phantom</h2><p>Coordinate Archive & Spatial Narrative</p></div>
+        <div class="meta">Data Mapping · 9.2025-12.2025</div>
+      </a>
 
-    <a href="Research/project5-2.html" class="project" data-category="research" data-project-id="hormone-1">
-      <img class="project__media" src="assets/thumb5.jpg" alt="Hormone1.0">
-      <div class="overlay"><h2>Hormone1.0</h2><p>Imagination, Digital Sculpture, and Experimentation</p></div>
-      <div class="meta">Creative Design Research · 8.2022-8.2023</div>
-    </a>
+      <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="data-viz">
+        <img class="project__media" src="assets/thumb-data.png" alt="Data visualization">
+        <div class="overlay"><h2>Data Visualization</h2><p>Chart & Information Design</p></div>
+        <div class="meta">2024-2026</div>
+      </a>
 
-   <a href="Research/project5.html" class="project" data-category="research" data-project-id="hormone-2">
-      <img class="project__media" src="assets/thumb5-2.jpg" alt="Hormone2.0">
-      <div class="overlay"><h2>Hormone2.0</h2><p>Imagination, Digital Sculpture, and Experimentation</p></div>
-      <div class="meta">Creative Design Research · 6.2023-9.2023</div>
-    </a>
+      <a href="Practices/project9.html" class="project" data-category="data-video" data-project-id="body-temple">
+        <img class="project__media" src="assets/thumb9.jpg" alt="Body Temple">
+        <div class="overlay"><h2>Body Temple</h2><p>Experimental Video & Digital Ritual</p></div>
+        <div class="meta">Cinema4D · 2022</div>
+      </a>
 
-    <a href="Practices/project7.html" class="project" data-category="data-video" data-project-id="ecuador">
-      <img class="project__media" src="assets/thumb7.jpg" alt="Ecuador">
-      <div class="overlay"><h2>Ecuador</h2><p>Motion Capture & Experimental Video</p></div>
-      <div class="meta">Cinema4D · 2023</div>
-    </a>
-
-     <a href="Practices/project9.html" class="project" data-category="data-video" data-project-id="body-temple">
-      <img class="project__media" src="assets/thumb9.jpg" alt="Body Temple">
-      <div class="overlay"><h2>Body Temple</h2><p>Experimental Video</p></div>
-      <div class="meta">Cinema4D · 2022</div>
-    </a>
-
-    <!-- <a href="Product/project10.html" class="project" data-category="speculative" data-project-id="future-robot">
-      <img class="project__media" src="assets/thumb10.png" alt="Yake Robot">
-      <div class="overlay"><h2>Yake Robot</h2><p>User Research & Product Design</p></div>
-      <div class="meta">Future Product · 8.2022-10.2022</div>
-   </a> -->
-
-</section>
-</section>
-
+      <a href="Practices/project7.html" class="project" data-category="data-video" data-project-id="ecuador">
+        <img class="project__media" src="assets/thumb7.jpg" alt="Ecuador">
+        <div class="overlay"><h2>Ecuador</h2><p>Motion Capture & Experimental Video</p></div>
+        <div class="meta">Cinema4D · 2023</div>
+      </a>
+    </div>
+  </section>
 </main>
 
 <footer>© 2026 LYNN — design & technology</footer>
 
 <script>
-// ========== 筛选功能 ==========
-let currentTheme = null;
-let currentProject = null;
+  // ========== 变量声明（确保全局） ==========
+  let currentTheme = null;
+  let currentProject = null;
 
-// 主题筛选
-document.querySelectorAll('.theme-title').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const theme = btn.getAttribute('data-theme');
-    
-    // 切换主题选中状态
-    if (currentTheme === theme) {
-      // 取消选择
-      currentTheme = null;
-      currentProject = null;
-      btn.classList.remove('active');
-      // 取消所有项目链接的选中状态
-      document.querySelectorAll('.theme-list li a').forEach(link => {
-        link.classList.remove('active');
-      });
-    } else {
-      // 选择新主题
-      currentTheme = theme;
-      currentProject = null;
-      // 移除其他主题的active状态
-      document.querySelectorAll('.theme-title').forEach(t => t.classList.remove('active'));
-      btn.classList.add('active');
-      // 取消所有项目链接的选中状态
-      document.querySelectorAll('.theme-list li a').forEach(link => {
-        link.classList.remove('active');
-      });
-    }
-    
-    filterProjects();
-  });
-});
-
-// 项目筛选
-document.querySelectorAll('.theme-list li a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const project = link.getAttribute('data-project');
-    const themeBtn = link.closest('.theme').querySelector('.theme-title');
-    const theme = themeBtn.getAttribute('data-theme');
-    
-    // 切换项目选中状态
-    if (currentProject === project) {
-      // 取消选择
-      currentProject = null;
-      link.classList.remove('active');
-      // 回到主题筛选状态
-      currentTheme = theme;
-    } else {
-      // 选择新项目
-      currentProject = project;
-      currentTheme = theme;
-      // 移除其他项目的active状态
-      document.querySelectorAll('.theme-list li a').forEach(l => l.classList.remove('active'));
-      link.classList.add('active');
-      // 确保主题也是选中状态
-      document.querySelectorAll('.theme-title').forEach(t => t.classList.remove('active'));
-      themeBtn.classList.add('active');
-    }
-    
-    filterProjects();
-  });
-});
-
-// 筛选逻辑
-function filterProjects() {
-  const projects = document.querySelectorAll('.project');
-  
-  if (!currentTheme && !currentProject) {
-    // 显示所有项目
-    projects.forEach(p => {
-      p.classList.remove('filtered-out');
-    });
-  } else if (currentProject) {
-    // 按具体项目筛选
-    projects.forEach(p => {
-      const projectId = p.getAttribute('data-project-id');
-      if (projectId === currentProject) {
-        p.classList.remove('filtered-out');
-      } else {
-        p.classList.add('filtered-out');
-      }
-    });
-  } else if (currentTheme) {
-    // 按主题筛选
-    projects.forEach(p => {
-      const category = p.getAttribute('data-category');
-      if (category === currentTheme) {
-        p.classList.remove('filtered-out');
-      } else {
-        p.classList.add('filtered-out');
+  // ========== 筛选逻辑 ==========
+  function filterProjects() {
+    const projects = document.querySelectorAll('.project');
+    projects.forEach(proj => {
+      if (!currentTheme && !currentProject) {
+        proj.classList.remove('filtered-out');
+      } else if (currentProject) {
+        const pid = proj.getAttribute('data-project-id');
+        if (pid === currentProject) {
+          proj.classList.remove('filtered-out');
+        } else {
+          proj.classList.add('filtered-out');
+        }
+      } else if (currentTheme) {
+        const cat = proj.getAttribute('data-category');
+        if (cat === currentTheme) {
+          proj.classList.remove('filtered-out');
+        } else {
+          proj.classList.add('filtered-out');
+        }
       }
     });
   }
-}
 
-// 折叠展开主题列表（保留原功能）
-document.querySelectorAll('.theme-title').forEach(btn => {
-  // 双击折叠/展开
-  btn.addEventListener('dblclick', () => {
-    const list = btn.nextElementSibling;
-    if (list.style.display === 'none') {
-      list.style.display = 'block';
-    } else {
-      list.style.display = 'none';
-    }
+  // 重置所有高亮
+  function resetActiveStates() {
+    document.querySelectorAll('.theme-title').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.theme-list li a').forEach(link => link.classList.remove('active'));
+  }
+
+  // ========== 主题按钮点击 ==========
+  document.querySelectorAll('.theme-title').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const theme = btn.getAttribute('data-theme');
+      if (currentTheme === theme && currentProject === null) {
+        // 取消选中
+        currentTheme = null;
+        currentProject = null;
+        resetActiveStates();
+      } else {
+        resetActiveStates();
+        currentTheme = theme;
+        currentProject = null;
+        btn.classList.add('active');
+      }
+      filterProjects();
+    });
   });
-});
 
-// 启动页逻辑
-(function(){
-  const intro = document.getElementById('intro');
-  const header = document.getElementById('header');
-  const grid = document.getElementById('projectsGrid');
-  const video = document.getElementById('introVideo');
+  // ========== 侧边栏项目链接点击 ==========
+  document.querySelectorAll('.theme-list li a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const projectId = link.getAttribute('data-project');
+      const parentThemeBtn = link.closest('.theme').querySelector('.theme-title');
+      const theme = parentThemeBtn.getAttribute('data-theme');
 
-  function showMain(){
-    intro.classList.add('hidden');
-    setTimeout(() => {
-      header.classList.add('visible');
-      grid.classList.add('visible');
+      if (currentProject === projectId) {
+        // 再次点击已选中的项目 → 恢复显示该分类下所有作品
+        currentProject = null;
+        currentTheme = theme;
+        resetActiveStates();
+        parentThemeBtn.classList.add('active');
+      } else {
+        // 选中具体项目
+        resetActiveStates();
+        currentProject = projectId;
+        currentTheme = null;
+        link.classList.add('active');
+        parentThemeBtn.classList.add('active');
+      }
+      filterProjects();
+    });
+  });
+
+  // ========== 开场动画 ==========
+  (function(){
+    const intro = document.getElementById('intro');
+    const video = document.getElementById('introVideo');
+    function showMain(){
+      if(intro) intro.classList.add('hidden');
       document.documentElement.style.overflow = 'auto';
-    }, 800);
-    localStorage.setItem('visitedPortfolio', 'true');
-  }
+      localStorage.setItem('visitedPortfolio', 'true');
+    }
+    if (localStorage.getItem('visitedPortfolio')) {
+      showMain();
+    } else {
+      if(video){
+        video.addEventListener('ended', showMain);
+        intro.addEventListener('click', showMain);
+        setTimeout(showMain, 4000);
+      } else {
+        showMain();
+      }
+    }
+  })();
 
-  if (localStorage.getItem('visitedPortfolio')) {
-    showMain();
-  } else {
-    video.addEventListener('ended', showMain);
-    intro.addEventListener('click', showMain);
-    setTimeout(showMain, 4000);
-  }
-})();
-
-// Scroll reveal
-(function(){
-  const items = document.querySelectorAll('.project');
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('is-visible');
-        obs.unobserve(e.target);
+  // ========== 滚动触发项目卡片渐显 ==========
+  const projectItems = document.querySelectorAll('.project');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       }
     });
-  }, {threshold: 0.12});
-  items.forEach(i => obs.observe(i));
-})();
+  }, { threshold: 0.12 });
+  projectItems.forEach(item => observer.observe(item));
+
+  // ========== 双击分类标题折叠/展开（可选） ==========
+  document.querySelectorAll('.theme-title').forEach(btn => {
+    btn.addEventListener('dblclick', () => {
+      const list = btn.nextElementSibling;
+      if (list && list.classList.contains('theme-list')) {
+        list.style.display = list.style.display === 'none' ? 'block' : 'none';
+      }
+    });
+  });
 </script>
 
 </body>

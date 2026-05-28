@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Crater — Lynn Liu</title>
+<title>Acupoint — Lynn Liu</title>
 <style>
 * {
   margin: 0;
@@ -13,12 +13,12 @@
 
 body {
   font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
-  background: #ffffff;      /* 白色背景 */
+  background: #ffffff;
   color: #111111;
   line-height: 1.7;
 }
 
-/* ================= Header (白色半透明) ================= */
+/* ================= Header (白色系半透明) ================= */
 header {
   position: fixed;
   top: 0;
@@ -52,7 +52,7 @@ nav a {
   transition: color 0.3s;
 }
 nav a:hover {
-  color: rgb(255, 0, 51);
+  color: crimson;
 }
 
 /* ================= Main Layout ================= */
@@ -63,7 +63,7 @@ main.layout {
   display: block;
 }
 
-/* ================= Sidebar (纯红高亮，白底黑字) ================= */
+/* ================= Sidebar (左侧导航，纯红高亮) ================= */
 .sidebar {
   position: fixed;
   top: 110px;
@@ -91,7 +91,7 @@ main.layout {
   color: #888;
 }
 .theme-title.active {
-  color: rgb(255, 0, 51);
+  color: rgb(255, 0, 51);   /* 纯红 */
   font-weight: 600;
 }
 .theme-list {
@@ -112,10 +112,10 @@ main.layout {
   transition: color 0.3s;
 }
 .theme-list li a:hover {
-  color: rgb(255, 0, 51);
+  color: rgb(255, 0, 51);   /* 纯红 */
 }
 .theme-list li a.active {
-  color: rgb(255, 0, 51);
+  color: rgb(255, 0, 51);   /* 纯红 */
   font-weight: bold;
 }
 
@@ -131,14 +131,14 @@ main.layout {
   height: 420px;
   overflow: hidden;
   background: #ffffff;
-  border-radius: 0;
+  border-radius: 0;          /* 去掉圆角 */
 }
 .cover-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
-  border-radius: 0;
+  border-radius: 0;          /* 确保图片也无圆角 */
 }
 .cover-wrapper img:hover {
   transform: scale(1.01);
@@ -149,7 +149,7 @@ main.layout {
   padding: 48px 0 80px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 32px;
 }
 .project-body h1 {
   font-size: 2.2em;
@@ -163,15 +163,13 @@ main.layout {
   color: #222;
   margin-bottom: 8px;
   letter-spacing: 0.5px;
-  /* 去掉红色竖标 */
-  border-left: none;
+  /* 移除红色竖标：无 border-left，无 padding-left 偏移 */
   padding-left: 0;
 }
 .project-body p {
   font-size: 0.95rem;
   color: #2c2c2c;
   line-height: 1.75;
-  margin-bottom: 12px;
 }
 .project-body .description {
   font-size: 0.95rem;
@@ -186,7 +184,7 @@ main.layout {
   padding-top: 56.25%;
   overflow: hidden;
   background: #ffffff;
-  border-radius: 0;
+  border-radius: 0;          /* 去掉圆角 */
   margin: 8px 0;
 }
 .media-wrapper iframe,
@@ -200,35 +198,13 @@ main.layout {
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease;
-  border-radius: 0;
+  border-radius: 0;          /* 保证内部图片也无圆角 */
 }
 .media-wrapper img:hover {
   transform: scale(1.02);
 }
 
-/* ================= 双链接栏（保持原样式，但改为白底黑边） ================= */
-.link-bar {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 10px;
-}
-.link-bar a {
-  text-decoration: none;
-  color: #111;
-  font-weight: 500;
-  border: 1px solid #111;
-  padding: 6px 14px;
-  transition: all 0.3s ease;
-}
-.link-bar a:hover {
-  background-color: rgb(255, 0, 51);
-  color: #fff;
-  border-color: rgb(255, 0, 51);
-  box-shadow: 0 0 8px rgba(255,0,51,0.3);
-}
-
-/* ================= 底部项目导航 ================= */
+/* ================= 项目底部导航 ================= */
 .project-nav {
   display: flex;
   justify-content: space-between;
@@ -243,13 +219,12 @@ main.layout {
   font-size: 0.95em;
   transition: color 0.2s;
   font-weight: 500;
-  padding: 8px 0;
 }
 .project-nav a:hover {
   color: rgb(255, 0, 51);
 }
 
-/* ================= Lightbox (增强版带左右箭头，无圆角) ================= */
+/* ================= Lightbox (无圆角) ================= */
 .lightbox {
   display: none;
   position: fixed;
@@ -269,8 +244,8 @@ main.layout {
 .lightbox img {
   max-width: 88%;
   max-height: 85%;
-  border-radius: 0;
-  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+  border-radius: 0;          /* 去掉圆角 */
+  box-shadow: 0 20px 35px rgba(0,0,0,0.4);
   object-fit: contain;
 }
 .lightbox .arrow {
@@ -284,13 +259,13 @@ main.layout {
   transition: opacity 0.2s;
   width: 56px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0,0,0,0.4);
   border-radius: 40px;
   line-height: 1.2;
 }
 .lightbox .arrow:hover {
   opacity: 0.7;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0,0,0,0.7);
 }
 .lightbox .arrow.left {
   left: 30px;
@@ -350,16 +325,6 @@ main.layout {
   .project-body h1 {
     font-size: 1.8em;
   }
-  .project-nav {
-    flex-direction: column;
-    gap: 12px;
-    align-items: center;
-  }
-  .link-bar {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
 }
 </style>
 </head>
@@ -376,120 +341,116 @@ main.layout {
 
 <main class="layout">
 
-  <!-- 侧边栏导航 (纯红高亮，当前项目 active) -->
   <aside class="sidebar">
-    <div class="theme">
-      <a class="theme-title" href="../index.html">Exhibition</a>
-      <ul class="theme-list">
-        <li><a href="project1.html">Self-comb</a></li>
-        <li><a href="project2.html">She is me</a></li>
-        <li><a href="project3.html">The Gifts of the Land</a></li>
-      </ul>
-    </div>
-    <div class="theme">
-      <a class="theme-title" href="../index.html">Speculative Design</a>
-      <ul class="theme-list">
-         <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
-        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
-        <li><a href="project4.html">Acupoint</a></li>
-       
-        
-      </ul>
-    </div>
-    <div class="theme">
-      <a class="theme-title active" href="../index.html">Personal Research</a>
-      <ul class="theme-list">
-        <li><a href="project4-2.html" class="active">Beyond the Skies Series1.0</a></li>
-        <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
-         <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
-        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
-        <li><a href="../Research/project5.html">Hormone2.0</a></li>
-      </ul>
-    </div>
-    <div class="theme">
-      <a class="theme-title" href="../index.html">Data and Video</a>
-      <ul class="theme-list">
-        <li><a href="../Practices/project-data.html">Phantom</a></li>
-        <li><a href="../Practices/project-data.html">Data visualization</a></li>
-        <li><a href="../Practices/project9.html">Body temple</a></li>
-        <li><a href="../Practices/project7.html">Ecuador</a></li>
-      </ul>
-    </div>
-  </aside>
+  <div class="theme">
+    <a class="theme-title" href="../index.html">Exhibition</a>
+    <ul class="theme-list">
+      <li><a href="../Exhibition/project1.html">Self-comb</a></li>
+      <li><a href="../Exhibition/project2.html">She is me</a></li>
+      <li><a href="../Exhibition/project3.html">The Gifts of the Land</a></li>
+    </ul>
+  </div>
+
+  <div class="theme">
+    <a class="theme-title active" href="../index.html">Speculative Design</a>
+    <ul class="theme-list">
+      <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
+      <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+      <li><a href="/Research/project4.html" class="active">Acupoint</a></li>
+
+    </ul>
+  </div>
+
+  <div class="theme">
+    <a class="theme-title" href="../index.html">Personal Research</a>
+    <ul class="theme-list">
+      
+      <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+      <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
+      <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
+      <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+      <li><a href="../Research/project5.html">Hormone2.0</a></li>
+    </ul>
+  </div>
+
+  <div class="theme">
+    <a class="theme-title" href="../index.html">Data and Video</a>
+    <ul class="theme-list">
+      <li><a href="../Practices/project-data.html">Phantom</a></li>
+      <li><a href="../Practices/project-data.html">Data visualization</a></li>
+      <li><a href="../Practices/project9.html">Body temple</a></li>
+      <li><a href="../Practices/project7.html">Ecuador</a></li>
+    </ul>
+  </div>
+</aside>
 
   <!-- 主要内容区域 -->
   <section class="content">
+
     <!-- 封面图 -->
     <div class="cover-wrapper">
-      <img src="../assets/project4-2_img1.jpg" alt="Crater cover">
+      <img src="../assets/project4_img1.jpg" alt="Acupoint cover">
     </div>
 
     <div class="project-body">
-      <h1>Craters</h1>
+      <h1>Acupoint</h1>
 
       <!-- What I did -->
       <div>
         <h3>What I did</h3>
-        <p>(Content to be added)</p>
+        <p>Leveraged machine learning (YOLov8 object detection) to inform and advance the design of future wearable devices, with concepts prototyped and modeled in Rhino, laying the groundwork for next-generation interactive wearables.</p>
       </div>
 
-      <!-- Map of Meteorite Craters in China 区块1 -->
+      <!-- AI + TCM 配图 -->
+      <div class="media-wrapper">
+        <img src="../assets/project4_img3.jpg" alt="AI and acupoint analysis">
+      </div>
+
+      <!-- 第一段论述 -->
       <div>
-        <h3>Map of Meteorite Craters in China</h3>
-        <p>Meteorites are unique "extraterrestrial visitors" that fall regularly. As Earth moves through space, it encounters debris daily. Most meteoroids burn up, but some survive and reach the surface as meteorites.</p>
-        <div class="media-wrapper">
-          <img src="../assets/project3_img5.jpg" alt="Meteorite crater map">
-        </div>
+        <p>Recently, artificial intelligence (AI) has been widely used in healthcare to help doctors diagnose diseases and create treatment plans by analyzing data. Research is now exploring AI's role in TCM, particularly in digitizing acupoints. AI can process large amounts of TCM data to better understand how they work and improve treatments. For example, deep learning can identify effective acupoint combinations, and image processing can detect changes in the meridians. However, challenges remain in translating TCM theories into data AI can use and overcome cultural and technical barriers.</p>
       </div>
 
-      <!-- 第二段说明 + 图片 -->
+      <!-- 1.gif 动图 -->
+      <div class="media-wrapper">
+        <img src="../assets/1.gif" alt="AI acupoint detection process">
+      </div>
+
+      <!-- 第二段核心目标 -->
       <div>
-        <h3>Map of Meteorite Craters in China</h3>
-        <p>A curated archive of extraterrestrial fragments, including artificial objects (such as satellites and rockets) and natural objects (such as meteorites). These objects impact the ground to form impact craters, with those created by meteorite fragments specifically referred to as meteorite craters. The examples shown here represent only a partial selection, as the actual compiled collection is extensive.</p>
-        <div class="media-wrapper">
-          <img src="../assets/project3_img1.jpg" alt="Crater archive selection">
-        </div>
+        <p>This research aims to explore how AI can enhance the application of traditional Chinese medicine in meridian and acupoint studies. Through AI technology, we can gain a better understanding of and apply TCM, modernize its theories, and increase its influence in the global medical system.</p>
       </div>
 
-      <!-- Dataset space of craters + 双链接 -->
+      <!-- 项目图片 -->
+      <div class="media-wrapper">
+        <img src="../assets/project4_img2.jpg" alt="Meridian mapping">
+      </div>
+<!-- 
+      <div class="media-wrapper">
+        <img src="../assets/project4_img41.jpg" alt="Acupoint detection model">
+      </div> -->
+
+      <!-- 2.gif 动图 -->
+      <div class="media-wrapper">
+        <img src="../assets/2.gif" alt="YOLOv8 real-time detection">
+      </div>
+
+      <!-- 技术细节描述 -->
       <div>
-        <h3>Dataset space of craters</h3>
-        <p>I have created a website that allows users to collect their favorite crater images, build their own database, and manage it like an archive. Everyone can have their personal crater gallery.</p>
-        <nav class="link-bar">
-          <a href="https://lynnliu3086.github.io/ACCD-CT1-LYNN/MeteoriteNarrative/Trymap/index.html" target="_blank">
-            Dataset space for everyone
-          </a>
-          <a href="https://lynnliu3086.github.io/ACCD-CT1-LYNN/MeteoriteNarrative/Trymap/indexforjson.html" target="_blank">
-            JSON of My crater
-          </a>
-        </nav>
-        <div class="media-wrapper">
-          <img src="../assets/project4-3.jpg" alt="Dataset interface">
-        </div>
+        <p class="description">This study uses the YOLOv8 deep learning model to detect and locate acupuncture points along the meridians. By training on annotated images, the AI system can identify meridians on the human body and display corresponding points in real-time. Initially focused on the face and head-neck region, it aims to expand to full-body recognition.</p>
       </div>
 
-      <!-- Training dataset -->
-      <div>
-        <h3>Training dataset</h3>
-        <p>I have trained an object detection tool using a large number of real crater photos, which can support the identification of craters.</p>
-        <div class="media-wrapper">
-          <img src="../assets/project4-4.jpg" alt="Training dataset example">
-        </div>
-        <div class="media-wrapper">
-          <iframe src="https://player.vimeo.com/video/1126496313" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <!-- 底部项目导航 -->
+      <!-- 底部导航 -->
       <div class="project-nav">
-        <a href="project4.html" class="prev">← Prev</a>
-        <a href="../index.html" class="overview">Works</a>
+        <a href="../index.html" class="overview">All Works</a>
+        <a href="project4-2.html" class="next">Next →</a>
       </div>
+
     </div>
   </section>
 </main>
 
-<!-- Lightbox 增强版（带左右箭头） -->
+<!-- Lightbox 带左右箭头 -->
 <div class="lightbox" id="lightbox">
   <span class="arrow left" id="prevArrow">&#10094;</span>
   <img src="" alt="Expanded view">
@@ -497,7 +458,7 @@ main.layout {
 </div>
 
 <script>
-  // ================= Lightbox 增强逻辑（支持所有 .media-wrapper 内的图片 + 封面图） =================
+  // 收集所有可点击图片（封面图 + 所有 media-wrapper 内的 img）
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = lightbox.querySelector('img');
   const prevBtn = document.getElementById('prevArrow');
@@ -510,7 +471,7 @@ main.layout {
   allImages = allImages.concat(mediaImgs);
   
   let currentIdx = 0;
-  
+
   function openLightbox(index) {
     if (!allImages.length) return;
     if (index < 0) index = allImages.length - 1;
@@ -519,19 +480,19 @@ main.layout {
     lightboxImg.src = allImages[currentIdx].src;
     lightbox.classList.add('active');
   }
-  
+
   function showNext() {
     if (!allImages.length) return;
     currentIdx = (currentIdx + 1) % allImages.length;
     lightboxImg.src = allImages[currentIdx].src;
   }
-  
+
   function showPrev() {
     if (!allImages.length) return;
     currentIdx = (currentIdx - 1 + allImages.length) % allImages.length;
     lightboxImg.src = allImages[currentIdx].src;
   }
-  
+
   allImages.forEach((img, idx) => {
     img.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -539,7 +500,7 @@ main.layout {
       openLightbox(currentIdx);
     });
   });
-  
+
   prevBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     showPrev();
@@ -548,13 +509,13 @@ main.layout {
     e.stopPropagation();
     showNext();
   });
-  
+
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox || e.target === lightboxImg) {
       lightbox.classList.remove('active');
     }
   });
-  
+
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('active')) return;
     if (e.key === 'ArrowLeft') {
@@ -568,17 +529,17 @@ main.layout {
       e.preventDefault();
     }
   });
-  
-  // ================= 禁止右键菜单 & 复制保护 =================
+
+  // 右键及复制保护
   document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     alert("右键已禁用");
   });
-  document.addEventListener('copy', e => e.preventDefault());
-  document.addEventListener('cut', e => e.preventDefault());
-  document.addEventListener('selectstart', e => e.preventDefault());
-  
-  // ================= 滚动时隐藏/显示导航栏 + 透明度变化 =================
+  document.addEventListener('copy', (e) => e.preventDefault());
+  document.addEventListener('cut', (e) => e.preventDefault());
+  document.addEventListener('selectstart', (e) => e.preventDefault());
+
+  // 滚动隐藏/显示导航栏
   let lastScrollTop = 0;
   const navbar = document.querySelector("header");
   window.addEventListener("scroll", function() {

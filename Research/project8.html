@@ -4,137 +4,357 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>A Kaleidoscopic World — Lynn Liu</title>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#000;
-  color:#fdd44f;
-  line-height:1.7;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* ===== NAV ===== */
-header{
-  position:fixed;
-  top:0;left:0;right:0;
-  padding:20px 60px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:100;
-  background:rgba(0,0,0,.3);
-  backdrop-filter:blur(6px);
-  transition:.4s;
-}
-header.scrolled{background:rgba(0,0,0,.85);}
-header h1{font-size:1.5em;font-weight:400;letter-spacing:1px;}
-nav a{
-  color:#fdd44f;
-  text-decoration:none;
-  margin-left:40px;
-  transition:.3s;
-}
-nav a:hover{color:crimson;}
-
-/* ===== HERO COVER ===== */
-.media-cover{
-  position:relative;
-  width:100%;
-  height:70vh;
-  margin-top:90px;
-  overflow:hidden;
-}
-.media-cover img{
-  position:absolute;
-  width:100%;
-  height:120%;
-  object-fit:cover;
-  top:-10%;
-  left:0;
-  will-change:transform;
-  transform:translateY(0);
+body {
+  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  background: #000;          /* 保留黑色背景 */
+  color: #fdd44f;            /* 保留黄色文字 */
+  line-height: 1.7;
 }
 
-/* ===== CONTENT ===== */
-.container{
-  max-width:900px;
-  margin:60px auto;
-  padding:0 40px;
-  display:flex;
-  flex-direction:column;
-  gap:28px;
+/* ================= Header (黑色半透明) ================= */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+header.scrolled {
+  background: rgba(0, 0, 0, 0.85);
+}
+header h1 {
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #fdd44f;
+}
+nav a {
+  color: #fdd44f;
+  text-decoration: none;
+  margin-left: 40px;
+  font-size: 1em;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: rgb(255, 0, 51);
 }
 
-.section h1{font-size:1.8em;margin-bottom:12px;}
-.description{margin-bottom:20px}
-
-/* 原始比例 */
-.media-natural{
-  width:100%;
-  margin:10px 0 26px;
-}
-.media-natural img{
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:8px;
-  transition:transform .25s ease;
-}
-.media-natural img:hover{transform:scale(1.015);}
-
-/* 小图 */
-.media-small{
-  width:65%;
-  margin:10px auto 26px;
-}
-.media-small img{
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:8px;
+/* ================= Main Layout ================= */
+main.layout {
+  max-width: 1400px;
+  margin: 110px auto 80px;
+  padding: 0 60px;
+  display: block;
 }
 
-/* Lightbox */
-.lightbox{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  justify-content:center;
-  align-items:center;
-  z-index:3000;
+/* ================= Sidebar (纯红高亮，黑底黄字适配) ================= */
+.sidebar {
+  position: fixed;
+  top: 110px;
+  left: max(60px, calc(50% - 700px + 60px));
+  width: 260px;
+  z-index: 50;
 }
-.lightbox img{
-  max-width:90%;
-  max-height:85%;
-  border-radius:12px;
+.theme {
+  margin-bottom: 32px;
 }
-.lightbox.active{display:flex}
+.theme-title {
+  background: none;
+  border: none;
+  color: #fdd44f;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+}
+.theme-title:hover {
+  color: #aaa;
+}
+.theme-title.active {
+  color: rgb(255, 0, 51);
+  font-weight: 600;
+}
+.theme-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
+}
+.theme-list li {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.theme-list li a {
+  color: #b0b0b0;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.3s;
+}
+.theme-list li a:hover {
+  color: rgb(255, 0, 51);
+}
+.theme-list li a.active {
+  color: rgb(255, 0, 51);
+  font-weight: bold;
+}
 
-/* Footer nav */
-.project-nav{
-  display:flex;
-  justify-content:space-between;
-  margin-top:60px;
-  padding-top:20px;
-  border-top:1px solid #fdd44f;
+/* ================= Content 区域 ================= */
+.content {
+  margin-left: 324px;
+  min-width: 0;
 }
-.project-nav a{color:#fdd44f;text-decoration:none}
-.project-nav a:hover{color:crimson}
 
-/* Responsive */
-@media(max-width:768px){
-  header{padding:10px 24px}
-  .container{margin-top:40px}
-  .media-small{width:90%}
+/* ================= Hero Cover (视差保留) ================= */
+.cover-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+  background: #000;
+  border-radius: 0;          /* 无圆角 */
+}
+.cover-wrapper img {
+  position: absolute;
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  top: -10%;
+  left: 0;
+  will-change: transform;
+  transform: translateY(0);
+  border-radius: 0;
+}
+
+/* ================= 项目正文 ================= */
+.project-body {
+  padding: 48px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.project-body h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #fdd44f;
+  letter-spacing: -0.3px;
+}
+.project-body h3 {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #fdd44f;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  /* 去掉红色竖标 */
+  border-left: none;
+  padding-left: 0;
+}
+.project-body p {
+  font-size: 0.95rem;
+  color: #e0e0a0;
+  line-height: 1.75;
+}
+.project-body .description {
+  font-size: 0.95rem;
+  color: #e0e0a0;
+  line-height: 1.75;
+}
+
+/* ================= 媒体容器 (无圆角) ================= */
+/* 原 .media-natural 样式 */
+.media-natural {
+  width: 100%;
+  margin: 10px 0 26px;
+}
+.media-natural img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0;          /* 无圆角 */
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+.media-natural img:hover {
+  transform: scale(1.015);
+}
+
+/* 原 .media-small 样式 */
+.media-small {
+  width: 65%;
+  margin: 10px auto 26px;
+}
+.media-small img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0;          /* 无圆角 */
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+.media-small img:hover {
+  transform: scale(1.015);
+}
+
+/* 统一图片点击光标 */
+.media-natural img, .media-small img {
+  cursor: pointer;
+}
+
+/* ================= Lightbox (增强版带箭头，无圆角) ================= */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(6px);
+}
+.lightbox.active {
+  display: flex;
+}
+.lightbox img {
+  max-width: 88%;
+  max-height: 85%;
+  border-radius: 0;          /* 无圆角 */
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
+}
+.lightbox .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3em;
+  color: #fdd44f;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  width: 56px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 40px;
+  line-height: 1.2;
+}
+.lightbox .arrow:hover {
+  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.7);
+}
+.lightbox .arrow.left {
+  left: 30px;
+}
+.lightbox .arrow.right {
+  right: 30px;
+}
+
+/* ================= 底部项目导航 ================= */
+.project-nav {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+  border-top: 1px solid #fdd44f;
+  font-weight: 500;
+  margin-top: 20px;
+}
+.project-nav a {
+  text-decoration: none;
+  color: #fdd44f;
+  font-size: 0.95em;
+  transition: color 0.2s;
+  font-weight: 500;
+  padding: 8px 0;
+}
+.project-nav a:hover {
+  color: rgb(255, 0, 51);
+}
+
+/* ================= 响应式 ================= */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+  }
+  .cover-wrapper {
+    height: 40vh;
+  }
+  .media-small {
+    width: 90%;
+  }
+}
+@media (max-width: 768px) {
+  header {
+    padding: 12px 24px;
+  }
+  header h1 {
+    font-size: 1.2em;
+  }
+  nav a {
+    font-size: 0.9em;
+    margin-left: 20px;
+  }
+  main.layout {
+    padding: 0 24px;
+    margin-top: 85px;
+  }
+  .lightbox .arrow {
+    font-size: 2.5em;
+    width: 40px;
+  }
+  .lightbox .arrow.left {
+    left: 12px;
+  }
+  .lightbox .arrow.right {
+    right: 12px;
+  }
+}
+@media (max-width: 500px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+  }
+  nav a {
+    margin: 0 12px;
+  }
+  .project-body h1 {
+    font-size: 1.8em;
+  }
+  .project-nav {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
 }
 </style>
 </head>
-
 <body>
 
-<header>
+<header id="header">
   <h1>LYNN LIU</h1>
   <nav>
     <a href="../index.html">Works</a>
@@ -143,101 +363,230 @@ nav a:hover{color:crimson;}
   </nav>
 </header>
 
-<!-- HERO -->
-<div class="media-cover" id="hero">
-  <img src="../assets/project8_img0.jpg" id="heroImg">
-</div>
+<main class="layout">
 
-<div class="container section">
+  <!-- 侧边栏导航 (纯红高亮) -->
+  <aside class="sidebar">
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="project1.html">Self-comb</a></li>
+        <li><a href="project2.html">She is me</a></li>
+        <li><a href="project3.html">The Gifts of the Land</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative Design</a>
+      <ul class="theme-list">
+         <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
+        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="project4.html">Acupoint</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title active" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+       
+        <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
+        <li><a href="project8.html" class="active">The Brainy Gut2.0</a></li>
+        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="../Research/project5.html">Hormone2.0</a></li>
+      </ul>
+    </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Data and Video</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-data.html">Phantom</a></li>
+        <li><a href="../Practices/project-data.html">Data visualization</a></li>
+        <li><a href="../Practices/project9.html">Body temple</a></li>
+        <li><a href="../Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
 
-<h1>A Kaleidoscopic World</h1>
-<p class="description">
-This section outlines the conceptual design framework and preliminary sketches,
-representing extended reflections on the project "The Brainy Gut."
-</p>
+  <!-- 主要内容区域 -->
+  <section class="content">
 
-<h3>Source of Inspiration</h3>
-<div class="media-natural">
-  <img src="../assets/project6_img5.jpg">
-</div>
+    <!-- Hero 视差封面 -->
+    <div class="cover-wrapper" id="heroWrapper">
+      <img src="../assets/project8_img0.jpg" id="heroImg" alt="Kaleidoscopic World hero">
+    </div>
 
-<h3>Physical Interaction Design</h3>
-<div class="media-small">
-  <img src="../assets/Asset 5.png">
-</div>
-<div class="media-small">
-  <img src="../assets/project6_img4.jpg">
-</div>
+    <div class="project-body">
+      <h1>A Kaleidoscopic World</h1>
 
-<h3>Interactive process</h3>
-<p class="description">
-This technology combines micro-display screens with refractive optics inside
-a spherical lens to create compact immersive visualization.
-</p>
-<div class="media-small">
-  <img src="../assets/project8_img1.jpg">
-</div>
+      <div>
+        <p class="description">This section outlines the conceptual design framework and preliminary sketches, representing extended reflections on the project "The Brainy Gut."</p>
+      </div>
 
-<h3>Conceptual model</h3>
-<p class="description">
-The visualization reflects breathing patterns influencing gut activity,
-forming a responsive virtual ecosystem.
-</p>
-<div class="media-natural">
-  <img src="../assets/project8_img3.jpg">
-</div>
+      <div>
+        <h3>Source of Inspiration</h3>
+        <div class="media-natural">
+          <img src="../assets/project6_img5.jpg" alt="Inspiration">
+        </div>
+      </div>
 
-<div class="project-nav">
-  <a href="../index.html">Works</a>
-  <a href="project7.html">→</a>
-</div>
+      <div>
+        <h3>Physical Interaction Design</h3>
+        <div class="media-small">
+          <img src="../assets/Asset 5.png" alt="Interaction design 1">
+        </div>
+        <div class="media-small">
+          <img src="../assets/project6_img4.jpg" alt="Interaction design 2">
+        </div>
+      </div>
 
-</div>
+      <div>
+        <h3>Interactive process</h3>
+        <p class="description">This technology combines micro-display screens with refractive optics inside a spherical lens to create compact immersive visualization.</p>
+        <div class="media-small">
+          <img src="../assets/project8_img1.jpg" alt="Interactive process">
+        </div>
+      </div>
 
+      <div>
+        <h3>Conceptual model</h3>
+        <p class="description">The visualization reflects breathing patterns influencing gut activity, forming a responsive virtual ecosystem.</p>
+        <div class="media-natural">
+          <img src="../assets/project8_img3.jpg" alt="Conceptual model">
+        </div>
+      </div>
+
+      <!-- 底部项目导航 -->
+      <div class="project-nav">
+        <a href="../index.html">← Works</a>
+        <a href="project7.html">Next →</a>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- Lightbox 增强版带左右箭头 -->
 <div class="lightbox" id="lightbox">
-  <img src="">
+  <span class="arrow left" id="prevArrow">&#10094;</span>
+  <img src="" alt="Expanded view">
+  <span class="arrow right" id="nextArrow">&#10095;</span>
 </div>
 
 <script>
-/* Lightbox */
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=lightbox.querySelector('img');
-document.querySelectorAll('img').forEach(img=>{
-  img.addEventListener('click',()=>{
-    if(img.id==="heroImg") return;
-    lightboxImg.src=img.src;
+  // ================= Lightbox 增强逻辑（支持所有正文图片，排除 hero 但 hero 本身不参与） =================
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  const prevBtn = document.getElementById('prevArrow');
+  const nextBtn = document.getElementById('nextArrow');
+
+  // 收集所有正文中的可点击图片（.media-natural img 和 .media-small img）
+  const clickableImages = Array.from(document.querySelectorAll('.media-natural img, .media-small img'));
+  let currentIdx = 0;
+
+  function openLightbox(index) {
+    if (!clickableImages.length) return;
+    if (index < 0) index = clickableImages.length - 1;
+    if (index >= clickableImages.length) index = 0;
+    currentIdx = index;
+    lightboxImg.src = clickableImages[currentIdx].src;
     lightbox.classList.add('active');
-  });
-});
-lightbox.onclick=()=>lightbox.classList.remove('active');
-
-/* Navbar hide */
-let last=0;
-const nav=document.querySelector("header");
-window.addEventListener("scroll",()=>{
-  const s=window.pageYOffset;
-  nav.style.transform=s>last?"translateY(-100%)":"translateY(0)";
-  nav.classList.toggle("scrolled",s>80);
-  last=s<=0?0:s;
-});
-
-/* ===== Subtle Parallax ===== */
-const hero=document.getElementById("heroImg");
-let ticking=false;
-
-function updateParallax(){
-  const rect=hero.parentElement.getBoundingClientRect();
-  const offset=rect.top * -0.12; 
-  hero.style.transform=`translateY(${offset}px)`;
-  ticking=false;
-}
-
-window.addEventListener("scroll",()=>{
-  if(!ticking){
-    requestAnimationFrame(updateParallax);
-    ticking=true;
   }
-});
+
+  function showNext() {
+    if (!clickableImages.length) return;
+    currentIdx = (currentIdx + 1) % clickableImages.length;
+    lightboxImg.src = clickableImages[currentIdx].src;
+  }
+
+  function showPrev() {
+    if (!clickableImages.length) return;
+    currentIdx = (currentIdx - 1 + clickableImages.length) % clickableImages.length;
+    lightboxImg.src = clickableImages[currentIdx].src;
+  }
+
+  // 绑定点击事件
+  clickableImages.forEach((img, idx) => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIdx = idx;
+      openLightbox(currentIdx);
+    });
+  });
+
+  // 箭头事件
+  prevBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPrev();
+  });
+  nextBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showNext();
+  });
+
+  // 点击背景关闭
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === lightboxImg) {
+      lightbox.classList.remove('active');
+    }
+  });
+
+  // 键盘事件
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') {
+      showPrev();
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      showNext();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      e.preventDefault();
+    }
+  });
+
+  // ================= 禁止右键和复制 =================
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    alert("右键已禁用");
+  });
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+
+  // ================= 滚动隐藏导航栏 + 透明度 =================
+  let lastScrollTop = 0;
+  const navbar = document.querySelector("header");
+  window.addEventListener("scroll", function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 60) {
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      navbar.style.transform = "translateY(0)";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    if (scrollTop > 80) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
+
+  // ================= Hero 视差效果（保留原有效果） =================
+  const heroImg = document.getElementById("heroImg");
+  let ticking = false;
+  function updateParallax() {
+    if (!heroImg) return;
+    const rect = heroImg.parentElement.getBoundingClientRect();
+    const offset = rect.top * -0.12;
+    heroImg.style.transform = `translateY(${offset}px)`;
+    ticking = false;
+  }
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  });
+  updateParallax(); // 初始调用
 </script>
 
 </body>

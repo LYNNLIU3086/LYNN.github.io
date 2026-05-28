@@ -1,186 +1,434 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Brainy Gut</title>
+<title>The Brainy Gut — Lynn Liu</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:"Helvetica Neue","PingFang SC",Arial,sans-serif;
-  background:#0f0f0f;
-  color:#ffc636;
-  line-height:1.5;
-  overflow-x:hidden;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* ===== Header ===== */
-header{
-  position:fixed;
-  top:0;left:0;right:0;
-  padding:14px 40px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:rgba(17,17,17,0.85);
-  backdrop-filter:blur(6px);
-  z-index:100;
-  transition:transform 0.4s ease;
-}
-header h1{
-  font-size:1.5rem;
-  font-weight:600;
-  color:#ffc636;
-  letter-spacing:1px;
-}
-nav a{
-  color:#ffc636;
-  text-decoration:none;
-  margin-left:24px;
-  font-weight:500;
-  transition:color 0.3s;
-}
-nav a:hover{color:#fff;}
-
-/* ===== Hero ===== */
-.hero{
-  width:100%;
-  height:70vh;
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.hero img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
+body {
+  font-family: "Helvetica Neue", "PingFang SC", Arial, sans-serif;
+  background: #0f0f0f;        /* 保留原黑色背景 */
+  color: #ffc636;              /* 保留黄色文字 */
+  line-height: 1.5;
 }
 
-/* ===== Container ===== */
-.container{
-  max-width:1080px;
-  margin:100px auto 60px;
-  padding:0 28px;
-  display:flex;
-  flex-direction:column;
-  gap:30px;
+/* ================= Header (宽松版) ================= */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 20px 60px;          /* 改回宽松 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(17, 17, 17, 0.85);
+  backdrop-filter: blur(6px);
+  transition: background 0.4s ease, transform 0.3s ease;
+}
+header.scrolled {
+  background: rgba(17, 17, 17, 0.95);
+}
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffc636;
+  letter-spacing: 1px;
+}
+nav a {
+  color: #ffc636;
+  text-decoration: none;
+  margin-left: 40px;           /* 改回宽松 */
+  font-weight: 500;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: rgb(255, 0, 51);
 }
 
-/* ===== Titles & Paragraphs ===== */
-.section h1{
-  font-size:2rem;
-  font-weight:700;
-  color:#ffc636;
-  margin-bottom:16px;
-}
-.description{
-  font-size:1rem;
-  line-height:1.5;
-  color:#ffc636;
-  margin-bottom:12px;
+/* ================= Main Layout (宽松版) ================= */
+main.layout {
+  max-width: 1400px;
+  margin: 110px auto 80px;      /* 改回宽松 */
+  padding: 0 60px;             /* 改回宽松 */
+  display: block;
 }
 
-/* ===== Block 布局 ===== */
-.block{
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
-  align-items:flex-start;
+/* ================= Sidebar (宽松版) ================= */
+.sidebar {
+  position: fixed;
+  top: 110px;
+  left: max(60px, calc(50% - 700px + 60px));   /* 改回60px */
+  width: 260px;
+  z-index: 50;
 }
-.block .text{
-  flex:1 1 100%;
+.theme {
+  margin-bottom: 32px;
 }
-.block .image{
-  flex:1 1 100%;
-  overflow:hidden;
-  border-radius:12px;
-  margin-bottom:20px;
+.theme-title {
+  background: none;
+  border: none;
+  color: #ffc636;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+  text-decoration: none;
+  display: block;
+  font-weight: 500;
+}
+.theme-title:hover {
+  color: #aaa;
+}
+.theme-title.active {
+  color: rgb(255, 0, 51);
+  font-weight: 600;
+}
+.theme-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
+}
+.theme-list li {
+  font-size: 12px;
+  margin: 6px 0;
+}
+.theme-list li a {
+  color: #b0b0b0;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.3s;
+}
+.theme-list li a:hover {
+  color: rgb(255, 0, 51);
+}
+.theme-list li a.active {
+  color: rgb(255, 0, 51);
+  font-weight: bold;
+}
+
+/* ================= Content 区域 (宽松版) ================= */
+.content {
+  margin-left: 324px;          /* 改回宽松 */
+  min-width: 0;
+}
+
+/* ================= Hero 封面 ================= */
+.hero-wrapper {
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+  background: #0f0f0f;
+  border-radius: 0;
+}
+.hero-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+  transition: transform 0.3s ease;
+}
+.hero-wrapper img:hover {
+  transform: scale(1.01);
+}
+
+/* ================= 项目正文 (内部不变) ================= */
+.project-body {
+  padding: 48px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.project-body h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffc636;
+  letter-spacing: -0.3px;
+}
+.project-body h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffc636;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  border-left: none;
+  padding-left: 0;
+}
+.project-body p, .project-body .description {
+  font-size: 0.95rem;
+  color: #e0e0a0;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* ================= 区块布局（原 block） ================= */
+.block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+  width: 100%;
+}
+.block .text {
+  flex: 1 1 100%;
+}
+.block .image {
+  flex: 1 1 100%;
+  overflow: hidden;
+  border-radius: 0;
+  margin-bottom: 20px;
 }
 .block .image img,
-.block .image iframe{
-  width:100%;
-  height:600px;
-  max-height:90vh;
-  display:block;
-  border-radius:12px;
-  object-fit:cover;
-  cursor:pointer;
-  transition:transform 0.3s ease;
+.block .image iframe {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  display: block;
+  border-radius: 0;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.block .image iframe {
+  min-height: 400px;
+  border: none;
 }
 .block .image img:hover,
-.block .image iframe:hover{transform:scale(1.02);}
-.block .image iframe{border:none;}
-
-/* ===== Gallery ===== */
-.gallery-container {position:relative;width:100%;margin:20px 0;}
-.gallery {position:relative;width:100%;overflow:hidden;border-radius:12px;}
-.gallery-slides {display:flex;transition: transform 0.5s ease;}
-.gallery-slide {min-width:100%;position:relative;}
-.gallery-slide img {width:100%;height:600px;max-height:90vh;object-fit:cover;border-radius:12px;cursor:pointer;transition: transform 0.3s ease;}
-.gallery-slide img:hover {transform: scale(1.02);}
-.gallery-nav {position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:#ff7f2a;border:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:background 0.3s;z-index:10;}
-.gallery-nav:hover {background:rgba(0,0,0,0.8);}
-.gallery-prev {left:10px;}
-.gallery-next {right:10px;}
-.gallery-indicators {display:flex;justify-content:center;margin-top:12px;gap:8px;}
-.gallery-indicator {width:10px;height:10px;border-radius:50%;background: rgba(255,255,255,0.3);cursor:pointer;transition: background 0.3s;}
-.gallery-indicator.active {background:#ff7f2a;}
-
-/* ===== Project Nav ===== */
-.project-nav{
-  display:flex;
-  justify-content:space-between;
-  margin:60px auto 20px;
-  max-width:1000px;
-  padding-top:25px;
-  border-top:1px solid #444;
-  font-weight:600;
+.block .image iframe:hover {
+  transform: scale(1.01);
 }
-.project-nav a{
-  text-decoration:none;
-  color:#ffc636;
-  transition:color .3s;
+.block .image p {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #ffc636;
 }
-.project-nav a:hover{color:#fff;}
 
-/* ===== Lightbox ===== */
+/* ================= 画廊 ================= */
+.gallery-container {
+  position: relative;
+  width: 100%;
+  margin: 20px 0;
+}
+.gallery {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0;
+}
+.gallery-slides {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+.gallery-slide {
+  min-width: 100%;
+  position: relative;
+}
+.gallery-slide img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.gallery-slide img:hover {
+  transform: scale(1.01);
+}
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffc636;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background 0.3s;
+  z-index: 10;
+}
+.gallery-nav:hover {
+  background: rgb(255, 0, 51);
+  color: #fff;
+}
+.gallery-prev {
+  left: 10px;
+}
+.gallery-next {
+  right: 10px;
+}
+.gallery-indicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  gap: 8px;
+}
+.gallery-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.gallery-indicator.active {
+  background: rgb(255, 0, 51);
+}
+
+/* ================= 底部项目导航 ================= */
+.project-nav {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+  border-top: 1px solid #444;
+  font-weight: 500;
+  margin-top: 20px;
+}
+.project-nav a {
+  text-decoration: none;
+  color: #ffc636;
+  font-size: 0.95em;
+  transition: color 0.2s;
+}
+.project-nav a:hover {
+  color: rgb(255, 0, 51);
+}
+
+/* ================= Lightbox ================= */
 .lightbox {
-  display:none;
-  position:fixed;
-  z-index:3000;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.85);
-  justify-content:center;
-  align-items:center;
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(6px);
+}
+.lightbox.active {
+  display: flex;
 }
 .lightbox img {
-  max-width:95%;
-  max-height:95%;
-  border-radius:12px;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  max-width: 88%;
+  max-height: 85%;
+  border-radius: 0;
+  box-shadow: 0 20px 35px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
 }
-.lightbox.active {display:flex;}
+.lightbox .arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 3em;
+  color: #ffc636;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  width: 56px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 0;
+  line-height: 1.2;
+}
+.lightbox .arrow:hover {
+  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.7);
+}
+.lightbox .arrow.left {
+  left: 30px;
+}
+.lightbox .arrow.right {
+  right: 30px;
+}
 
-/* ===== Responsive ===== */
-@media (max-width:900px){
-  .block .image img,.block .image iframe,.gallery-slide img{height:400px;}
+/* ================= 响应式 (相应调整) ================= */
+@media (max-width: 900px) {
+  .sidebar {
+    display: none;
+  }
+  .content {
+    margin-left: 0;
+  }
+  .hero-wrapper {
+    height: 40vh;
+  }
+  .block .image iframe {
+    min-height: 300px;
+  }
 }
-@media (max-width:600px){
-  header{padding:10px 20px;}
-  header h1{font-size:1.2rem;}
-  nav a{margin-left:16px;font-size:0.9rem;}
-  .block .image img,.block .image iframe,.gallery-slide img{height:250px;}
+@media (max-width: 768px) {
+  header {
+    padding: 12px 24px;
+  }
+  header h1 {
+    font-size: 1.2rem;
+  }
+  nav a {
+    font-size: 0.9rem;
+    margin-left: 20px;
+  }
+  main.layout {
+    padding: 0 24px;
+    margin-top: 85px;
+  }
+  .gallery-slide img {
+    height: 300px;
+  }
+  .lightbox .arrow {
+    font-size: 2.5em;
+    width: 40px;
+  }
+  .lightbox .arrow.left {
+    left: 12px;
+  }
+  .lightbox .arrow.right {
+    right: 12px;
+  }
+}
+@media (max-width: 500px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 8px;
+  }
+  nav a {
+    margin: 0 12px;
+  }
+  .project-body h1 {
+    font-size: 1.8rem;
+  }
+  .project-nav {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
 }
 </style>
 </head>
 <body>
 
-<header>
+<header id="header">
   <h1>LYNN LIU</h1>
   <nav>
     <a href="../index.html">Works</a>
@@ -189,143 +437,286 @@ nav a:hover{color:#fff;}
   </nav>
 </header>
 
-<div class="hero">
-  <img src="../assets/project6_img0.jpg" alt="Hero Image">
-</div>
+<main class="layout">
 
-<div class="container section">
-  <h1>The Brainy Gut</h1>
-
-  <p class="description">
-     <h3>What I did</h3>
-   In this project, I served as an interaction designer and technical integrator, using mixed-media tools including Unreal Engine, Cinema 4D, biosensors and micro-screens to create an interactive installation exploring the gut-brain axis. The system translates physiological processes into visual experiences, allowing users to control virtual microbial growth through breathing and intuitively experience mind-body connections.</p>
-
-  <p class="description"> <h3>Introduction</h3>Interactive imagery visualizes the essence of the gut-brain axis connection through the movement of colonies. The system uses an "externalized gut," where changes in virtual colonies reflect the body's health status. The movement of the colonies is driven by the user's breath, with breathing patterns influencing the growth and transformation of the virtual gut, gradually mapping out its entire structure.</p>
-
-  <!-- 视频块全宽 -->
-  <div class="block">
-    <div class="image">
-       <h3>Testing</h3>
-      <iframe src="https://player.vimeo.com/video/1126484634" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-       <div class="text description"><p><b></b>Visualizing how the installation responds to breath and neural feedback</p></div>
+  <!-- 侧边栏导航 (纯红高亮) -->
+  <aside class="sidebar">
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="/Exhibition/project1.html">Self-comb</a></li>
+        <li><a href="/Exhibition/project2.html">She is me</a></li>
+        <li><a href="/Exhibition/project3.html">The Gifts of the Land</a></li>
+      </ul>
     </div>
-  </div>
-
-  <!-- 左右图片块 -->
-  <div class="block">
-    <div class="image">
-       <h3>Visual Representation of Microbiota</h3>
-      <img src="../assets/project8_img1-2.jpg" alt="Image Left">
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative Design</a>
+      <ul class="theme-list">
+         <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
+        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="project4.html">Acupoint</a></li>
+        
+      </ul>
     </div>
-    <div class="text description"><p>Healthy microbiota are primarily yellow or blue, representing balance and harmony. However, when the player's breathing becomes shallow or anxious, some microbiota turn red, displaying chaotic or irregular movement, reflecting stress and discomfort.</p></div>
-  </div>
-
-   <!-- 左右图片块 -->
-  <div class="block">
-    <div class="image">
-    <h3>Virtual Scene Creation</h3>
-      <img src="../assets/project6_img2.jpg" alt="Image Left">
-      <p>Externalized Gut Setup</p>
+    <div class="theme">
+      <a class="theme-title active" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+       
+        <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="../Research/project6.html" class="active">The Brainy Gut1.0</a></li>
+        <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
+        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="../Research/project5.html">Hormone2.0</a></li>
+      </ul>
     </div>
-    <div class="text description"><p>The virtual microbiota represents the dynamic changes of microorganisms within the gut, driven by the player's physiological responses, particularly breathing. By controlling their breathing frequency (e.g., slow or rapid), players influence the growth, reproduction, and simulation of the gut environment, thereby indirectly exploring the entire intestinal space.</p></div>
-  </div>
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Data and Video</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-data.html">Phantom</a></li>
+        <li><a href="../Practices/project-data.html">Data visualization</a></li>
+        <li><a href="../Practices/project9.html">Body temple</a></li>
+        <li><a href="../Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
+  </aside>
 
-  <!-- 三图画廊全宽 -->
-  <div class="block">
-     <h3>Visual Details</h3>
-    <div class="gallery-container">
-      <div class="gallery">
-        <div class="gallery-slides">
-          <div class="gallery-slide"><img src="../assets/project8_img2.jpg" alt="Gallery Image 1"></div>
-          <div class="gallery-slide"><img src="../assets/project8_img2_2.jpg" alt="Gallery Image 2"></div>
-          <div class="gallery-slide"><img src="../assets/project8_img2_3.jpg" alt="Gallery Image 3"></div>
+  <!-- 主要内容区域 -->
+  <section class="content">
+
+    <div class="project-body">
+      <h1>The Brainy Gut</h1>
+
+      <!-- What I did -->
+      <div>
+        <h3>What I did</h3>
+        <p>In this project, I served as an interaction designer and technical integrator, using mixed-media tools including Unreal Engine, Cinema 4D, biosensors and micro-screens to create an interactive installation exploring the gut-brain axis. The system translates physiological processes into visual experiences, allowing users to control virtual microbial growth through breathing and intuitively experience mind-body connections.</p>
+      </div>
+
+      <!-- Introduction -->
+      <div>
+        <h3>Introduction</h3>
+        <p>Interactive imagery visualizes the essence of the gut-brain axis connection through the movement of colonies. The system uses an "externalized gut," where changes in virtual colonies reflect the body's health status. The movement of the colonies is driven by the user's breath, with breathing patterns influencing the growth and transformation of the virtual gut, gradually mapping out its entire structure.</p>
+      </div>
+
+      <!-- 左右图片块: Visual Representation of Microbiota -->
+      <div class="block">
+        <div class="image">
+          <h3>Visual Representation of Microbiota</h3>
+          <img src="../assets/project8_img1-2.jpg" alt="Microbiota visualization">
         </div>
-        <button class="gallery-nav gallery-prev">&#10094;</button>
-        <button class="gallery-nav gallery-next">&#10095;</button>
+        <div class="text">
+          <p>Healthy microbiota are primarily yellow or blue, representing balance and harmony. However, when the player's breathing becomes shallow or anxious, some microbiota turn red, displaying chaotic or irregular movement, reflecting stress and discomfort.</p>
+        </div>
       </div>
-      <div class="gallery-indicators">
-        <div class="gallery-indicator active"></div>
-        <div class="gallery-indicator"></div>
-        <div class="gallery-indicator"></div>
+
+      <!-- 左右图片块: Virtual Scene Creation -->
+      <div class="block">
+        <div class="image">
+          <h3>Virtual Scene Creation</h3>
+          <img src="../assets/project6_img2.jpg" alt="Externalized Gut Setup">
+          <p>Externalized Gut Setup</p>
+        </div>
+        <div class="text">
+          <p>The virtual microbiota represents the dynamic changes of microorganisms within the gut, driven by the player's physiological responses, particularly breathing. By controlling their breathing frequency (e.g., slow or rapid), players influence the growth, reproduction, and simulation of the gut environment, thereby indirectly exploring the entire intestinal space.</p>
+        </div>
+      </div>
+
+      <!-- 画廊：Visual Details (三图轮播) -->
+      <div>
+        <h3>Visual Details</h3>
+        <div class="gallery-container">
+          <div class="gallery">
+            <div class="gallery-slides">
+              <div class="gallery-slide"><img src="../assets/project8_img2.jpg" alt="Gallery Image 1"></div>
+              <div class="gallery-slide"><img src="../assets/project8_img2_2.jpg" alt="Gallery Image 2"></div>
+              <div class="gallery-slide"><img src="../assets/project8_img2_3.jpg" alt="Gallery Image 3"></div>
+            </div>
+            <button class="gallery-nav gallery-prev">&#10094;</button>
+            <button class="gallery-nav gallery-next">&#10095;</button>
+          </div>
+          <div class="gallery-indicators">
+            <div class="gallery-indicator active"></div>
+            <div class="gallery-indicator"></div>
+            <div class="gallery-indicator"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experience Journey Map -->
+      <div>
+        <h3>Experience Journey Map</h3>
+        <div class="block">
+          <div class="image">
+            <img src="../assets/project6_img3.jpg" alt="Journey Map">
+          </div>
+        </div>
+
+         <!-- 视频块 (Testing) -->
+      <div class="block">
+        <div class="image">
+          <h3>Testing</h3>
+          <iframe src="https://player.vimeo.com/video/1126484634" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          <p>Visualizing how the installation responds to breath and neural feedback</p>
+        </div>
+      </div>
+      </div>
+
+      <!-- 跳转链接到下一阶段 -->
+      <p style="margin: 16px 0;"><a href="/Research/project8.html" style="color: rgb(255, 0, 51); text-decoration: none; font-weight: 500;">→ Go to next phase - A Kaleidoscopic World</a></p>
+
+      <!-- 底部导航 -->
+      <div class="project-nav">
+        <a href="../index.html" class="overview">← Works</a>
+        <a href="project5-2.html" class="next">Next →</a>
       </div>
     </div>
-  </div>
 
-  <!-- 左右图片块 -->
-  <div class="block">
-     <h3>Experience Journey Map</h3>
-    <div class="image">
-      <img src="../assets/project6_img3.jpg" alt="Image Left">
-    </div>
-    <!-- <div class="text description"><p>Healthy microbiota are primarily yellow or blue, representing balance and harmony. However, when the player's breathing becomes shallow or anxious, some microbiota turn red, displaying chaotic or irregular movement, reflecting stress and discomfort.</p></div> -->
-  </div>
+  </section>
+</main>
 
-   <!-- 新增跳转链接 -->
-  <p style="margin-bottom:16px;">
- <a href="/Research/project8.html">Go to next phase - A Kaleidoscopic World  </a>
-  </p>
-
-  <!-- 底部导航 -->
-  <div class="project-nav">
-    <a href="../index.html" class="overview">Works</a>
-    <a href="project5-2.html" class="next">Next →</a>
-  </div>
-</div>
-
-<!-- Lightbox -->
+<!-- Lightbox 增强版带左右箭头 -->
 <div class="lightbox" id="lightbox">
+  <span class="arrow left" id="prevArrow">&#10094;</span>
   <img src="" alt="Expanded view">
+  <span class="arrow right" id="nextArrow">&#10095;</span>
 </div>
 
 <script>
-// Lightbox
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=lightbox.querySelector('img');
-document.querySelectorAll('img').forEach(img=>{
-  img.addEventListener('click',()=>{
-    lightboxImg.src=img.src;
+  // ================= Lightbox 增强逻辑 =================
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox.querySelector('img');
+  const prevArrow = document.getElementById('prevArrow');
+  const nextArrow = document.getElementById('nextArrow');
+
+  const clickableImages = Array.from(document.querySelectorAll('.image img, .gallery-slide img, .hero-wrapper img'));
+  let currentIdx = 0;
+
+  function openLightbox(index) {
+    if (!clickableImages.length) return;
+    if (index < 0) index = clickableImages.length - 1;
+    if (index >= clickableImages.length) index = 0;
+    currentIdx = index;
+    lightboxImg.src = clickableImages[currentIdx].src;
     lightbox.classList.add('active');
+  }
+
+  function showNext() {
+    if (!clickableImages.length) return;
+    currentIdx = (currentIdx + 1) % clickableImages.length;
+    lightboxImg.src = clickableImages[currentIdx].src;
+  }
+
+  function showPrev() {
+    if (!clickableImages.length) return;
+    currentIdx = (currentIdx - 1 + clickableImages.length) % clickableImages.length;
+    lightboxImg.src = clickableImages[currentIdx].src;
+  }
+
+  clickableImages.forEach((img, idx) => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentIdx = idx;
+      openLightbox(currentIdx);
+    });
   });
-});
-lightbox.addEventListener('click',()=>lightbox.classList.remove('active'));
 
-// 滚动隐藏 header
-let lastScrollTop=0;
-const navbar=document.querySelector("header");
-window.addEventListener("scroll",function(){
-  const scrollTop=window.pageYOffset||document.documentElement.scrollTop;
-  navbar.style.transform = scrollTop>lastScrollTop?"translateY(-100%)":"translateY(0)";
-  lastScrollTop=Math.max(scrollTop,0);
-});
-
-// Gallery
-const gallerySlides = document.querySelector('.gallery-slides');
-const gallerySlide = document.querySelectorAll('.gallery-slide');
-const prevBtn = document.querySelector('.gallery-prev');
-const nextBtn = document.querySelector('.gallery-next');
-const indicators = document.querySelectorAll('.gallery-indicator');
-
-let currentSlide = 0;
-const slideCount = gallerySlide.length;
-
-function updateIndicators() {
-  indicators.forEach((indicator, index) => {
-    if (index === currentSlide) indicator.classList.add('active');
-    else indicator.classList.remove('active');
+  prevArrow.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPrev();
   });
-}
+  nextArrow.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showNext();
+  });
 
-function goToSlide(slideIndex) {
-  gallerySlides.style.transform = `translateX(-${slideIndex * 100}%)`;
-  currentSlide = slideIndex;
-  updateIndicators();
-}
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === lightboxImg) {
+      lightbox.classList.remove('active');
+    }
+  });
 
-function nextSlide() {currentSlide=(currentSlide+1)%slideCount; goToSlide(currentSlide);}
-function prevSlide() {currentSlide=(currentSlide-1+slideCount)%slideCount; goToSlide(currentSlide);}
-prevBtn.addEventListener('click',prevSlide);
-nextBtn.addEventListener('click',nextSlide);
-indicators.forEach((indicator,index)=>{indicator.addEventListener('click',()=>goToSlide(index));});
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'ArrowLeft') {
+      showPrev();
+      e.preventDefault();
+    } else if (e.key === 'ArrowRight') {
+      showNext();
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      lightbox.classList.remove('active');
+      e.preventDefault();
+    }
+  });
+
+  // 禁止右键/复制
+  document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    alert("右键已禁用");
+  });
+  document.addEventListener('copy', e => e.preventDefault());
+  document.addEventListener('cut', e => e.preventDefault());
+  document.addEventListener('selectstart', e => e.preventDefault());
+
+  // 滚动隐藏 Header
+  let lastScrollTop = 0;
+  const navbar = document.querySelector("header");
+  window.addEventListener("scroll", function() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop && scrollTop > 60) {
+      navbar.style.transform = "translateY(-100%)";
+    } else {
+      navbar.style.transform = "translateY(0)";
+    }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    if (scrollTop > 80) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
+  });
+
+  // 画廊轮播逻辑
+  const gallerySlides = document.querySelector('.gallery-slides');
+  const gallerySlide = document.querySelectorAll('.gallery-slide');
+  const prevBtn = document.querySelector('.gallery-prev');
+  const nextBtn = document.querySelector('.gallery-next');
+  const indicators = document.querySelectorAll('.gallery-indicator');
+
+  if (gallerySlides && gallerySlide.length > 0) {
+    let currentSlide = 0;
+    const slideCount = gallerySlide.length;
+
+    function updateIndicators() {
+      indicators.forEach((ind, idx) => {
+        if (idx === currentSlide) ind.classList.add('active');
+        else ind.classList.remove('active');
+      });
+    }
+
+    function goToSlide(slideIndex) {
+      gallerySlides.style.transform = `translateX(-${slideIndex * 100}%)`;
+      currentSlide = slideIndex;
+      updateIndicators();
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slideCount;
+      goToSlide(currentSlide);
+    }
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+      goToSlide(currentSlide);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    indicators.forEach((indicator, idx) => {
+      indicator.addEventListener('click', () => goToSlide(idx));
+    });
+    goToSlide(0);
+  }
 </script>
+
 </body>
 </html>
