@@ -26,6 +26,7 @@ header {
   z-index:100;
   background: rgba(0,0,0,0.6);
   backdrop-filter: blur(6px);
+  transition: transform 0.3s;
 }
 
 header h1 {
@@ -38,7 +39,7 @@ header nav a {
   color:#fff;
   text-decoration:none;
   margin-left:40px;
-  font-weight:400; /* 正常字体 */
+  font-weight:400;
   font-size:1em;
   transition:color 0.3s;
 }
@@ -49,16 +50,15 @@ header nav a:hover {
 
 /* 页面主体容器 */
 .container {
-  max-width:900px;
-  margin:120px auto 60px; /* 顶部留空间给导航 */
+  max-width:1000px;
+  margin:120px auto 60px;
   padding:0 50px;
-  text-align:left;
 }
 
 /* 返回按钮 */
 .back-btn {
   display:inline-block;
-  margin-bottom:50px;
+  margin-bottom:40px;
   padding:10px 18px;
   border:1px solid rgba(255,255,255,0.12);
   border-radius:6px;
@@ -70,6 +70,20 @@ header nav a:hover {
   background:rgba(255,255,255,0.03);
   transform:translateY(-2px);
 }
+
+/* 两栏布局 */
+.resume-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 0 50px;
+  align-items: start;
+}
+
+/* 左栏主内容 */
+.main-col {}
+
+/* 右栏侧边 */
+.side-col {}
 
 /* section 标题 */
 .section {
@@ -116,6 +130,7 @@ header nav a:hover {
   line-height:1.5;
 }
 
+/* 右栏教育、技能、活动 */
 ul.skills, ul.exhibitions {
   margin-left:25px;
   font-size:0.95em;
@@ -128,29 +143,44 @@ ul.exhibitions li {
   margin-bottom:8px;
 }
 
+/* 右栏 section 标题稍小 */
+.side-col .section h2 {
+  font-size:1.1em;
+}
+
+.side-col .item .role {
+  font-size:0.95em;
+}
+
+.side-col .item .company {
+  font-size:0.88em;
+}
+
 /* 响应式 */
 @media (max-width: 800px) {
-  nav {
-    padding: 16px 24px;
+  .resume-grid {
+    grid-template-columns: 1fr;
   }
-  nav .menu {
-    gap: 20px;
+  .side-col {
+    border-top: 1px solid #333;
+    padding-top: 40px;
+  }
+  header {
+    padding: 16px 24px;
   }
 }
 
 @media (max-width: 500px) {
-  nav {
+  header {
     flex-direction: column;
     align-items: center;
     padding: 16px 0;
   }
-  nav .menu {
-    flex-direction: row;
-    gap: 16px;
+  header nav {
     margin-top: 8px;
   }
-  nav .logo {
-    font-size: 1.2rem;
+  .container {
+    padding: 0 24px;
   }
 }
 </style>
@@ -171,128 +201,169 @@ ul.exhibitions li {
 <div class="container">
   <a class="back-btn" href="index.html">← Back to Works</a>
 
-  <!-- Education -->
-  <div class="section">
-    <h2>EDUCATION</h2>
-  <div class="item">
-      <p class="role">Master of Fine Arts in Media Design Practice</p>
-      <p class="company">Art Center College of Design (ACCD) | Pasadena, California</p>
-      <p class="date">Anticipated 5. 2027</p>
-    </div>
-    <div class="item">
-      <p class="role">Bachelor of Fine Arts in Art and Technology</p>
-      <p class="company">Central Academy of Fine Arts (CAFA) | Beijing, China</p>
-      <p class="date">Graduation 7. 2024 </p>
-    </div>
- 
+  <div class="resume-grid">
 
-  <!-- Social Practices -->
-  <div class="section">
-    <h2>WORK EXPERIENCE</h2>
-    
-    <div class="item">
-      <p class="role">Design Assistant</p>
-      <p class="company">Design Studio, Remote Internship</p>
-      <p class="date">7. 2025 – present</p>
-      <ul>
-        <li>Execute product and brand strategies across IG and Tiktok, creating videos and posters using AE and PS.</li>
-         <li>Participate in product definition by conducting market research and supporting prototype development.</li>
-          <li>Accelerate brand web development through building app prototypes and establishing standardized visual templates.</li>
-      </ul>
-    </div>
+    <!-- 左栏：工作经历 + 活动 -->
+    <div class="main-col">
+
+      <!-- Work Experience -->
+      <div class="section">
+        <h2>WORK EXPERIENCE</h2>
+
+        <div class="item">
+          <p class="role">Creative Design Intern</p>
+          <p class="company">Mackerel Design LLC</p>
+          <p class="date">6. 2026 - 9. 2026 | West Hollywood, CA</p>
+          <ul>
+            <li>Assist with visual content creation, photography, and short-form video production.</li>
+            <li>Create basic visual assets and presentation materials for marketing and brand projects.</li>
+            <li>Conduct research on trends, competitors, and audience insights.</li>
+            <li>Assist with on-site setup and creative production support during shoots or events.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <p class="role">Project Assistant</p>
+          <p class="company">ArtCenter Exhibitions Dept.</p>
+          <p class="date">5. 2026 - 9. 2026 | Pasadena, CA</p>
+          <ul>
+            <li>Assisted with exhibition production, gallery operations, and program-related projects.</li>
+            <li>Created 3D exhibition layouts and gallery models using SketchUp for spatial planning and visualization.</li>
+            <li>Conducted artist and exhibition research to support curatorial and program development.</li>
+            <li>Managed exhibition logistics, including student artwork tracking, social media drafting, and gallery support.</li>
+          </ul>
+        </div>
+        
+        <div class="item">
+          <p class="role">Studio Manager</p>
+          <p class="company">ArtCenter College of Design</p>
+          <p class="date">2. 2026 - Present | Pasadena, CA</p>
+          <ul>
+            <li>Provided student exhibition support during term reviews, department exhibitions, and Grad Show install/de-install at the Pasadena Convention Center. </li>
+            <li>Assisted in visual production for social media, workshops, exhibitions, and lectures; familiar with the entire process from digital production to printing.</li>
+            <!-- <li>Managed studio operations, including inventory, equipment maintenance, and safety protocols.</li> -->
+          </ul>
+        </div>
+
+        <div class="item">
+          <p class="role">Social Media Designer</p>
+          <p class="company">Startup Company, Part-time</p>
+          <p class="date">8. 2025 - 1. 2026 | Beijing and Las Vegas</p>
+          <ul>
+            <li>Execute product and brand strategies across IG and Tiktok, creating videos and posters using AI.</li>
+            <li>Participate in product definition by conducting market research and supporting prototype development.</li>
+            <li>Supported CES exhibition operations, including media interview coordination, visitor engagement, and on-site event assistance</li>
+            <li>Managed social media content, community engagement, audience interaction</li>          
+          </ul>
+        </div>
+
+        <div class="item">
+          <p class="role">Design Assistant</p>
+          <p class="company">Tsingshang Design Research Institute</p>
+          <p class="date">7. 2024 - 9. 2024 | Beijing</p>
+          <ul>
+            <li>Involved in team-based design research and helped with the preparation, modeling, and rendering of 3D assets.</li>
+            <li>Took part in material experimentation for conceptual design and helped provide on-site data and regulatory compliance support.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <p class="role">Visual Designer & Photographer</p>
+          <p class="company">DAOHLIN Architectural Planning</p>
+          <p class="date">7. 2023 - 10. 2023 | Beijing</p>
+          <ul>
+            <li>Partnered with project teams to produce client-facing materials and design documentation, visually advancing key consulting projects.</li>
+          </ul>
+        </div>
+
+        <div class="item">
+          <p class="role">User Experience Intern</p>
+          <p class="company">Yake Smart Technology Company</p>
+          <p class="date">7. 2022 - 10. 2022 | Beijing</p>
+          <ul>
+            <li>Executed 4 focus groups with 5 senior clinic leaders, integrating feedback from 60+ users and bench-marking of 3 devices to finalize product design specifications.</li>
+            <li>Helped coordinate research meetings and track project progress, supporting the team's timely completion goals.</li>
+            <li>Assisted in defining the design vision for the next-generation product and supported the process of securing approval from stakeholders.</li>
+          </ul>
+        </div>
+
+        
+        </div>
+      </div>
+
+      <!-- Art and Events -->
+      <div class="section">
+         <div class="side-col"></div>
+        <h2>ART and EVENTS</h2>
 
       <div class="item">
-      <p class="role">Design Assistant</p>
-      <p class="company">Tsingshang Design Research Institute, On-site Internship, Beijing, China</p>
-      <p class="date">7. 2024 – 10. 2024</p>
-      <ul>
-        <li>Involved in team-based design research and helped with the preparation, modeling, and rendering of 3D assets.</li>
-        <li>Took part in material experimentation for conceptual design and helped provide on-site data and regulatory
-compliance support.</li>
-      </ul>
-    </div>
+          <li>International Consumer Electronics Show 2026</li>  
+          <p class="date"> 1. 2026 | Las Vegas, CA</p>
+          <li>LABELHOOD Pioneer Fashion & Arts Festival</li>
+           <p class="date"> 7. 2024 | Beijing</p>
+          <li>Social Innovation Open House of School of Visual Arts </li>
+          <p class="date">11. 2023 | New York, NY</p>
+          <li>Cumulus Beijing 2023 at Central Academy of Fine Arts </li>
+          <p class="date">12. 2023 | Beijing</p>
+        </ul>
+      </div>
 
-    <div class="item">
-      <p class="role">Visual Designer & Photographer</p>
-      <p class="company">DAOHLIN Architectural Planning, On-site Internship, Beijing, China</p>
-      <p class="date">7. 2023 – 10. 2023</p>
-      <ul>
-        <li>Partnered with project teams to produce client-facing materials and design documentation, visually advancing key
-consulting projects.</li>
-     
-      </ul>
-    </div>
+    </div><!-- /main-col -->
 
-    <div class="item">
-      <p class="role">User Experience Intern</p>
-      <p class="company">Yake Smart Technology Company, On-site Internship, Beijing, China</p>
-      <p class="date">7. 2022 – 10. 2022</p>
-      <ul>
-       
-          <li>Executed 4 focus groups with 5 senior clinic leaders, integrating feedback from 60+ users and bench-marking of 3
-devices to finalize product design specifications.</li>
-         <li>Helped coordinate research meetings and track project progress, supporting the team's timely completion goals.</li>
-         <li>Assisted in defining the design vision for the next-generation product and supported the process of securing approval
-from stakeholders.</li>
+    <!-- 右栏：教育 + 技能 -->
+    <div class="side-col">
 
-      </ul>
-    </div>
+      <!-- Education -->
+      <div class="section">
+        <h2>EDUCATION</h2>
 
-    <div class="item">
-      <p class="role">Motion Designer & Director</p>
-      <p class="company">Motion Capture Studio</p>
-      <p class="date">5. 2022 – 7. 2022</p>
-      <ul>
-        <li>Led the motion capture pipeline from conception to execution, providing critical artistic direction and choreographic guidance that directly shaped the final movement quality and narrative expression of the project.</li>
-      </ul>
-    </div>
-  </div>
+        <div class="item">
+          <p class="role">Master of Fine Arts in Media Design Practice</p>
+          <p class="company">Art Center College of Design</p>
+          <p class="date">Anticipated 5. 2027 | Pasadena, California</p>
+        </div>
 
-  <!-- Exhibitions -->
-  <div class="section">
-    <h2>ART EVENTS</h2>
-    <ul class="exhibitions">
-      <li>LABELHOOD Pioneer Fashion & Arts Festival | 7. 2024</li>
-      <li>Social Innovation Open House of School of Visual Arts | 11. 2023</li>
-      <li>Cumulus Beijing 2023 at Central Academy of Fine Arts | 12. 2023 </li>
-    </ul>
-  </div>
+        <div class="item">
+          <p class="role">Bachelor of Fine Arts in Art and Technology</p>
+          <p class="company">Central Academy of Fine Arts</p>
+          <p class="date">Graduation 7. 2024 | Beijing, China</p>
+        </div>
+      </div>
 
-  <!-- Skills -->
-  <div class="section">
-    <h2>PROFESSIONAL SKILLS</h2>
-    <ul class="skills">
-      <li><strong>Software :</strong>  Adobe Creative Suite | Unreal Engine | Cinema4D, Rhino | DaVinci Resolve | HTML/CSS/JavaScript </li>
-      <li><strong>Design :</strong> Visual Redesign | Prototyping Implementation | Full-Stack Design | AI-Augmented Workflow</li>
-      <li><strong>Practices :</strong>  Exhibition Delivery | Mobile App Launch | Web Project Launch</li>
-      <li><strong>Languages :</strong>  English | Mandarin</li>
-    </ul>
-  </div>
-</div>
+      <!-- Skills -->
+      <div class="section">
+        <h2>PROFESSIONAL SKILLS</h2>
+        <ul class="skills">
+          <li><strong>Software :</strong> Adobe Creative Suite | Unity | Cinema4D, Blender, Rhino | DaVinci Resolve | HTML/CSS/JavaScript</li>
+          <li><strong>Design :</strong> Visual Redesign | Prototyping Implementation | Full-Stack Design | AI-Augmented Workflow</li>
+          <li><strong>Practices :</strong> Exhibition Delivery | Mobile App Launch | Web Project Launch</li>
+          <li><strong>Languages :</strong> English | Mandarin</li>
+        </ul>
+      </div>
+
+    </div><!-- /side-col -->
+
+  </div><!-- /resume-grid -->
+</div><!-- /container -->
 
 <script>
-// 禁止复制、剪切、选择
 document.addEventListener('copy', e => e.preventDefault());
 document.addEventListener('cut', e => e.preventDefault());
 document.addEventListener('selectstart', e => e.preventDefault());
 
 let lastScrollTop = 0;
-const navbar = document.querySelector("nav"); // 你的菜单栏标签是 nav 的话
+const navbar = document.querySelector("header");
 
 window.addEventListener("scroll", function() {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   if (scrollTop > lastScrollTop) {
-    // 向下滚动 -> 隐藏菜单栏
     navbar.style.transform = "translateY(-100%)";
   } else {
-    // 向上滚动 -> 显示菜单栏
     navbar.style.transform = "translateY(0)";
   }
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // 防止负值
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
 </script>
-
-
 
 </body>
 </html>
