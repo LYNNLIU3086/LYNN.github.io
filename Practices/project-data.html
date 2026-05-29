@@ -402,12 +402,23 @@ main.layout {
       yearNum: 2026.01,
       img: "../assets/data2.jpg",
       url: "project.html",
-      text: "The project surveyed popular bottled waters in Los Angeles to help enthusiasts quickly compare key details like pH, price, and ingredients."
+      text: "Loading···"
+      // text: "The project surveyed popular bottled waters in Los Angeles to help enthusiasts quickly compare key details like pH, price, and ingredients."
+    },
+
+     { 
+      title: "Cassini CDA",
+      year: "3.2026",
+      yearNum: 2026.03,
+      img: "../assets/data11.jpg",
+      url: "project.html",
+      text: "Loading···"
     }
+
   ];
 
   // 按年份从早到晚排序
-  const works = worksRaw.sort((a, b) => a.yearNum - b.yearNum);
+  const works = worksRaw.sort((b, a) => a.yearNum - b.yearNum);
 
   const timelineContainer = document.getElementById('timeline');
   if (timelineContainer) {

@@ -92,6 +92,33 @@ main.layout {
   z-index: 50;
 }
 
+/* 排序控件（简约线性） */
+.sort-mode {
+  margin-bottom: 32px;
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 12px;
+}
+.sort-option {
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 400;
+  color: #777;
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.sort-option.active {
+  color: #ff0000;
+  font-weight: 500;
+}
+.sort-option:hover:not(.active) {
+  color: #292929;
+}
+
 .theme {
   margin-bottom: 32px;
 }
@@ -289,6 +316,12 @@ footer {
 
   <!-- ================= 侧边栏导航 ================= -->
   <aside class="sidebar">
+    <!-- 排序控件（简约线性） -->
+    <div class="sort-mode">
+      <button class="sort-option active" data-sort="custom">Custom</button>
+      <button class="sort-option" data-sort="timeline">Timeline</button>
+    </div>
+
     <div class="theme">
       <button class="theme-title" data-theme="exhibition">Exhibition</button>
       <ul class="theme-list">
@@ -321,107 +354,117 @@ footer {
     <div class="theme">
       <button class="theme-title" data-theme="data-video">Data and Storyteller</button>
       <ul class="theme-list">
-        <li><a href="Practices/project-data.html" data-project="phantom">Phantom</a></li>
+        <li><a href="Machine/project-narrtive map.html" data-project="phantom">Phantom</a></li>
         <li><a href="Practices/project-data.html" data-project="data-viz">Data visualization</a></li>
+        <!-- 修复：将 data-project 改为正确的标识符，与下方项目中的 data-project-id 对应 -->
+        <li><a href="Practices/project-space.html" data-project="from-feed-to-field">From Feed to Field</a></li>
         <li><a href="Practices/project9.html" data-project="body-temple">Body temple</a></li>
         <li><a href="Practices/project7.html" data-project="ecuador">Ecuador</a></li>
       </ul>
     </div>
   </aside>
 
-  <!-- ================= 项目网格（唯一一份） ================= -->
+  <!-- ================= 项目网格 ================= -->
   <section class="content">
     <div class="grid" id="projectsGrid">
       <!-- Exhibition -->
-      <a href="Exhibition/project2.html" class="project" data-category="exhibition" data-project-id="she-is-me">
+      <a href="Exhibition/project2.html" class="project" data-category="exhibition" data-project-id="she-is-me" data-meta="1.2024-7.2024">
         <img class="project__media" src="assets/thumb2.jpg" alt="She is me">
         <div class="overlay"><h2>She is me</h2><p>Data visualization & Hardware</p></div>
         <div class="meta">Exhibition and Installation · 1.2024-7.2024</div>
       </a>
 
-      <a href="Exhibition/project3.html" class="project" data-category="exhibition" data-project-id="gifts-land">
+      <a href="Exhibition/project3.html" class="project" data-category="exhibition" data-project-id="gifts-land" data-meta="7.2023-9.2023">
         <img class="project__media" src="assets/thumb3.jpg" alt="The Gifts of the Land">
         <div class="overlay"><h2>The Gifts of the Land</h2><p>Data Visualization & Hardware</p></div>
         <div class="meta">Exhibition and Social practice · 7.2023-9.2023</div>
       </a>
 
-      <a href="Exhibition/project1.html" class="project" data-category="exhibition" data-project-id="self-comb">
+      <a href="Exhibition/project1.html" class="project" data-category="exhibition" data-project-id="self-comb" data-meta="2.2023-1.2025">
         <img class="project__media" src="assets/thumb1.jpg" alt="Self-comb">
         <div class="overlay"><h2>Self-comb</h2><p>Immersive Spatial & Interactive Experience</p></div>
         <div class="meta">Virtual Reality · 2.2023-1.2025</div>
       </a>
 
-      <!-- Speculative Design -->
-       <a href="Research/project-zine.html" class="project" data-category="speculative" data-project-id="zine">
-        <img class="project__media" src="assets/project-zine_img.jpg" alt="Decoding the Everyday">
-        <div class="overlay"><h2>Decoding the Everyday</h2><p>Graphic Design & Visual Essay</p></div>
-        <div class="meta">Zine · 2.2026-4.2026</div>
+      <!-- Data and Video (category: data-video) -->
+      <!-- Phantom 项目 -->
+      <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="phantom" data-meta="9.2025-12.2025">
+        <img class="project__media" src="assets/thumbmap.jpg" alt="Phantom">
+        <div class="overlay"><h2>Phantom</h2><p>Coordinate Archive & Spatial Narrative</p></div>
+        <div class="meta">Data Mapping · 9.2025-12.2025</div>
       </a>
 
-      <a href="Research/project-map.html" class="project" data-category="speculative" data-project-id="nothing-far">
+      <!-- From Feed to Field (Space Intelligence) 修复标识符为 from-feed-to-field，与侧边栏匹配 -->
+      <a href="Practices/project-space.html" class="project" data-category="data-video" data-project-id="from-feed-to-field" data-meta="2026">
+        <img class="project__media" src="assets/thumb-space.png" alt="From Feed to Field">
+        <div class="overlay"><h2>Space Intelligence</h2><p>AI Full-Process Experimental Video</p></div>
+        <div class="meta">AI + Unity · 2026</div>
+      </a>
+
+      <!-- Speculative Design -->
+      <a href="Research/project-zine.html" class="project" data-category="speculative" data-project-id="zine" data-meta="2.2026-4.2026">
+        <img class="project__media" src="assets/project-zine_img1.jpg" alt="Decoding the Everyday">
+        <div class="overlay"><h2>Decoding the Everyday</h2><p>Graphic Design & Visual Essay</p></div>
+        <div class="meta">Mutable Zine · 2026</div>
+      </a>
+
+      <a href="Research/project-map.html" class="project" data-category="speculative" data-project-id="nothing-far" data-meta="9.2025-12.2025">
         <img class="project__media" src="assets/project-maptop.png" alt="Nothing is too far">
         <div class="overlay"><h2>Nothing is too far</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
         <div class="meta">Speculative Design Research · 9.2025-12.2025</div>
       </a>
 
-      <a href="Machine/project4.html" class="project" data-category="speculative" data-project-id="acupoint">
+      <a href="Machine/project4.html" class="project" data-category="speculative" data-project-id="acupoint" data-meta="10.2023-12.2023">
         <img class="project__media" src="assets/thumb4ti.png" alt="Acupoint">
         <div class="overlay"><h2>Acupoint</h2><p>Object Detection & Fashion</p></div>
         <div class="meta">Machine Learning · 10.2023-12.2023</div>
       </a>
 
       <!-- Personal Research -->
-
-      <a href="Machine/project4-2.html" class="project" data-category="research" data-project-id="beyond-skies-1">
+      <a href="Machine/project4-2.html" class="project" data-category="research" data-project-id="beyond-skies-1" data-meta="10.2023-11.2025">
         <img class="project__media" src="assets/project4-4.jpg" alt="Beyond the Skies Series1.0">
         <div class="overlay"><h2>Beyond the Skies Series1.0</h2><p>Archival data work</p></div>
         <div class="meta">Comprehensive Data Processing · 10.2023-11.2025</div>
       </a>
 
-      <a href="Research/project6.html" class="project" data-category="research" data-project-id="brainy-gut-1">
+      <!-- Data Visualization 独立项目 -->
+      <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="data-viz" data-meta="2024-2026">
+        <img class="project__media" src="assets/thumb-data.jpg.png" alt="Data visualization">
+        <div class="overlay"><h2>Data Visualization</h2><p>Chart & Information Design</p></div>
+        <div class="meta">DV Collection · 2024-2026</div>
+      </a>
+
+      <a href="Research/project6.html" class="project" data-category="research" data-project-id="brainy-gut-1" data-meta="10.2024-12.2024">
         <img class="project__media" src="assets/thumb6.jpg" alt="The Brainy Gut1.0">
         <div class="overlay"><h2>The Brainy Gut1.0</h2><p>Interactive Health & Conceptual Hardware Design</p></div>
         <div class="meta">Creative Design Research · 10.2024-12.2024</div>
       </a>
 
-      <a href="Research/project8.html" class="project" data-category="research" data-project-id="brainy-gut-2">
+      <a href="Research/project8.html" class="project" data-category="research" data-project-id="brainy-gut-2" data-meta="12.2024-1.2025">
         <img class="project__media" src="assets/thumb6-2.jpg" alt="A Kaleidoscopic World">
         <div class="overlay"><h2>A Kaleidoscopic World</h2><p>Interactive Installation & Optical Visualization</p></div>
         <div class="meta">Creative Design Research · 12.2024-1.2025</div>
       </a>
 
-      <a href="Research/project5-2.html" class="project" data-category="research" data-project-id="hormone-1">
+      <a href="Research/project5-2.html" class="project" data-category="research" data-project-id="hormone-1" data-meta="8.2022-8.2023">
         <img class="project__media" src="assets/thumb5.jpg" alt="Hormone1.0">
         <div class="overlay"><h2>Hormone1.0</h2><p>Imagination, Digital Sculpture, and Experimentation</p></div>
         <div class="meta">Creative Design Research · 8.2022-8.2023</div>
       </a>
 
-      <a href="Research/project5.html" class="project" data-category="research" data-project-id="hormone-2">
+      <a href="Research/project5.html" class="project" data-category="research" data-project-id="hormone-2" data-meta="6.2023-9.2023">
         <img class="project__media" src="assets/thumb5-2.jpg" alt="Hormone2.0">
         <div class="overlay"><h2>Hormone2.0</h2><p>Imagination, Digital Sculpture, and Experimentation</p></div>
         <div class="meta">Creative Design Research · 6.2023-9.2023</div>
       </a>
 
-      <!-- Data and Video -->
-      <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="phantom">
-        <img class="project__media" src="assets/thumbmap.jpg" alt="Phantom">
-        <div class="overlay"><h2>Phantom</h2><p>Coordinate Archive & Spatial Narrative</p></div>
-        <div class="meta">Data Mapping · 9.2025-12.2025</div>
-      </a>
-
-      <a href="Practices/project-data.html" class="project" data-category="data-video" data-project-id="data-viz">
-        <img class="project__media" src="assets/thumb-data.png" alt="Data visualization">
-        <div class="overlay"><h2>Data Visualization</h2><p>Chart & Information Design</p></div>
-        <div class="meta">2024-2026</div>
-      </a>
-
-      <a href="Practices/project9.html" class="project" data-category="data-video" data-project-id="body-temple">
+      <a href="Practices/project9.html" class="project" data-category="data-video" data-project-id="body-temple" data-meta="2022">
         <img class="project__media" src="assets/thumb9.jpg" alt="Body Temple">
         <div class="overlay"><h2>Body Temple</h2><p>Experimental Video & Digital Ritual</p></div>
         <div class="meta">Cinema4D · 2022</div>
       </a>
 
-      <a href="Practices/project7.html" class="project" data-category="data-video" data-project-id="ecuador">
+      <a href="Practices/project7.html" class="project" data-category="data-video" data-project-id="ecuador" data-meta="2023">
         <img class="project__media" src="assets/thumb7.jpg" alt="Ecuador">
         <div class="overlay"><h2>Ecuador</h2><p>Motion Capture & Experimental Video</p></div>
         <div class="meta">Cinema4D · 2023</div>
@@ -433,24 +476,79 @@ footer {
 <footer>© 2026 LYNN — design & technology</footer>
 
 <script>
-  // ========== 变量声明（确保全局） ==========
+  // ========== 全局变量 ==========
   let currentTheme = null;
   let currentProject = null;
+  let currentSort = "custom"; // 'custom' 或 'timeline'
+  let originalProjects = [];   // 存储初始顺序的项目元素数组
 
-  // ========== 筛选逻辑 ==========
+  // ========== 辅助函数：解析日期，返回用于排序的数字（结束年份，越新越大） ==========
+  function getSortYear(project) {
+    const metaText = project.getAttribute('data-meta') || project.querySelector('.meta')?.innerText || '';
+    let endYear = null;
+    const hyphenMatch = metaText.match(/-(\d{4})/);
+    if (hyphenMatch) {
+      endYear = parseInt(hyphenMatch[1], 10);
+    } else {
+      const yearMatch = metaText.match(/\b(\d{4})\b/);
+      if (yearMatch) endYear = parseInt(yearMatch[1], 10);
+    }
+    return endYear || 1900;
+  }
+
+  // 重新排序网格（基于当前排序模式）
+  function reorderProjects() {
+    const grid = document.getElementById('projectsGrid');
+    if (!grid) return;
+
+    let projectsArray = Array.from(grid.querySelectorAll('.project'));
+    if (currentSort === 'timeline') {
+      projectsArray.sort((a, b) => getSortYear(b) - getSortYear(a));
+    } else {
+      projectsArray = [...originalProjects];
+    }
+    while (grid.firstChild) grid.removeChild(grid.firstChild);
+    projectsArray.forEach(proj => grid.appendChild(proj));
+
+    initIntersectionObserver();
+    filterProjects();
+  }
+
+  // 初始化滚动观察者
+  let currentObserver = null;
+  function initIntersectionObserver() {
+    if (currentObserver) currentObserver.disconnect();
+    const items = document.querySelectorAll('.project');
+    currentObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          currentObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    items.forEach(item => currentObserver.observe(item));
+  }
+
+  // 筛选逻辑（根据 currentTheme 或 currentProject）
   function filterProjects() {
     const projects = document.querySelectorAll('.project');
     projects.forEach(proj => {
+      // 没有筛选条件时显示全部
       if (!currentTheme && !currentProject) {
         proj.classList.remove('filtered-out');
-      } else if (currentProject) {
+      } 
+      // 优先按具体项目ID筛选
+      else if (currentProject) {
         const pid = proj.getAttribute('data-project-id');
         if (pid === currentProject) {
           proj.classList.remove('filtered-out');
         } else {
           proj.classList.add('filtered-out');
         }
-      } else if (currentTheme) {
+      } 
+      // 按主题（类别）筛选
+      else if (currentTheme) {
         const cat = proj.getAttribute('data-category');
         if (cat === currentTheme) {
           proj.classList.remove('filtered-out');
@@ -461,19 +559,41 @@ footer {
     });
   }
 
-  // 重置所有高亮
+  // 重置所有高亮样式（侧边栏按钮和链接）
   function resetActiveStates() {
     document.querySelectorAll('.theme-title').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.theme-list li a').forEach(link => link.classList.remove('active'));
   }
 
-  // ========== 主题按钮点击 ==========
+  // ========== 排序控件逻辑 ==========
+  const sortOptions = document.querySelectorAll('.sort-option');
+  function setActiveSort(activeValue) {
+    sortOptions.forEach(opt => {
+      if (opt.getAttribute('data-sort') === activeValue) {
+        opt.classList.add('active');
+      } else {
+        opt.classList.remove('active');
+      }
+    });
+  }
+
+  sortOptions.forEach(opt => {
+    opt.addEventListener('click', () => {
+      const sortValue = opt.getAttribute('data-sort');
+      if (currentSort === sortValue) return;
+      currentSort = sortValue;
+      setActiveSort(currentSort);
+      reorderProjects();
+    });
+  });
+
+  // ========== 主题筛选（点击分类大标题） ==========
   document.querySelectorAll('.theme-title').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const theme = btn.getAttribute('data-theme');
+      // 如果已经选中了同一个主题且没有单独项目筛选，则取消筛选（显示全部）
       if (currentTheme === theme && currentProject === null) {
-        // 取消选中
         currentTheme = null;
         currentProject = null;
         resetActiveStates();
@@ -487,7 +607,7 @@ footer {
     });
   });
 
-  // ========== 侧边栏项目链接点击 ==========
+  // ========== 侧边栏具体项目链接点击 ==========
   document.querySelectorAll('.theme-list li a').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
@@ -495,17 +615,16 @@ footer {
       const parentThemeBtn = link.closest('.theme').querySelector('.theme-title');
       const theme = parentThemeBtn.getAttribute('data-theme');
 
+      // 如果点击的是当前已激活的项目，则取消项目筛选，退回到所属主题视图
       if (currentProject === projectId) {
-        // 再次点击已选中的项目 → 恢复显示该分类下所有作品
         currentProject = null;
         currentTheme = theme;
         resetActiveStates();
         parentThemeBtn.classList.add('active');
       } else {
-        // 选中具体项目
         resetActiveStates();
         currentProject = projectId;
-        currentTheme = null;
+        currentTheme = null;          // 项目筛选优先，清除主题筛选
         link.classList.add('active');
         parentThemeBtn.classList.add('active');
       }
@@ -513,7 +632,15 @@ footer {
     });
   });
 
-  // ========== 开场动画 ==========
+  // ========== 保存原始顺序（用于 Custom 排序恢复） ==========
+  function saveOriginalOrder() {
+    const grid = document.getElementById('projectsGrid');
+    if (grid) {
+      originalProjects = Array.from(grid.querySelectorAll('.project'));
+    }
+  }
+
+  // 开场动画逻辑（保持原有体验）
   (function(){
     const intro = document.getElementById('intro');
     const video = document.getElementById('introVideo');
@@ -535,19 +662,15 @@ footer {
     }
   })();
 
-  // ========== 滚动触发项目卡片渐显 ==========
-  const projectItems = document.querySelectorAll('.project');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  projectItems.forEach(item => observer.observe(item));
+  // 初始化：保存原始顺序 + 观察者 + 确保所有项目可见（无筛选起始）
+  saveOriginalOrder();
+  initIntersectionObserver();
+  // 确保初始没有任何筛选（全部显示）
+  currentTheme = null;
+  currentProject = null;
+  filterProjects();
 
-  // ========== 双击分类标题折叠/展开（可选） ==========
+  // 双击分类标题折叠/展开（便捷功能保留）
   document.querySelectorAll('.theme-title').forEach(btn => {
     btn.addEventListener('dblclick', () => {
       const list = btn.nextElementSibling;
