@@ -34,11 +34,13 @@ body {
   justify-content: center;
   transition: opacity 0.8s ease;
 }
+
 .intro video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .intro.hidden {
   opacity: 0;
   pointer-events: none;
@@ -58,12 +60,14 @@ header {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(6px);
 }
+
 header h1 {
   font-size: 1.5em;
   font-weight: 400;
   letter-spacing: 1px;
   color: #000000;
 }
+
 header nav a {
   color: #000000;
   text-decoration: none;
@@ -71,6 +75,7 @@ header nav a {
   font-size: 1em;
   transition: color 0.2s;
 }
+
 header nav a:hover {
   color: #ff0000;
 }
@@ -83,16 +88,38 @@ main.layout {
   display: block;
 }
 
-/* ================= 侧边栏 (固定) ================= */
+/* ================= 侧边栏 ================= */
 .sidebar {
   position: fixed;
   top: 100px;
   left: max(60px, calc(50% - 700px + 60px));
   width: 260px;
   z-index: 50;
+
+  /* 让左侧目录独立上下滚动 */
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Firefox */
+  scrollbar-width: thin;
 }
 
-/* 排序控件（简约线性） */
+/* Webkit 浏览器滚动条 */
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+}
+
+/* ================= 排序控件 ================= */
 .sort-mode {
   margin-bottom: 32px;
   display: flex;
@@ -100,6 +127,7 @@ main.layout {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding-bottom: 12px;
 }
+
 .sort-option {
   font-size: 14px;
   letter-spacing: 1px;
@@ -111,14 +139,17 @@ main.layout {
   border: none;
   padding: 0;
 }
+
 .sort-option.active {
   color: #ff0000;
   font-weight: 500;
 }
+
 .sort-option:hover:not(.active) {
   color: #292929;
 }
 
+/* ================= Custom 分类 ================= */
 .theme {
   margin-bottom: 32px;
 }
@@ -134,9 +165,11 @@ main.layout {
   transition: color 0.3s;
   font-weight: 500;
 }
+
 .theme-title:hover {
   color: #292929;
 }
+
 .theme-title.active {
   color: #ff0000;
   font-weight: 600;
@@ -147,10 +180,12 @@ main.layout {
   margin-top: 10px;
   padding-left: 12px;
 }
+
 .theme-list li {
   font-size: 12px;
   margin: 6px 0;
 }
+
 .theme-list li a {
   color: #777;
   font-size: 12px;
@@ -159,10 +194,71 @@ main.layout {
   padding-left: 6px;
   transition: color 0.2s;
 }
+
 .theme-list li a:hover {
   color: #ff0000;
 }
+
 .theme-list li a.active {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+/* ================= Timeline 导航 ================= */
+#timelineNavigation {
+  display: none;
+}
+
+.timeline-year {
+  margin-bottom: 32px;
+}
+
+.timeline-year-title {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.timeline-year-title:hover {
+  color: #292929;
+}
+
+.timeline-year-title.active {
+  color: #ff0000;
+  font-weight: 600;
+}
+
+.timeline-list {
+  list-style: none;
+  margin-top: 10px;
+  padding-left: 12px;
+}
+
+.timeline-list li {
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+.timeline-list li a {
+  color: #777;
+  font-size: 12px;
+  text-decoration: none;
+  display: block;
+  padding-left: 6px;
+  transition: color 0.2s;
+}
+
+.timeline-list li a:hover {
+  color: #ff0000;
+}
+
+.timeline-list li a.active {
   color: #ff0000;
   font-weight: bold;
 }
@@ -196,12 +292,16 @@ main.layout {
   color: inherit;
   transform: translateY(12px);
   opacity: 0;
-  transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.7s;
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 0.7s;
 }
+
 .project.is-visible {
   transform: none;
   opacity: 1;
 }
+
 .project.filtered-out {
   display: none;
 }
@@ -212,6 +312,7 @@ main.layout {
   object-fit: cover;
   transition: transform 0.6s ease, filter 0.5s ease;
 }
+
 .project:hover .project__media {
   transform: scale(1.06);
   filter: brightness(0.6);
@@ -228,15 +329,18 @@ main.layout {
   opacity: 0;
   transition: 0.45s ease;
 }
+
 .project:hover .overlay {
   opacity: 1;
 }
+
 .overlay h2 {
   font-size: 22px;
   margin-bottom: 8px;
   color: white;
   font-weight: 600;
 }
+
 .overlay p {
   font-size: 13px;
   color: #ddd;
@@ -268,43 +372,54 @@ footer {
   .sidebar {
     display: none;
   }
+
   .content {
     margin-left: 0;
   }
+
   main.layout {
     padding: 0 24px;
   }
+
   header {
     padding: 12px 24px;
   }
+
   header h1 {
     font-size: 1.2rem;
   }
+
   header nav a {
     margin-left: 20px;
     font-size: 0.9rem;
   }
 }
+
 @media (max-width: 550px) {
   .project__media {
     height: 220px;
   }
+
   .overlay h2 {
     font-size: 18px;
   }
 }
 </style>
 </head>
+
 <body>
 
+<!-- ================= Intro ================= -->
 <div class="intro" id="intro">
   <video autoplay muted loop playsinline id="introVideo">
     <source src="assets/intro.mp4" type="video/mp4">
   </video>
 </div>
 
+<!-- ================= Header ================= -->
 <header id="header">
   <h1>LYNN LIU</h1>
+
   <nav>
     <a href="index.html">Works</a>
     <a href="resume.html">Resume</a>
@@ -312,539 +427,1659 @@ footer {
   </nav>
 </header>
 
+
 <main class="layout">
 
   <!-- ================= 侧边栏导航 ================= -->
   <aside class="sidebar">
-    <!-- 排序控件（简约线性） -->
+
+    <!-- 排序模式 -->
     <div class="sort-mode">
-      <button class="sort-option active" data-sort="custom">Custom</button>
-      <button class="sort-option" data-sort="timeline">Timeline</button>
+      <button class="sort-option active" data-sort="custom">
+        Custom
+      </button>
+
+      <button class="sort-option" data-sort="timeline">
+        Timeline
+      </button>
     </div>
 
 
+    <!-- ================= Custom Navigation ================= -->
+    <div id="customNavigation">
 
-    <div class="theme">
-      <button class="theme-title" data-theme="speculative">Speculative and Data</button>
-      <ul class="theme-list">
-        <li><a href="Practices/project-data.html" data-project="data-viz">Data visualization</a></li>
-        <!-- 修复：将 data-project 改为正确的标识符，与下方项目中的 data-project-id 对应 -->
-        <li><a href="Practices/project-space.html" data-project="from-feed-to-field">From Feed to Field</a></li>
+      <!-- Speculative and Data -->
+      <div class="theme">
+        <button class="theme-title" data-theme="speculative">
+          Speculative and Data
+        </button>
 
-        <li><a href="Research/project-map.html" data-project="nothing-far">Nothing is too far</a></li>
-        <li><a href="Machine/project4.html" data-project="acupoint">Acupoint</a></li>
-      </ul>
+        <ul class="theme-list">
+          <li>
+            <a href="Practices/project-data.html"
+               data-project="data-viz">
+              Data visualization
+            </a>
+          </li>
+
+          <li>
+            <a href="Practices/project-space.html"
+               data-project="from-feed-to-field">
+              From Feed to Field
+            </a>
+          </li>
+
+          <li>
+            <a href="Research/project-map.html"
+               data-project="nothing-far">
+              Nothing is too far
+            </a>
+          </li>
+
+          <li>
+            <a href="Machine/project4.html"
+               data-project="acupoint">
+              Acupoint
+            </a>
+          </li>
+        </ul>
+      </div>
+
+
+      <!-- Exhibition -->
+      <div class="theme">
+        <button class="theme-title" data-theme="exhibition">
+          Exhibition
+        </button>
+
+        <ul class="theme-list">
+          <li>
+            <a href="Exhibition/project1.html"
+               data-project="self-comb">
+              Self-comb
+            </a>
+          </li>
+
+          <li>
+            <a href="Exhibition/project2.html"
+               data-project="she-is-me">
+              She is me
+            </a>
+          </li>
+
+          <li>
+            <a href="Exhibition/project3.html"
+               data-project="gifts-land">
+              The Gifts of the Land
+            </a>
+          </li>
+
+          <li>
+            <a href="Research/project-zine.html"
+               data-project="decoding-the-everyday">
+              Decoding the Everyday
+            </a>
+          </li>
+        </ul>
+      </div>
+
+
+      <!-- Personal Research -->
+      <div class="theme">
+        <button class="theme-title" data-theme="research">
+          Personal Research
+        </button>
+
+        <ul class="theme-list">
+
+          <li>
+            <a href="Machine/project-narrtive%20map.html"
+               data-project="phantom">
+              Phantom
+            </a>
+          </li>
+
+          <li>
+            <a href="Machine/project4-2.html"
+               data-project="beyond-skies-1">
+              Beyond the skies series1.0
+            </a>
+          </li>
+
+          <li>
+            <a href="Research/project6.html"
+               data-project="brainy-gut-1">
+              The Brainy Gut1.0
+            </a>
+          </li>
+
+          <li>
+            <a href="Research/project8.html"
+               data-project="brainy-gut-2">
+              The Brainy Gut2.0
+            </a>
+          </li>
+
+          <li>
+            <a href="Research/project5-2.html"
+               data-project="hormone-1">
+              Hormone1.0
+            </a>
+          </li>
+
+          <li>
+            <a href="Research/project5.html"
+               data-project="hormone-2">
+              Hormone2.0
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+
+      <!-- Motion -->
+      <div class="theme">
+        <button class="theme-title" data-theme="motion">
+          Motion
+        </button>
+
+        <ul class="theme-list">
+
+          <li>
+            <a href="Practices/project-table.html"
+               data-project="one-shared-table">
+              One shared table
+            </a>
+          </li>
+
+          <li>
+            <a href="Practices/project9.html"
+               data-project="body-temple">
+              Body temple
+            </a>
+          </li>
+
+          <li>
+            <a href="Practices/project7.html"
+               data-project="ecuador">
+              Ecuador
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
     </div>
 
-    <div class="theme">
-      <button class="theme-title" data-theme="exhibition">Exhibition</button>
-      <ul class="theme-list">
-        <li><a href="Exhibition/project1.html" data-project="self-comb">Self-comb</a></li>
-        <li><a href="Exhibition/project2.html" data-project="she-is-me">She is me</a></li>
-        <li><a href="Exhibition/project3.html" data-project="gifts-land">The Gifts of the Land</a></li>
-        <li><a href="Research/project-zine.html" data-project="zine">Decoding the Everyday</a></li>
-      </ul>
-    </div>
 
-
-    <div class="theme">
-      <button class="theme-title" data-theme="research">Personal Research</button>
-      <ul class="theme-list">
-        <li><a href="Machine/project-narrtivemap.html" data-project="phantom">Phantom</a></li>
-        <li><a href="Machine/project4-2.html" data-project="beyond-skies-1">Beyond the skies series1.0</a></li>
-        <li><a href="Research/project6.html" data-project="brainy-gut-1">The Brainy Gut1.0</a></li>
-        <li><a href="Research/project8.html" data-project="brainy-gut-2">The Brainy Gut2.0</a></li>
-        <li><a href="Research/project5-2.html" data-project="hormone-1">Hormone1.0</a></li>
-        <li><a href="Research/project5.html" data-project="hormone-2">Hormone2.0</a></li>
-      </ul>
-    </div>
-
-     <div class="theme">
-      <button class="theme-title" data-theme="motion">Motion</button>
-      <ul class="theme-list">
-        <li><a href="Practices/projectx.html" data-project="xxx">One shared table</a></li>
-        <li><a href="Practices/project9.html" data-project="body-temple">Body temple</a></li>
-         <li><a href="Practices/project7.html" data-project="ecuador">Ecuador</a></li>
-      </ul>
-    </div>
-
-
+    <!-- ================= Timeline Navigation ================= -->
+    <div id="timelineNavigation"></div>
 
   </aside>
 
+
   <!-- ================= 项目网格 ================= -->
-<section class="content">
-  <div class="grid" id="projectsGrid">
+  <section class="content">
 
-    <!-- ================================================= -->
-    <!-- Speculative and Data -->
-    <!-- ================================================= -->
-
-    <!-- Data visualization -->
-    <a href="Practices/project-data.html"
-       class="project"
-       data-category="speculative"
-       data-project-id="data-viz"
-       data-meta="2024-2026">
-      <img class="project__media" src="assets/thumb-data.jpg.png" alt="Data visualization">
-      <div class="overlay">
-        <h2>Data visualization</h2>
-        <p>Chart & Information Design</p>
-      </div>
-      <div class="meta">DV Collection · 2024-2026</div>
-    </a>
-
-    <!-- From Feed to Field -->
-    <a href="Practices/project-space.html"
-       class="project"
-       data-category="speculative"
-       data-project-id="from-feed-to-field"
-       data-meta="2026">
-      <img class="project__media" src="assets/thumb-space.png" alt="From Feed to Field">
-      <div class="overlay">
-        <h2>From Feed to Field</h2>
-        <p>AI Full-Process Experimental Video</p>
-      </div>
-      <div class="meta">AI + Unity · 2026</div>
-    </a>
-
-    <!-- Nothing is too far -->
-    <a href="Research/project-map.html"
-       class="project"
-       data-category="speculative"
-       data-project-id="nothing-far"
-       data-meta="9.2025-12.2025">
-      <img class="project__media" src="assets/project-maptop.png" alt="Nothing is too far">
-      <div class="overlay">
-        <h2>Nothing is too far</h2>
-        <p>Interactive Health & Conceptual Hardware Design</p>
-      </div>
-      <div class="meta">Speculative Design Research · 9.2025-12.2025</div>
-    </a>
-
-    <!-- Acupoint -->
-    <a href="Machine/project4.html"
-       class="project"
-       data-category="speculative"
-       data-project-id="acupoint"
-       data-meta="10.2023-12.2023">
-      <img class="project__media" src="assets/thumb4ti.png" alt="Acupoint">
-      <div class="overlay">
-        <h2>Acupoint</h2>
-        <p>Object Detection & Fashion</p>
-      </div>
-      <div class="meta">Machine Learning · 10.2023-12.2023</div>
-    </a>
+    <div class="grid" id="projectsGrid">
 
 
-    <!-- ================================================= -->
-    <!-- Exhibition -->
-    <!-- ================================================= -->
+      <!-- ================================================= -->
+      <!-- Speculative and Data -->
+      <!-- ================================================= -->
 
-    <!-- Self-comb -->
-    <a href="Exhibition/project1.html"
-       class="project"
-       data-category="exhibition"
-       data-project-id="self-comb"
-       data-meta="2.2023-1.2025">
-      <img class="project__media" src="assets/thumb1.jpg" alt="Self-comb">
-      <div class="overlay">
-        <h2>Self-comb</h2>
-        <p>Immersive Spatial & Interactive Experience</p>
-      </div>
-      <div class="meta">Virtual Reality · 2.2023-1.2025</div>
-    </a>
+      <!-- Data visualization -->
+<a href="Practices/project-data.html"
+   class="project"
+   data-category="speculative"
+   data-project-id="data-viz"
+   data-year="2026"
+   data-meta="2024-2026">
 
-    <!-- She is me -->
-    <a href="Exhibition/project2.html"
-       class="project"
-       data-category="exhibition"
-       data-project-id="she-is-me"
-       data-meta="1.2024-7.2024">
-      <img class="project__media" src="assets/thumb2.jpg" alt="She is me">
-      <div class="overlay">
-        <h2>She is me</h2>
-        <p>Data visualization & Hardware</p>
-      </div>
-      <div class="meta">Exhibition and Installation · 1.2024-7.2024</div>
-    </a>
+  <img class="project__media"
+       src="assets/thumb-data.jpg.png"
+       alt="Data visualization">
 
-    <!-- The Gifts of the Land -->
-    <a href="Exhibition/project3.html"
-       class="project"
-       data-category="exhibition"
-       data-project-id="gifts-land"
-       data-meta="7.2023-9.2023">
-      <img class="project__media" src="assets/thumb3.jpg" alt="The Gifts of the Land">
-      <div class="overlay">
-        <h2>The Gifts of the Land</h2>
-        <p>Data Visualization & Hardware</p>
-      </div>
-      <div class="meta">Exhibition and Social practice · 7.2023-9.2023</div>
-    </a>
-
-    <!-- Decoding the Everyday -->
-    <a href="Research/project-zine.html"
-       class="project"
-       data-category="exhibition"
-       data-project-id="decoding-the-everyday"
-       data-meta="2.2026-4.2026">
-      <img class="project__media" src="assets/project-zine_img1.jpg" alt="Decoding the Everyday">
-      <div class="overlay">
-        <h2>Decoding the Everyday</h2>
-        <p>Graphic Design & Visual Essay</p>
-      </div>
-      <div class="meta">Mutable Zine · 2026</div>
-    </a>
-
-
-    <!-- ================================================= -->
-    <!-- Personal Research -->
-    <!-- ================================================= -->
-
-    <!-- Phantom -->
-    <a href="/Machine/project-narrtive%20map.html"
-       class="project"
-       data-category="research"
-       data-project-id="phantom"
-       data-meta="9.2025-12.2025">
-      <img class="project__media" src="assets/thumbmap.jpg" alt="Phantom">
-      <div class="overlay">
-        <h2>Phantom</h2>
-        <p>Coordinate Archive & Spatial Narrative</p>
-      </div>
-      <div class="meta">Data Mapping · 9.2025-12.2025</div>
-    </a>
-
-    <!-- Beyond the Skies Series1.0 -->
-    <a href="Machine/project4-2.html"
-       class="project"
-       data-category="research"
-       data-project-id="beyond-skies-1"
-       data-meta="10.2023-11.2025">
-      <img class="project__media" src="assets/project4-4.jpg" alt="Beyond the Skies Series1.0">
-      <div class="overlay">
-        <h2>Beyond the Skies Series1.0</h2>
-        <p>Archival data work</p>
-      </div>
-      <div class="meta">Comprehensive Data Processing · 10.2023-11.2025</div>
-    </a>
-
-    <!-- The Brainy Gut1.0 -->
-    <a href="Research/project6.html"
-       class="project"
-       data-category="research"
-       data-project-id="brainy-gut-1"
-       data-meta="10.2024-12.2024">
-      <img class="project__media" src="assets/thumb6.jpg" alt="The Brainy Gut1.0">
-      <div class="overlay">
-        <h2>The Brainy Gut1.0</h2>
-        <p>Interactive Health & Conceptual Hardware Design</p>
-      </div>
-      <div class="meta">Creative Design Research · 10.2024-12.2024</div>
-    </a>
-
-    <!-- The Brainy Gut2.0 -->
-    <a href="Research/project8.html"
-       class="project"
-       data-category="research"
-       data-project-id="brainy-gut-2"
-       data-meta="12.2024-1.2025">
-      <img class="project__media" src="assets/thumb6-2.jpg" alt="The Brainy Gut2.0">
-      <div class="overlay">
-        <h2>The Brainy Gut2.0</h2>
-        <p>Interactive Installation & Optical Visualization</p>
-      </div>
-      <div class="meta">Creative Design Research · 12.2024-1.2025</div>
-    </a>
-
-    <!-- Hormone1.0 -->
-    <a href="Research/project5-2.html"
-       class="project"
-       data-category="research"
-       data-project-id="hormone-1"
-       data-meta="8.2022-8.2023">
-      <img class="project__media" src="assets/thumb5.jpg" alt="Hormone1.0">
-      <div class="overlay">
-        <h2>Hormone1.0</h2>
-        <p>Imagination, Digital Sculpture, and Experimentation</p>
-      </div>
-      <div class="meta">Creative Design Research · 8.2022-8.2023</div>
-    </a>
-
-    <!-- Hormone2.0 -->
-    <a href="Research/project5.html"
-       class="project"
-       data-category="research"
-       data-project-id="hormone-2"
-       data-meta="6.2023-9.2023">
-      <img class="project__media" src="assets/thumb5-2.jpg" alt="Hormone2.0">
-      <div class="overlay">
-        <h2>Hormone2.0</h2>
-        <p>Imagination, Digital Sculpture, and Experimentation</p>
-      </div>
-      <div class="meta">Creative Design Research · 6.2023-9.2023</div>
-    </a>
-
-
-    <!-- ================================================= -->
-    <!-- Motion -->
-    <!-- ================================================= -->
-
-    <!-- One shared table -->
-    <a href="Practices/project-table.html"
-       class="project"
-       data-category="motion"
-       data-project-id="one-shared-table"
-       data-meta="2026">
-      <img class="project__media" src="assets/one shared table.jpg" alt="One shared table">
-      <div class="overlay">
-        <h2>One shared table</h2>
-        <p>Spatial Interface & Experimental Motion</p>
-      </div>
-      <div class="meta">Experimental Design · 2026</div>
-    </a>
-
-     <!-- Ecuador -->
-    <a href="Practices/project7.html"
-       class="project"
-       data-category="motion"
-       data-project-id="ecuador"
-       data-meta="2023">
-      <img class="project__media" src="assets/thumb7.jpg" alt="Ecuador">
-      <div class="overlay">
-        <h2>Ecuador</h2>
-        <p>Motion Capture & Experimental Video</p>
-      </div>
-      <div class="meta">Cinema4D · 2023</div>
-    </a>
-
-    <!-- Body Temple -->
-    <a href="Practices/project9.html"
-       class="project"
-       data-category="motion"
-       data-project-id="body-temple"
-       data-meta="2022">
-      <img class="project__media" src="assets/thumb9.jpg" alt="Body Temple">
-      <div class="overlay">
-        <h2>Body Temple</h2>
-        <p>Experimental Video & Digital Ritual</p>
-      </div>
-      <div class="meta">Cinema4D · 2022</div>
-    </a>
-
-   
-
+  <div class="overlay">
+    <h2>Data visualization</h2>
+    <p>Chart & Information Design</p>
   </div>
-</section>
+
+  <div class="meta">
+    DV Collection · 2024-2026
+  </div>
+
+</a>
+      </a>
+
+
+      <!-- From Feed to Field -->
+      <a href="Practices/project-space.html"
+         class="project"
+         data-category="speculative"
+         data-project-id="from-feed-to-field"
+         data-year="2026"
+         data-meta="2026">
+
+        <img class="project__media"
+             src="assets/thumb-space.png"
+             alt="From Feed to Field">
+
+        <div class="overlay">
+          <h2>From Feed to Field</h2>
+          <p>AI Full-Process Experimental Video</p>
+        </div>
+
+        <div class="meta">
+          AI + Unity · 2026
+        </div>
+
+      </a>
+
+
+      <!-- Nothing is too far -->
+      <a href="Research/project-map.html"
+         class="project"
+         data-category="speculative"
+         data-project-id="nothing-far"
+         data-year="2025"
+         data-meta="9.2025-12.2025">
+
+        <img class="project__media"
+             src="assets/project-maptop.png"
+             alt="Nothing is too far">
+
+        <div class="overlay">
+          <h2>Nothing is too far</h2>
+          <p>Interactive Health & Conceptual Hardware Design</p>
+        </div>
+
+        <div class="meta">
+          Speculative Design Research · 9.2025-12.2025
+        </div>
+
+      </a>
+
+
+      <!-- Acupoint -->
+      <a href="Machine/project4.html"
+         class="project"
+         data-category="speculative"
+         data-project-id="acupoint"
+         data-year="2023"
+         data-meta="10.2023-12.2023">
+
+        <img class="project__media"
+             src="assets/thumb4ti.png"
+             alt="Acupoint">
+
+        <div class="overlay">
+          <h2>Acupoint</h2>
+          <p>Object Detection & Fashion</p>
+        </div>
+
+        <div class="meta">
+          Machine Learning · 10.2023-12.2023
+        </div>
+
+      </a>
+
+
+      <!-- ================================================= -->
+      <!-- Exhibition -->
+      <!-- ================================================= -->
+
+      <!-- Self-comb -->
+      <a href="Exhibition/project1.html"
+         class="project"
+         data-category="exhibition"
+         data-project-id="self-comb"
+         data-year="2025"
+         data-meta="2.2023-1.2025">
+
+        <img class="project__media"
+             src="assets/thumb1.jpg"
+             alt="Self-comb">
+
+        <div class="overlay">
+          <h2>Self-comb</h2>
+          <p>Immersive Spatial & Interactive Experience</p>
+        </div>
+
+        <div class="meta">
+          Virtual Reality · 2.2023-1.2025
+        </div>
+
+      </a>
+
+
+      <!-- She is me -->
+      <a href="Exhibition/project2.html"
+         class="project"
+         data-category="exhibition"
+         data-project-id="she-is-me"
+         data-year="2024"
+         data-meta="1.2024-7.2024">
+
+        <img class="project__media"
+             src="assets/thumb2.jpg"
+             alt="She is me">
+
+        <div class="overlay">
+          <h2>She is me</h2>
+          <p>Data visualization & Hardware</p>
+        </div>
+
+        <div class="meta">
+          Exhibition and Installation · 1.2024-7.2024
+        </div>
+
+      </a>
+
+
+      <!-- The Gifts of the Land -->
+      <a href="Exhibition/project3.html"
+         class="project"
+         data-category="exhibition"
+         data-project-id="gifts-land"
+         data-year="2023"
+         data-meta="7.2023-9.2023">
+
+        <img class="project__media"
+             src="assets/thumb3.jpg"
+             alt="The Gifts of the Land">
+
+        <div class="overlay">
+          <h2>The Gifts of the Land</h2>
+          <p>Data Visualization & Hardware</p>
+        </div>
+
+        <div class="meta">
+          Exhibition and Social practice · 7.2023-9.2023
+        </div>
+
+      </a>
+
+
+      <!-- Decoding the Everyday -->
+      <a href="Research/project-zine.html"
+         class="project"
+         data-category="exhibition"
+         data-project-id="decoding-the-everyday"
+         data-year="2026"
+         data-meta="2.2026-4.2026">
+
+        <img class="project__media"
+             src="assets/project-zine_img1.jpg"
+             alt="Decoding the Everyday">
+
+        <div class="overlay">
+          <h2>Decoding the Everyday</h2>
+          <p>Graphic Design & Visual Essay</p>
+        </div>
+
+        <div class="meta">
+          Mutable Zine · 2026
+        </div>
+
+      </a>
+
+
+      <!-- ================================================= -->
+      <!-- Personal Research -->
+      <!-- ================================================= -->
+
+      <!-- Phantom -->
+      <a href="Machine/project-narrtive%20map.html"
+         class="project"
+         data-category="research"
+         data-project-id="phantom"
+         data-year="2025"
+         data-meta="9.2025-12.2025">
+
+        <img class="project__media"
+             src="assets/thumbmap.jpg"
+             alt="Phantom">
+
+        <div class="overlay">
+          <h2>Phantom</h2>
+          <p>Coordinate Archive & Spatial Narrative</p>
+        </div>
+
+        <div class="meta">
+          Data Mapping · 9.2025-12.2025
+        </div>
+
+      </a>
+
+
+      <!-- Beyond the Skies Series1.0 -->
+      <a href="Machine/project4-2.html"
+         class="project"
+         data-category="research"
+         data-project-id="beyond-skies-1"
+         data-year="2025"
+         data-meta="10.2023-11.2025">
+
+        <img class="project__media"
+             src="assets/project4-4.jpg"
+             alt="Beyond the Skies Series1.0">
+
+        <div class="overlay">
+          <h2>Beyond the Skies Series1.0</h2>
+          <p>Archival data work</p>
+        </div>
+
+        <div class="meta">
+          Comprehensive Data Processing · 10.2023-11.2025
+        </div>
+
+      </a>
+
+
+      <!-- The Brainy Gut1.0 -->
+      <a href="Research/project6.html"
+         class="project"
+         data-category="research"
+         data-project-id="brainy-gut-1"
+         data-year="2024"
+         data-meta="10.2024-12.2024">
+
+        <img class="project__media"
+             src="assets/thumb6.jpg"
+             alt="The Brainy Gut1.0">
+
+        <div class="overlay">
+          <h2>The Brainy Gut1.0</h2>
+          <p>Interactive Health & Conceptual Hardware Design</p>
+        </div>
+
+        <div class="meta">
+          Creative Design Research · 10.2024-12.2024
+        </div>
+
+      </a>
+
+
+      <!-- The Brainy Gut2.0 -->
+      <a href="Research/project8.html"
+         class="project"
+         data-category="research"
+         data-project-id="brainy-gut-2"
+         data-year="2024"
+         data-meta="12.2024-1.2025">
+
+        <img class="project__media"
+             src="assets/thumb6-2.jpg"
+             alt="The Brainy Gut2.0">
+
+        <div class="overlay">
+          <h2>The Brainy Gut2.0</h2>
+          <p>Interactive Installation & Optical Visualization</p>
+        </div>
+
+        <div class="meta">
+          Creative Design Research · 12.2024-1.2025
+        </div>
+
+      </a>
+
+
+      <!-- Hormone1.0 -->
+      <a href="Research/project5-2.html"
+         class="project"
+         data-category="research"
+         data-project-id="hormone-1"
+         data-year="2022"
+         data-meta="8.2022-8.2023">
+
+        <img class="project__media"
+             src="assets/thumb5.jpg"
+             alt="Hormone1.0">
+
+        <div class="overlay">
+          <h2>Hormone1.0</h2>
+          <p>Imagination, Digital Sculpture, and Experimentation</p>
+        </div>
+
+        <div class="meta">
+          Creative Design Research · 8.2022-8.2023
+        </div>
+
+      </a>
+
+
+      <!-- Hormone2.0 -->
+      <a href="Research/project5.html"
+         class="project"
+         data-category="research"
+         data-project-id="hormone-2"
+         data-year="2023"
+         data-meta="6.2023-9.2023">
+
+        <img class="project__media"
+             src="assets/thumb5-2.jpg"
+             alt="Hormone2.0">
+
+        <div class="overlay">
+          <h2>Hormone2.0</h2>
+          <p>Imagination, Digital Sculpture, and Experimentation</p>
+        </div>
+
+        <div class="meta">
+          Creative Design Research · 6.2023-9.2023
+        </div>
+
+      </a>
+
+
+      <!-- ================================================= -->
+      <!-- Motion -->
+      <!-- ================================================= -->
+
+      <!-- One shared table -->
+      <a href="Practices/project-table.html"
+         class="project"
+         data-category="motion"
+         data-project-id="one-shared-table"
+         data-year="2026"
+         data-meta="2026">
+
+        <img class="project__media"
+             src="assets/one shared table.jpg"
+             alt="One shared table">
+
+        <div class="overlay">
+          <h2>One shared table</h2>
+          <p>Spatial Interface & Experimental Motion</p>
+        </div>
+
+        <div class="meta">
+          Experimental Design · 2026
+        </div>
+
+      </a>
+
+
+      <!-- Ecuador -->
+      <a href="Practices/project7.html"
+         class="project"
+         data-category="motion"
+         data-project-id="ecuador"
+         data-year="2023"
+         data-meta="2023">
+
+        <img class="project__media"
+             src="assets/thumb7.jpg"
+             alt="Ecuador">
+
+        <div class="overlay">
+          <h2>Ecuador</h2>
+          <p>Motion Capture & Experimental Video</p>
+        </div>
+
+        <div class="meta">
+          Cinema4D · 2023
+        </div>
+
+      </a>
+
+
+      <!-- Body Temple -->
+      <a href="Practices/project9.html"
+         class="project"
+         data-category="motion"
+         data-project-id="body-temple"
+         data-year="2022"
+         data-meta="2022">
+
+        <img class="project__media"
+             src="assets/thumb9.jpg"
+             alt="Body Temple">
+
+        <div class="overlay">
+          <h2>Body Temple</h2>
+          <p>Experimental Video & Digital Ritual</p>
+        </div>
+
+        <div class="meta">
+          Cinema4D · 2022
+        </div>
+
+      </a>
+
+    </div>
+
+  </section>
+
 </main>
 
-<footer>© 2026 LYNN — design & technology</footer>
+
+<footer>
+  © 2026 LYNN — design & technology
+</footer>
+
 
 <script>
-  // ========== 全局变量 ==========
-  let currentTheme = null;
-  let currentProject = null;
-  let currentSort = "custom"; // 'custom' 或 'timeline'
-  let originalProjects = [];   // 存储初始顺序的项目元素数组
 
-  // ========== 辅助函数：解析日期，返回用于排序的数字（结束年份，越新越大） ==========
-  function getSortYear(project) {
-    const metaText = project.getAttribute('data-meta') || project.querySelector('.meta')?.innerText || '';
-    let endYear = null;
-    const hyphenMatch = metaText.match(/-(\d{4})/);
-    if (hyphenMatch) {
-      endYear = parseInt(hyphenMatch[1], 10);
-    } else {
-      const yearMatch = metaText.match(/\b(\d{4})\b/);
-      if (yearMatch) endYear = parseInt(yearMatch[1], 10);
-    }
-    return endYear || 1900;
+/* =========================================================
+   全局变量
+========================================================= */
+
+let currentTheme = null;
+let currentProject = null;
+let currentYear = null;
+
+let currentSort = "custom";
+
+let originalProjects = [];
+
+let currentObserver = null;
+
+
+/* =========================================================
+   Timeline 年份
+========================================================= */
+
+function getTimelineYear(project) {
+
+  return parseInt(
+    project.getAttribute('data-year'),
+    10
+  ) || 1900;
+
+}
+
+
+/* =========================================================
+   项目重新排序
+========================================================= */
+
+function reorderProjects() {
+
+  const grid =
+    document.getElementById('projectsGrid');
+
+  if (!grid) return;
+
+
+  let projectsArray =
+    Array.from(
+      grid.querySelectorAll('.project')
+    );
+
+
+  /* Timeline：年份从新到旧 */
+  if (currentSort === 'timeline') {
+
+    projectsArray.sort(
+      (a, b) =>
+        getTimelineYear(b) -
+        getTimelineYear(a)
+    );
+
   }
 
-  // 重新排序网格（基于当前排序模式）
-  function reorderProjects() {
-    const grid = document.getElementById('projectsGrid');
-    if (!grid) return;
+  /* Custom：恢复原始顺序 */
+  else {
 
-    let projectsArray = Array.from(grid.querySelectorAll('.project'));
-    if (currentSort === 'timeline') {
-      projectsArray.sort((a, b) => getSortYear(b) - getSortYear(a));
-    } else {
-      projectsArray = [...originalProjects];
-    }
-    while (grid.firstChild) grid.removeChild(grid.firstChild);
-    projectsArray.forEach(proj => grid.appendChild(proj));
+    projectsArray = [
+      ...originalProjects
+    ];
 
-    initIntersectionObserver();
-    filterProjects();
   }
 
-  // 初始化滚动观察者
-  let currentObserver = null;
-  function initIntersectionObserver() {
-    if (currentObserver) currentObserver.disconnect();
-    const items = document.querySelectorAll('.project');
-    currentObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          currentObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    items.forEach(item => currentObserver.observe(item));
-  }
 
-  // 筛选逻辑（根据 currentTheme 或 currentProject）
-  function filterProjects() {
-    const projects = document.querySelectorAll('.project');
-    projects.forEach(proj => {
-      // 没有筛选条件时显示全部
-      if (!currentTheme && !currentProject) {
-        proj.classList.remove('filtered-out');
-      } 
-      // 优先按具体项目ID筛选
-      else if (currentProject) {
-        const pid = proj.getAttribute('data-project-id');
-        if (pid === currentProject) {
-          proj.classList.remove('filtered-out');
-        } else {
-          proj.classList.add('filtered-out');
-        }
-      } 
-      // 按主题（类别）筛选
-      else if (currentTheme) {
-        const cat = proj.getAttribute('data-category');
-        if (cat === currentTheme) {
-          proj.classList.remove('filtered-out');
-        } else {
-          proj.classList.add('filtered-out');
-        }
-      }
-    });
-  }
+  /*
+   * 重新放回 DOM
+   */
+  projectsArray.forEach(project => {
 
-  // 重置所有高亮样式（侧边栏按钮和链接）
-  function resetActiveStates() {
-    document.querySelectorAll('.theme-title').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.theme-list li a').forEach(link => link.classList.remove('active'));
-  }
+    grid.appendChild(project);
 
-  // ========== 排序控件逻辑 ==========
-  const sortOptions = document.querySelectorAll('.sort-option');
-  function setActiveSort(activeValue) {
-    sortOptions.forEach(opt => {
-      if (opt.getAttribute('data-sort') === activeValue) {
-        opt.classList.add('active');
-      } else {
-        opt.classList.remove('active');
-      }
-    });
-  }
-
-  sortOptions.forEach(opt => {
-    opt.addEventListener('click', () => {
-      const sortValue = opt.getAttribute('data-sort');
-      if (currentSort === sortValue) return;
-      currentSort = sortValue;
-      setActiveSort(currentSort);
-      reorderProjects();
-    });
   });
 
-  // ========== 主题筛选（点击分类大标题） ==========
-  document.querySelectorAll('.theme-title').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const theme = btn.getAttribute('data-theme');
-      // 如果已经选中了同一个主题且没有单独项目筛选，则取消筛选（显示全部）
-      if (currentTheme === theme && currentProject === null) {
-        currentTheme = null;
-        currentProject = null;
-        resetActiveStates();
-      } else {
-        resetActiveStates();
-        currentTheme = theme;
-        currentProject = null;
-        btn.classList.add('active');
-      }
-      filterProjects();
-    });
-  });
 
-  // ========== 侧边栏具体项目链接点击 ==========
-  document.querySelectorAll('.theme-list li a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const projectId = link.getAttribute('data-project');
-      const parentThemeBtn = link.closest('.theme').querySelector('.theme-title');
-      const theme = parentThemeBtn.getAttribute('data-theme');
-
-      // 如果点击的是当前已激活的项目，则取消项目筛选，退回到所属主题视图
-      if (currentProject === projectId) {
-        currentProject = null;
-        currentTheme = theme;
-        resetActiveStates();
-        parentThemeBtn.classList.add('active');
-      } else {
-        resetActiveStates();
-        currentProject = projectId;
-        currentTheme = null;          // 项目筛选优先，清除主题筛选
-        link.classList.add('active');
-        parentThemeBtn.classList.add('active');
-      }
-      filterProjects();
-    });
-  });
-
-  // ========== 保存原始顺序（用于 Custom 排序恢复） ==========
-  function saveOriginalOrder() {
-    const grid = document.getElementById('projectsGrid');
-    if (grid) {
-      originalProjects = Array.from(grid.querySelectorAll('.project'));
-    }
-  }
-
-  // 开场动画逻辑（保持原有体验）
-  (function(){
-    const intro = document.getElementById('intro');
-    const video = document.getElementById('introVideo');
-    function showMain(){
-      if(intro) intro.classList.add('hidden');
-      document.documentElement.style.overflow = 'auto';
-      localStorage.setItem('visitedPortfolio', 'true');
-    }
-    if (localStorage.getItem('visitedPortfolio')) {
-      showMain();
-    } else {
-      if(video){
-        video.addEventListener('ended', showMain);
-        intro.addEventListener('click', showMain);
-        setTimeout(showMain, 4000);
-      } else {
-        showMain();
-      }
-    }
-  })();
-
-  // 初始化：保存原始顺序 + 观察者 + 确保所有项目可见（无筛选起始）
-  saveOriginalOrder();
   initIntersectionObserver();
-  // 确保初始没有任何筛选（全部显示）
-  currentTheme = null;
-  currentProject = null;
+
   filterProjects();
 
-  // 双击分类标题折叠/展开（便捷功能保留）
-  document.querySelectorAll('.theme-title').forEach(btn => {
-    btn.addEventListener('dblclick', () => {
-      const list = btn.nextElementSibling;
-      if (list && list.classList.contains('theme-list')) {
-        list.style.display = list.style.display === 'none' ? 'block' : 'none';
+}
+
+
+/* =========================================================
+   Intersection Observer
+========================================================= */
+
+function initIntersectionObserver() {
+
+  if (currentObserver) {
+
+    currentObserver.disconnect();
+
+  }
+
+
+  const items =
+    document.querySelectorAll('.project');
+
+
+  currentObserver =
+    new IntersectionObserver(
+
+      (entries) => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add(
+              'is-visible'
+            );
+
+            currentObserver.unobserve(
+              entry.target
+            );
+
+          }
+
+        });
+
+      },
+
+      {
+        threshold: 0.12
       }
-    });
+
+    );
+
+
+  items.forEach(item => {
+
+    currentObserver.observe(item);
+
   });
+
+}
+
+
+/* =========================================================
+   项目筛选
+========================================================= */
+
+function filterProjects() {
+
+  const projects =
+    document.querySelectorAll('.project');
+
+
+  projects.forEach(project => {
+
+    const pid =
+      project.getAttribute(
+        'data-project-id'
+      );
+
+    const category =
+      project.getAttribute(
+        'data-category'
+      );
+
+    const year =
+      project.getAttribute(
+        'data-year'
+      );
+
+
+    let visible = true;
+
+
+    /*
+     * 项目筛选优先
+     */
+    if (currentProject) {
+
+      visible =
+        pid === currentProject;
+
+    }
+
+    /*
+     * Custom 分类筛选
+     */
+    else if (currentTheme) {
+
+      visible =
+        category === currentTheme;
+
+    }
+
+    /*
+     * Timeline 年份筛选
+     */
+    else if (currentYear) {
+
+      visible =
+        year === String(currentYear);
+
+    }
+
+
+    project.classList.toggle(
+      'filtered-out',
+      !visible
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   清除所有 active 状态
+========================================================= */
+
+function resetActiveStates() {
+
+  document
+    .querySelectorAll('.theme-title')
+    .forEach(btn => {
+
+      btn.classList.remove('active');
+
+    });
+
+
+  document
+    .querySelectorAll('.theme-list li a')
+    .forEach(link => {
+
+      link.classList.remove('active');
+
+    });
+
+
+  document
+    .querySelectorAll('.timeline-year-title')
+    .forEach(btn => {
+
+      btn.classList.remove('active');
+
+    });
+
+
+  document
+    .querySelectorAll('.timeline-list li a')
+    .forEach(link => {
+
+      link.classList.remove('active');
+
+    });
+
+}
+
+
+/* =========================================================
+   Custom / Timeline active 状态
+========================================================= */
+
+const sortOptions =
+  document.querySelectorAll(
+    '.sort-option'
+  );
+
+
+function setActiveSort(activeValue) {
+
+  sortOptions.forEach(option => {
+
+    if (
+      option.getAttribute(
+        'data-sort'
+      ) === activeValue
+    ) {
+
+      option.classList.add('active');
+
+    }
+
+    else {
+
+      option.classList.remove('active');
+
+    }
+
+  });
+
+}
+
+
+/* =========================================================
+   生成 Timeline Navigation
+========================================================= */
+
+function generateTimelineNavigation() {
+
+  const container =
+    document.getElementById(
+      'timelineNavigation'
+    );
+
+  if (!container) return;
+
+
+  const projects =
+    Array.from(
+      document.querySelectorAll(
+        '.project'
+      )
+    );
+
+
+  /*
+   * 获取所有年份
+   */
+  const years = [
+    ...new Set(
+      projects.map(
+        getTimelineYear
+      )
+    )
+  ]
+    .filter(
+      year => year > 1900
+    )
+    .sort(
+      (a, b) => b - a
+    );
+
+
+  container.innerHTML = '';
+
+
+  years.forEach(year => {
+
+
+    /*
+     * 找到这个年份对应的项目
+     */
+    const yearProjects =
+      projects.filter(
+        project =>
+          getTimelineYear(project) === year
+      );
+
+
+    /*
+     * Year container
+     */
+    const yearBlock =
+      document.createElement('div');
+
+    yearBlock.className =
+      'timeline-year';
+
+
+    /*
+     * Year title
+     */
+    const yearButton =
+      document.createElement('button');
+
+    yearButton.className =
+      'timeline-year-title';
+
+    yearButton.textContent =
+      year;
+
+    yearButton.dataset.year =
+      year;
+
+
+    /*
+     * Project list
+     */
+    const list =
+      document.createElement('ul');
+
+    list.className =
+      'timeline-list';
+
+
+    yearProjects.forEach(project => {
+
+
+      const li =
+        document.createElement('li');
+
+
+      const link =
+        document.createElement('a');
+
+
+      link.href =
+        project.getAttribute(
+          'href'
+        );
+
+
+      const title =
+        project.querySelector(
+          '.overlay h2'
+        );
+
+
+      link.textContent =
+        title
+          ? title.textContent
+          : project.dataset.projectId;
+
+
+      link.dataset.project =
+        project.dataset.projectId;
+
+
+      link.dataset.year =
+        year;
+
+
+      /*
+       * Timeline 项目点击
+       */
+      link.addEventListener(
+        'click',
+        (e) => {
+
+          e.preventDefault();
+
+
+          const projectId =
+            link.dataset.project;
+
+
+          /*
+           * 再次点击当前项目
+           * → 回到年份
+           */
+          if (
+            currentProject === projectId
+          ) {
+
+            currentProject = null;
+
+            currentYear = year;
+
+            resetActiveStates();
+
+            yearButton.classList.add(
+              'active'
+            );
+
+          }
+
+          /*
+           * 点击新的项目
+           */
+          else {
+
+            resetActiveStates();
+
+            currentProject =
+              projectId;
+
+            currentTheme = null;
+
+            currentYear = null;
+
+            link.classList.add(
+              'active'
+            );
+
+            yearButton.classList.add(
+              'active'
+            );
+
+          }
+
+
+          filterProjects();
+
+        }
+      );
+
+
+      li.appendChild(link);
+
+      list.appendChild(li);
+
+    });
+
+
+    /*
+     * Year 点击
+     */
+    yearButton.addEventListener(
+      'click',
+      () => {
+
+
+        /*
+         * 再次点击当前年份
+         * → 显示全部
+         */
+        if (
+          currentYear === year &&
+          !currentProject
+        ) {
+
+          currentYear = null;
+
+          currentProject = null;
+
+          currentTheme = null;
+
+          resetActiveStates();
+
+        }
+
+        /*
+         * 点击新的年份
+         */
+        else {
+
+          currentYear = year;
+
+          currentProject = null;
+
+          currentTheme = null;
+
+          resetActiveStates();
+
+          yearButton.classList.add(
+            'active'
+          );
+
+        }
+
+
+        filterProjects();
+
+      }
+    );
+
+
+    yearBlock.appendChild(
+      yearButton
+    );
+
+    yearBlock.appendChild(
+      list
+    );
+
+    container.appendChild(
+      yearBlock
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   Navigation Mode 切换
+========================================================= */
+
+function switchNavigation(mode) {
+
+  const customNav =
+    document.getElementById(
+      'customNavigation'
+    );
+
+  const timelineNav =
+    document.getElementById(
+      'timelineNavigation'
+    );
+
+
+  currentSort = mode;
+
+  currentTheme = null;
+
+  currentProject = null;
+
+  currentYear = null;
+
+  resetActiveStates();
+
+
+  /*
+   * Timeline
+   */
+  if (mode === 'timeline') {
+
+    customNav.style.display =
+      'none';
+
+    timelineNav.style.display =
+      'block';
+
+
+    generateTimelineNavigation();
+
+    reorderProjects();
+
+  }
+
+
+  /*
+   * Custom
+   */
+  else {
+
+    customNav.style.display =
+      'block';
+
+    timelineNav.style.display =
+      'none';
+
+
+    reorderProjects();
+
+  }
+
+
+  filterProjects();
+
+}
+
+
+/* =========================================================
+   Custom / Timeline 按钮
+========================================================= */
+
+sortOptions.forEach(option => {
+
+  option.addEventListener(
+    'click',
+    () => {
+
+      const sortValue =
+        option.getAttribute(
+          'data-sort'
+        );
+
+
+      if (
+        currentSort === sortValue
+      ) {
+
+        return;
+
+      }
+
+
+      setActiveSort(
+        sortValue
+      );
+
+
+      switchNavigation(
+        sortValue
+      );
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   Custom 分类标题点击
+========================================================= */
+
+document
+  .querySelectorAll(
+    '.theme-title'
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      'click',
+      (e) => {
+
+        e.preventDefault();
+
+
+        const theme =
+          button.getAttribute(
+            'data-theme'
+          );
+
+
+        /*
+         * 再次点击当前分类
+         * → 显示全部
+         */
+        if (
+          currentTheme === theme &&
+          currentProject === null
+        ) {
+
+          currentTheme = null;
+
+          currentProject = null;
+
+          currentYear = null;
+
+          resetActiveStates();
+
+        }
+
+
+        /*
+         * 点击新分类
+         */
+        else {
+
+          resetActiveStates();
+
+          currentTheme = theme;
+
+          currentProject = null;
+
+          currentYear = null;
+
+          button.classList.add(
+            'active'
+          );
+
+        }
+
+
+        filterProjects();
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   Custom 项目点击
+========================================================= */
+
+document
+  .querySelectorAll(
+    '.theme-list li a'
+  )
+  .forEach(link => {
+
+    link.addEventListener(
+      'click',
+      (e) => {
+
+        e.preventDefault();
+
+
+        const projectId =
+          link.getAttribute(
+            'data-project'
+          );
+
+
+        const parentThemeButton =
+          link
+            .closest('.theme')
+            .querySelector(
+              '.theme-title'
+            );
+
+
+        const theme =
+          parentThemeButton.getAttribute(
+            'data-theme'
+          );
+
+
+        /*
+         * 再次点击当前项目
+         * → 回到分类
+         */
+        if (
+          currentProject === projectId
+        ) {
+
+          currentProject = null;
+
+          currentTheme = theme;
+
+          currentYear = null;
+
+          resetActiveStates();
+
+          parentThemeButton.classList.add(
+            'active'
+          );
+
+        }
+
+
+        /*
+         * 点击新项目
+         */
+        else {
+
+          resetActiveStates();
+
+          currentProject =
+            projectId;
+
+          currentTheme = null;
+
+          currentYear = null;
+
+          link.classList.add(
+            'active'
+          );
+
+          parentThemeButton.classList.add(
+            'active'
+          );
+
+        }
+
+
+        filterProjects();
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   保存 Custom 原始顺序
+========================================================= */
+
+function saveOriginalOrder() {
+
+  const grid =
+    document.getElementById(
+      'projectsGrid'
+    );
+
+
+  if (grid) {
+
+    originalProjects =
+      Array.from(
+        grid.querySelectorAll(
+          '.project'
+        )
+      );
+
+  }
+
+}
+
+
+/* =========================================================
+   Intro 开场动画
+========================================================= */
+
+(function() {
+
+  const intro =
+    document.getElementById(
+      'intro'
+    );
+
+
+  const video =
+    document.getElementById(
+      'introVideo'
+    );
+
+
+  function showMain() {
+
+    if (intro) {
+
+      intro.classList.add(
+        'hidden'
+      );
+
+    }
+
+
+    document.documentElement.style.overflow =
+      'auto';
+
+
+    localStorage.setItem(
+      'visitedPortfolio',
+      'true'
+    );
+
+  }
+
+
+  /*
+   * 已访问过
+   */
+  if (
+    localStorage.getItem(
+      'visitedPortfolio'
+    )
+  ) {
+
+    showMain();
+
+  }
+
+
+  /*
+   * 第一次访问
+   */
+  else {
+
+    if (video) {
+
+      video.addEventListener(
+        'ended',
+        showMain
+      );
+
+
+      intro.addEventListener(
+        'click',
+        showMain
+      );
+
+
+      setTimeout(
+        showMain,
+        4000
+      );
+
+    }
+
+    else {
+
+      showMain();
+
+    }
+
+  }
+
+})();
+
+
+/* =========================================================
+   初始化
+========================================================= */
+
+saveOriginalOrder();
+
+initIntersectionObserver();
+
+
+/*
+ * 默认 Custom
+ */
+currentSort = 'custom';
+
+currentTheme = null;
+
+currentProject = null;
+
+currentYear = null;
+
+
+setActiveSort('custom');
+
+filterProjects();
+
+
+/* =========================================================
+   双击分类标题折叠 / 展开
+========================================================= */
+
+document
+  .querySelectorAll(
+    '.theme-title'
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      'dblclick',
+      () => {
+
+        const list =
+          button.nextElementSibling;
+
+
+        if (
+          list &&
+          list.classList.contains(
+            'theme-list'
+          )
+        ) {
+
+          list.style.display =
+            list.style.display === 'none'
+              ? 'block'
+              : 'none';
+
+        }
+
+      }
+    );
+
+  });
+
 </script>
 
 </body>
