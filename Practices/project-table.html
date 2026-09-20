@@ -44,6 +44,12 @@ header h1 {
   letter-spacing: 1px;
   color: #ffffff;
 }
+header h2 {
+  font-size: 1.5em;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: #bb0606;
+}
 nav a {
   color: #ffffff;
   text-decoration: none;
@@ -158,6 +164,21 @@ main.layout {
   font-size: 0.95rem;
   color: #e0e0e0;
   line-height: 1.75;
+}
+
+/* ================= Web 链接 ================= */
+.project-link a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95em;
+  font-weight: 500;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 2px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.project-link a:hover {
+  color: rgb(255, 0, 51);
+  border-color: rgb(255, 0, 51);
 }
 
 /* ================= 媒体容器 (无圆角) ================= */
@@ -328,59 +349,68 @@ main.layout {
 
 <main class="layout">
 
- <aside class="sidebar">
+  <aside class="sidebar">
 
-  <!-- Speculative and Data -->
-  <div class="theme">
-    <a class="theme-title" href="../index.html">Speculative and Data</a>
-    <ul class="theme-list">
-      <li><a href="../Practices/project-data.html">Data visualization</a></li>
-      <li><a href="../Practices/project-space.html">From Feed to Field</a></li>
-      <li><a href="../Research/project-map.html">Nothing is too far</a></li>
-      <li><a href="../Machine/project4.html">Acupoint</a></li>
-    </ul>
-  </div>
+    <!-- Speculative and Data -->
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Speculative and Data</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-data.html">Data visualization</a></li>
+        <li><a href="../Practices/project-space.html">From Feed to Field</a></li>
+        <li><a href="../Research/project-map.html">Nothing is too far</a></li>
+        <li><a href="../Machine/project4.html">Acupoint</a></li>
+      </ul>
+    </div>
 
-  <!-- Exhibition -->
-  <div class="theme">
-    <a class="theme-title" href="../index.html">Exhibition</a>
-    <ul class="theme-list">
-      <li><a href="../Exhibition/project1.html">Self-comb</a></li>
-      <li><a href="../Exhibition/project2.html">She is me</a></li>
-      <li><a href="../Exhibition/project3.html">The Gifts of the Land</a></li>
-      <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
-    </ul>
-  </div>
+    <!-- Exhibition -->
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Exhibition</a>
+      <ul class="theme-list">
+        <li><a href="../Exhibition/project1.html">Self-comb</a></li>
+        <li><a href="../Exhibition/project2.html">She is me</a></li>
+        <li><a href="../Exhibition/project3.html">The Gifts of the Land</a></li>
+        <li><a href="../Research/project-zine.html">Decoding the Everyday</a></li>
+      </ul>
+    </div>
 
-  <!-- Personal Research -->
-  <div class="theme">
-    <a class="theme-title" href="../index.html">Personal Research</a>
-    <ul class="theme-list">
-      <li><a href="../Machine/project-narrtive20map.html">Phantom</a></li>
-      <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
-      <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
-      <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
-      <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
-      <li><a href="../Research/project5.html">Hormone2.0</a></li>
-    </ul>
-  </div>
+    <!-- Personal Research -->
+    <div class="theme">
+      <a class="theme-title" href="../index.html">Personal Research</a>
+      <ul class="theme-list">
+        <li><a href="../Machine/project-narrtive20map.html">Phantom</a></li>
+        <li><a href="../Machine/project4-2.html">Beyond the skies series1.0</a></li>
+        <li><a href="../Research/project6.html">The Brainy Gut1.0</a></li>
+        <li><a href="../Research/project8.html">The Brainy Gut2.0</a></li>
+        <li><a href="../Research/project5-2.html">Hormone1.0</a></li>
+        <li><a href="../Research/project5.html">Hormone2.0</a></li>
+      </ul>
+    </div>
 
-  <!-- Motion（当前页面所在分类） -->
-  <div class="theme">
-    <a class="theme-title active" href="../index.html">Motion</a>
-    <ul class="theme-list">
-      <li><a href="../Practices/project-table.html" class="active">One shared table</a></li>
-      <li><a href="../Practices/project9.html">Body temple</a></li>
-      <li><a href="../Practices/project7.html">Ecuador</a></li>
-    </ul>
-  </div>
+    <!-- Motion（当前页面所在分类） -->
+    <div class="theme">
+      <a class="theme-title active" href="../index.html">Motion</a>
+      <ul class="theme-list">
+        <li><a href="../Practices/project-table.html" class="active">One shared table</a></li>
+        <li><a href="../Practices/project9.html">Body temple</a></li>
+        <li><a href="../Practices/project7.html">Ecuador</a></li>
+      </ul>
+    </div>
 
-</aside>
+  </aside>
 
   <!-- 主要内容区域 -->
   <section class="content">
     <div class="project-body">
       <h1>One Shared Table</h1>
+
+        <!-- Web 链接 -->
+      <div>
+        <p class="project-link">
+          <a href="../Practices/table-as-interface.html" target="_blank" rel="noopener">
+            <h2>View the interactive web piece →</h2>
+          </a>
+        </p>
+      </div>
 
       <div>
         <p class="description">Dining objects from different cultures around the world — plates, bowls, forks, knives, 
@@ -389,13 +419,13 @@ if even one piece is missing, the feast just can't come to life.</p>
       </div>
 
       <div class="media-wrapper">
-  <iframe
-    src="https://player.vimeo.com/video/1228402151"
-    frameborder="0"
-    allow="autoplay; fullscreen; picture-in-picture"
-    allowfullscreen>
-  </iframe>
-</div>
+        <iframe
+          src="https://player.vimeo.com/video/1228402151"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
 
       <div>
         <p>Each object is different across five dimensions: proportion, color, material, movement, 

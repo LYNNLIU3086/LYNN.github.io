@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Table as Interface</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg: #e9e0d2;
+    --bg-2: #ded2bd;
+    --panel: rgba(247,242,232,0.72);
+    --panel-solid: #f5efe2;
+    --ink: #2a2019;
+    --ink-soft: #8a7c6a;
+    --red: #7c2a1f;
+    --red-dark: #5c1e16;
+    --gold: #b8934a;
+    --line: rgba(42,32,25,0.14);
+    --shadow: 0 20px 50px rgba(60,40,20,0.18);
+    --radius: 18px;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(ellipse at 20% 10%, var(--bg-2), transparent 60%),
+      radial-gradient(ellipse at 80% 90%, var(--bg-2), transparent 55%),
+      var(--bg);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .app{ position:relative; width:100vw; height:100vh; }
+
+  /* ---------- Typography ---------- */
+  h1,h2,h3{ font-family:'Fraunces', serif; margin:0; }
+  .eyebrow{
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-soft); font-weight:600;
+  }
+
+  /* ---------- Left sidebar ---------- */
+  .sidebar-left{
+    position:absolute; top:0; left:0; height:100%;
+    width:270px; padding:44px 34px 34px;
+    display:flex; flex-direction:column; z-index:20;
+  }
+  .title{
+    font-size:38px; line-height:1.02; color:var(--red);
+    font-weight:600; letter-spacing:-0.01em;
+  }
+  .title .thin{ color: var(--ink); font-weight:400; font-style:italic; }
+  .subtitle{
+    margin-top:16px; font-size:14.5px; line-height:1.5;
+    color: var(--ink); opacity:.78; max-width:210px;
+  }
+
+  .modes{ margin-top:52px; display:flex; flex-direction:column; gap:4px; }
+  .mode-btn{
+    display:flex; align-items:center; gap:12px;
+    padding:11px 16px; border-radius:999px; border:none;
+    background:transparent; cursor:pointer; text-align:left;
+    font-family:inherit; font-size:14.5px; color:var(--ink);
+    transition:background .18s ease, color .18s ease;
+  }
+  .mode-btn:hover{ background:rgba(124,42,31,0.07); }
+  .mode-btn.active{ background:var(--panel-solid); box-shadow: var(--shadow); color:var(--red-dark); font-weight:600; }
+  .mode-btn .ic{ width:16px; height:16px; flex:none; opacity:.85; }
+
+  .sidebar-bottom{ margin-top:auto; display:flex; gap:10px; }
+  .pill-btn{
+    font-family:inherit; font-size:13px; font-weight:500;
+    padding:10px 18px; border-radius:999px; border:1px solid var(--line);
+    background:var(--panel); cursor:pointer; color:var(--ink);
+    backdrop-filter:blur(6px);
+  }
+  .pill-btn:hover{ background:var(--panel-solid); }
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--line);
+    background:var(--panel); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-family:'Fraunces',serif; font-style:italic; font-size:14px;
+    backdrop-filter:blur(6px);
+  }
+
+  /* ---------- Stage ---------- */
+  .stage{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  }
+  #tableWrap{
+    width:min(70vw, 860px); height:min(70vw, 860px);
+    cursor: grab;
+    filter: drop-shadow(0 30px 40px rgba(50,30,15,.28));
+  }
+  #tableWrap.dragging{ cursor:grabbing; }
+  #tableWrap svg{ width:100%; height:100%; display:block; }
+
+  .table-disc{ transition: fill .5s ease; }
+  .chair{ fill: #5c211c; }
+  .plate-outer{ fill:#f1e8d8; transition: fill .5s ease; }
+  .plate-inner{ fill:#e7dcc4; }
+  .napkin{ fill:#efe9dc; stroke: rgba(0,0,0,.08); }
+  .cutlery{ stroke: var(--gold); stroke-width:3.4; stroke-linecap:round; fill:none; }
+  .glass{ fill: rgba(255,255,255,.22); stroke: rgba(255,255,255,.75); stroke-width:1.4; }
+
+  .layer-connections line{ stroke: var(--gold); stroke-width:1.2; opacity:.55; }
+  .layer-attention line{ stroke:#e7c98a; stroke-width:1.6; stroke-dasharray:2 5; opacity:.85; animation: pulse 1.8s ease-in-out infinite; }
+  .layer-attention polygon{ fill:#e7c98a; }
+  .layer-movement path{ stroke:#f4ded0; stroke-width:1.6; stroke-dasharray:1 6; fill:none; opacity:.8; }
+  .layer-movement .turn-dot{ fill:#e7c98a; }
+  .layer-serviceflow .path{ fill:none; stroke:rgba(255,255,255,.35); stroke-width:1; stroke-dasharray:2 6; }
+  .layer-serviceflow .dot{ fill:#f4ded0; }
+
+  .layer-group{ display:none; }
+  .layer-group.on{ display:block; }
+
+  @keyframes pulse{ 0%,100%{opacity:.35;} 50%{opacity:1;} }
+
+  .seat-label{
+    font-family:'Inter',sans-serif; font-size:10px; font-weight:600; fill:#f4ead9;
+    opacity:0; transition:opacity .2s ease; letter-spacing:.04em; text-transform:uppercase;
+  }
+  .show-labels .seat-label{ opacity:.85; }
+
+  /* ---------- Right-side panel stack (scene + relationship layers) ---------- */
+  .panel-stack{
+    position:absolute; top:36px; right:36px; width:270px;
+    display:flex; flex-direction:column; gap:18px; z-index:20;
+  }
+  .panel-scene{
+    background:var(--panel); backdrop-filter:blur(10px);
+    border-radius: var(--radius); padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .panel-scene-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px;}
+  .scene-current{ font-size:14px; font-weight:600; color:var(--red-dark); margin-top:2px; }
+  .hamburger{ cursor:pointer; opacity:.6; font-size:16px; }
+  .scene-list{ margin-top:14px; display:flex; flex-direction:column; gap:9px; }
+  .scene-item{
+    display:flex; align-items:center; gap:10px; cursor:pointer;
+    font-size:13.5px; color:var(--ink); padding:2px 0;
+  }
+  .scene-item .dot{
+    width:13px; height:13px; border-radius:50%; border:1.6px solid var(--ink-soft);
+    flex:none; position:relative;
+  }
+  .scene-item.active{ color:var(--red-dark); font-weight:600; }
+  .scene-item.active .dot{ border-color:var(--red); }
+  .scene-item.active .dot::after{
+    content:''; position:absolute; inset:2.5px; border-radius:50%; background:var(--red);
+  }
+  .scene-item:hover .dot{ border-color:var(--red); }
+  .scene-desc{
+    margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
+    font-size:12px; line-height:1.55; color:var(--ink-soft);
+  }
+
+  /* ---------- Relationship layers panel ---------- */
+  .panel-layers{
+    background:var(--panel); backdrop-filter:blur(10px);
+    border-radius: var(--radius); padding:18px 20px; box-shadow:var(--shadow);
+  }
+  .panel-layers .eyebrow{ color:var(--red-dark); margin-bottom:14px; }
+  .layer-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:7px 0; font-size:13.5px;
+  }
+  .layer-row + .layer-row{ border-top:1px solid rgba(42,32,25,.06); }
+  .switch{
+    width:38px; height:21px; border-radius:999px; border:none; cursor:pointer;
+    background: #d8cdb9; position:relative; transition:background .2s ease; flex:none;
+  }
+  .switch::after{
+    content:''; position:absolute; top:2.5px; left:2.5px; width:16px; height:16px;
+    border-radius:50%; background:#fff; transition:transform .2s ease; box-shadow:0 1px 3px rgba(0,0,0,.25);
+  }
+  .switch.on{ background:var(--red); }
+  .switch.on::after{ transform:translateX(17px); }
+
+  /* ---------- Bottom toolbar ---------- */
+  .toolbar-bottom{
+    position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+    display:flex; gap:6px; background:var(--panel); backdrop-filter:blur(10px);
+    padding:8px; border-radius:999px; box-shadow:var(--shadow); z-index:20;
+  }
+  .tb-btn{
+    width:40px; height:40px; border-radius:999px; border:none; background:transparent;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--ink);
+    transition:background .18s ease, color .18s ease;
+  }
+  .tb-btn svg{ width:18px; height:18px; }
+  .tb-btn:hover{ background:rgba(124,42,31,.08); }
+  .tb-btn.active{ background:var(--red); color:#fff; }
+
+  .rotate-hint{
+    position:absolute; bottom:44px; right:200px; font-size:12px; color:var(--ink-soft);
+    display:flex; align-items:center; gap:6px; z-index:15; pointer-events:none;
+  }
+  .btn-sound{
+    position:absolute; bottom:34px; right:36px; z-index:20;
+  }
+
+  /* ---------- Stats HUD (chart quick view) ---------- */
+  .stats-hud{
+    position:absolute; top:36px; left:50%; transform:translateX(-50%);
+    background:var(--panel); backdrop-filter:blur(10px); border-radius:14px;
+    padding:12px 22px; box-shadow:var(--shadow); display:none; gap:26px;
+    font-size:12.5px; z-index:20;
+  }
+  .stats-hud.show{ display:flex; }
+  .stat b{ display:block; font-family:'Fraunces',serif; font-size:19px; color:var(--red-dark); font-weight:600; }
+  .stat span{ color:var(--ink-soft); }
+
+  /* ---------- Compare mode ---------- */
+  .compare-stage{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center; gap:40px; z-index:15;
+  }
+  .compare-stage.show{ display:flex; }
+  .compare-col{ display:flex; flex-direction:column; align-items:center; gap:14px; }
+  .compare-col select{
+    font-family:inherit; font-size:13px; padding:9px 14px; border-radius:999px;
+    border:1px solid var(--line); background:var(--panel-solid); color:var(--ink); cursor:pointer;
+  }
+  .compare-col .mini-wrap{ width:min(32vw,380px); height:min(32vw,380px); }
+  .compare-col .mini-wrap svg{ width:100%; height:100%; }
+  .compare-note{ font-size:12px; color:var(--ink-soft); text-align:center; max-width:240px; }
+
+  /* ---------- Build mode ---------- */
+  .build-stage{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center; z-index:15; gap:50px;
+  }
+  .build-stage.show{ display:flex; }
+  #buildTableWrap{ width:min(52vw,620px); height:min(52vw,620px); }
+  #buildTableWrap svg{ width:100%; height:100%; }
+  .build-panel{
+    width:270px; background:var(--panel); backdrop-filter:blur(10px);
+    border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+  }
+  .build-panel h3{ font-size:15px; color:var(--red-dark); margin-bottom:16px; }
+  .build-field{ margin-bottom:16px; }
+  .build-field label{ font-size:12px; color:var(--ink-soft); display:block; margin-bottom:6px; }
+  .build-field input[type=range]{ width:100%; accent-color:var(--red); }
+  .build-field select{
+    width:100%; font-family:inherit; font-size:13px; padding:8px 10px; border-radius:8px;
+    border:1px solid var(--line); background:#fff; color:var(--ink);
+  }
+  .build-hint{ font-size:11.5px; color:var(--ink-soft); line-height:1.5; margin-top:4px; }
+  .seat-num-btn{
+    display:inline-flex; align-items:center; justify-content:center; width:26px;height:26px;
+    border-radius:50%; border:1px solid var(--line); background:#fff; font-size:11px; cursor:pointer;
+    margin:2px;
+  }
+  .seat-num-btn.host{ background:var(--red); color:#fff; border-color:var(--red); }
+
+  /* ---------- Gallery mode ---------- */
+  .gallery-stage{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center; z-index:15;
+  }
+  .gallery-stage.show{ display:flex; }
+  .gallery-grid{
+    display:grid; grid-template-columns:repeat(3, 270px); gap:32px;
+  }
+  .gallery-card{
+    background:var(--panel); backdrop-filter:blur(10px); border-radius:18px; padding:20px;
+    box-shadow:var(--shadow); cursor:pointer; text-align:center; transition:transform .15s ease;
+  }
+  .gallery-card:hover{ transform:translateY(-4px); }
+  .gallery-card .thumb{ width:100%; aspect-ratio:1; }
+  .gallery-card .thumb svg{ width:100%; height:100%; }
+  .gallery-card .label{ font-size:14.5px; margin-top:12px; font-weight:600; color:var(--red-dark); }
+  .gallery-card .sub{ font-size:12px; color:var(--ink-soft); margin-top:3px; }
+
+  /* ---------- Research mode ---------- */
+  .research-stage{
+    position:absolute; inset:0; display:none; align-items:center; justify-content:center; z-index:15;
+    padding:40px 0;
+  }
+  .research-stage.show{ display:flex; }
+  .research-panel{
+    width:min(720px, 88vw); max-height:88vh; overflow-y:auto;
+    background:var(--panel); backdrop-filter:blur(10px); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:34px 38px;
+  }
+  .research-intro{
+    font-size:13.5px; line-height:1.65; color:var(--ink); opacity:.85;
+    padding-bottom:20px; margin-bottom:22px; border-bottom:1px solid var(--line);
+  }
+  .research-item{ display:flex; gap:20px; padding:18px 0; }
+  .research-item + .research-item{ border-top:1px solid rgba(42,32,25,.08); }
+  .research-thumb{
+    flex:none; width:96px; height:96px; border-radius:12px; overflow:hidden;
+    box-shadow:0 6px 16px rgba(60,40,20,.18);
+  }
+  .research-thumb svg{ width:100%; height:100%; display:block; }
+  .research-body{ flex:1; min-width:0; }
+  .research-item-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:8px;
+  }
+  .research-item h3{ font-size:17px; color:var(--red-dark); font-weight:600; }
+  .research-tag{
+    flex:none; font-size:10px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    padding:3px 9px; border-radius:999px; white-space:nowrap;
+  }
+  .research-tag.strong{ background:rgba(124,42,31,.12); color:var(--red-dark); }
+  .research-tag.partial{ background:rgba(184,147,74,.18); color:#8a6a1f; }
+  .research-item p{ font-size:13px; line-height:1.6; color:var(--ink); opacity:.85; margin-bottom:8px; }
+  .research-item p:last-child{ margin-bottom:0; }
+  .research-item .research-label{ font-weight:600; color:var(--ink); opacity:1; }
+  .research-sources{
+    margin-top:12px; padding-top:10px; border-top:1px dashed rgba(42,32,25,.15);
+    font-size:11.5px; line-height:1.6; color:var(--ink-soft);
+  }
+  .research-sources-label{
+    font-size:10px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--ink-soft); opacity:.7; margin-bottom:6px;
+  }
+  .source-entry{ margin-bottom:8px; }
+  .source-entry:last-child{ margin-bottom:0; }
+  .research-sources a{ color:var(--red-dark); text-decoration:none; border-bottom:1px solid rgba(124,42,31,.35); }
+  .research-sources a:hover{ border-bottom-color:var(--red-dark); }
+  .research-domain{ opacity:.75; }
+  .source-note{ margin-top:2px; opacity:.85; font-style:italic; }
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(30,20,12,.45); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:100;
+  }
+  .modal-overlay.show{ display:flex; }
+  .modal-box{
+    width:420px; background:var(--panel-solid); border-radius:20px; padding:34px;
+    box-shadow:0 30px 60px rgba(0,0,0,.35);
+  }
+  .modal-box h2{ color:var(--red-dark); font-size:24px; margin-bottom:14px; }
+  .modal-box p{ font-size:13.5px; line-height:1.65; color:var(--ink); opacity:.85; margin-bottom:12px; }
+  .modal-close{
+    margin-top:14px; font-family:inherit; font-size:13px; padding:9px 18px; border-radius:999px;
+    border:none; background:var(--red); color:#fff; cursor:pointer;
+  }
+
+  .hidden{ display:none !important; }
+
+  #tableWrap{ touch-action: none; }
+
+  /* ---------- Tablet ---------- */
+  @media (max-width: 980px){
+    .sidebar-left{ width:210px; padding:28px 20px; }
+    .title{ font-size:28px; }
+    .panel-stack{ width:200px; right:20px; }
+    #tableWrap{ width:80vw; height:80vw; }
+    .gallery-grid{ grid-template-columns:repeat(3, 190px); gap:20px; }
+  }
+
+  /* ---------- Phone: give up on the fixed absolutely-positioned desktop
+     canvas and flow everything top-to-bottom in document order instead. ---------- */
+  @media (max-width: 640px){
+    html, body{ height:auto; overflow-y:auto; overflow-x:hidden; }
+    .app{
+      position:relative; width:100%; min-height:100vh; height:auto;
+      display:flex; flex-direction:column;
+    }
+
+    /* Top bar: brand + horizontally-scrolling mode nav, no more sidebar */
+    .sidebar-left{
+      position:static; width:100%; height:auto;
+      padding:18px 16px 12px; flex-direction:column;
+    }
+    .title{ font-size:22px; line-height:1.05; }
+    .title br{ display:none; }
+    .subtitle{ display:none; }
+    .modes{
+      margin-top:14px; flex-direction:row; gap:6px;
+      overflow-x:auto; -webkit-overflow-scrolling:touch;
+      padding-bottom:6px; -ms-overflow-style:none; scrollbar-width:none;
+    }
+    .modes::-webkit-scrollbar{ display:none; }
+    .mode-btn{ flex:none; padding:9px 15px; font-size:13px; white-space:nowrap; }
+    .sidebar-bottom{ margin-top:14px; }
+
+    /* Stage + alternate modes, stacked instead of overlaid full-screen */
+    .stage{ position:static; height:auto; padding:8px 0 4px; }
+    #tableWrap{ width:min(88vw, 460px); height:min(88vw, 460px); }
+
+    .compare-stage, .build-stage, .gallery-stage, .research-stage{
+      position:static; height:auto; padding:8px 16px 24px;
+    }
+    .compare-stage{ flex-direction:column; gap:26px; }
+    .compare-col select{ width:min(84vw,320px); }
+    .compare-col .mini-wrap{ width:min(80vw,320px); height:min(80vw,320px); }
+
+    .build-stage{ flex-direction:column-reverse; gap:22px; }
+    #buildTableWrap{ width:min(84vw,400px); height:min(84vw,400px); }
+    .build-panel{ width:100%; max-width:400px; }
+
+    .gallery-grid{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; width:100%; max-width:480px; }
+    .gallery-card{ padding:14px; }
+
+    .research-panel{ width:100%; max-width:480px; max-height:none; padding:24px 20px; }
+    .research-thumb{ width:72px; height:72px; }
+    .research-item{ gap:14px; }
+
+    /* Right-side desktop panels become one full-width stacked card group */
+    .panel-stack{
+      position:static; width:calc(100% - 32px); max-width:440px;
+      margin:10px auto 0; gap:14px;
+    }
+
+    .stats-hud{
+      position:static; transform:none; width:calc(100% - 32px); max-width:440px;
+      margin:12px auto 0; flex-wrap:wrap; row-gap:14px; justify-content:center;
+    }
+
+    .toolbar-bottom{ position:static; transform:none; margin:18px auto 8px; }
+    .rotate-hint{ position:static; justify-content:center; margin:0 auto 6px; }
+    .btn-sound{ position:static; margin:0 auto 28px; display:flex; }
+
+    .modal-box{ width:88vw; padding:24px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar-left">
+    <h1 class="title">TABLE<br><span class="thin">as</span><br>INTERFACE</h1>
+    <p class="subtitle">Design the social relationships around the table.</p>
+
+    <nav class="modes" id="modeNav">
+      <button class="mode-btn active" data-mode="observe"><span class="ic">◎</span>Observe</button>
+      <button class="mode-btn" data-mode="compare"><span class="ic">⇄</span>Compare</button>
+      <button class="mode-btn" data-mode="build"><span class="ic">◫</span>Build</button>
+      <button class="mode-btn" data-mode="gallery"><span class="ic">▦</span>Gallery</button>
+      <button class="mode-btn" data-mode="research"><span class="ic">▤</span>Research</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <button class="pill-btn" id="aboutBtn">About</button>
+      <button class="icon-btn" id="infoBtn">i</button>
+    </div>
+  </aside>
+
+  <!-- OBSERVE / PLAY STAGE -->
+  <main class="stage" id="observeStage">
+    <div id="tableWrap"></div>
+  </main>
+
+  <!-- COMPARE STAGE -->
+  <section class="compare-stage" id="compareStage">
+    <div class="compare-col">
+      <select id="compareSelectA"></select>
+      <div class="mini-wrap" id="compareWrapA"></div>
+      <div class="compare-note" id="compareNoteA"></div>
+    </div>
+    <div class="compare-col">
+      <select id="compareSelectB"></select>
+      <div class="mini-wrap" id="compareWrapB"></div>
+      <div class="compare-note" id="compareNoteB"></div>
+    </div>
+  </section>
+
+  <!-- BUILD STAGE -->
+  <section class="build-stage" id="buildStage">
+    <div id="buildTableWrap"></div>
+    <div class="build-panel">
+      <h3>Build a table</h3>
+      <div class="build-field">
+        <label>Seats — <span id="buildSeatCount">6</span></label>
+        <input type="range" id="buildSeats" min="4" max="8" value="6">
+      </div>
+      <div class="build-field">
+        <label>Cutlery language</label>
+        <select id="buildCutlery">
+          <option value="chopsticks">Chopsticks</option>
+          <option value="multi">Fork &amp; knife (formal)</option>
+          <option value="chopstickRest">Chopsticks + rest</option>
+          <option value="spoonChopstick">Spoon + chopsticks</option>
+          <option value="hand">Hand / bread</option>
+        </select>
+      </div>
+      <div class="build-field">
+        <label>Shared center</label>
+        <select id="buildCenter">
+          <option value="lazySusan">Lazy susan</option>
+          <option value="runner">Table runner</option>
+          <option value="grill">Grill</option>
+          <option value="platter">Shared platter</option>
+          <option value="none">None (individual trays)</option>
+        </select>
+      </div>
+      <div class="build-field">
+        <label>Host seat</label>
+        <div id="buildHostSeats"></div>
+        <div class="build-hint">Click a number to mark the seat with the most social weight — the seat's ring marker updates immediately.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY STAGE -->
+  <section class="gallery-stage" id="galleryStage">
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- RESEARCH STAGE -->
+  <section class="research-stage" id="researchStage">
+    <div class="research-panel" id="researchPanel"></div>
+  </section>
+
+  <!-- RIGHT-SIDE PANEL STACK (scene + relationship layers, stacked by content height) -->
+  <div class="panel-stack" id="panelStack">
+    <!-- TOP-RIGHT SCENE PANEL -->
+    <div class="panel-scene" id="panelScene">
+      <div class="panel-scene-head">
+        <div>
+          <div class="eyebrow">Scene</div>
+          <div class="scene-current" id="sceneCurrentLabel">China · Family Dinner</div>
+        </div>
+        <span class="hamburger">☰</span>
+      </div>
+      <div class="scene-list" id="sceneList"></div>
+      <div class="scene-desc" id="sceneDesc"></div>
+    </div>
+
+    <!-- RELATIONSHIP LAYERS PANEL -->
+    <div class="panel-layers" id="panelLayers">
+      <div class="eyebrow">Relationship layers</div>
+      <div class="layer-row"><span>Connections</span><button class="switch on" data-layer="connections"></button></div>
+      <div class="layer-row"><span>Attention</span><button class="switch on" data-layer="attention"></button></div>
+      <div class="layer-row"><span>Movement</span><button class="switch on" data-layer="movement"></button></div>
+      <div class="layer-row"><span>Service Flow</span><button class="switch on" data-layer="serviceflow"></button></div>
+    </div>
+  </div>
+
+  <!-- STATS HUD -->
+  <div class="stats-hud" id="statsHud">
+    <div class="stat"><b id="statSeats">6</b><span>seats</span></div>
+    <div class="stat"><b id="statConn">15</b><span>connections</span></div>
+    <div class="stat"><b id="statHost">Seat 1</b><span>honor / host</span></div>
+    <div class="stat"><b id="statCutlery">Chopsticks</b><span>interface</span></div>
+  </div>
+
+  <!-- BOTTOM TOOLBAR -->
+  <div class="toolbar-bottom" id="toolbarBottom">
+    <button class="tb-btn active" data-view="eye" title="Visual only">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+    </button>
+    <button class="tb-btn" data-view="people" title="Seats &amp; roles">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M2 20c0-3.5 2.7-6 6-6s6 2.5 6 6"/><path d="M13.5 14.2c2.6.2 4.5 2.3 4.5 5.3"/></svg>
+    </button>
+    <button class="tb-btn" data-view="network" title="Relationship graph">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="12" cy="10" r="1.6"/><path d="M6.6 7.1L11 9.3M17.4 7.1L13 9.3M12 11.7v4.2"/></svg>
+    </button>
+    <button class="tb-btn" data-view="chart" title="Stats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M11 20V4M18 20v-7"/></svg>
+    </button>
+  </div>
+
+  <div class="rotate-hint" id="rotateHint">⟲ Drag to rotate</div>
+  <button class="icon-btn btn-sound" id="soundBtn">🔊</button>
+</div>
+
+<!-- ABOUT / INFO MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <h2 id="modalTitle">About</h2>
+    <div id="modalBody"></div>
+    <button class="modal-close" id="modalClose">Close</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   DATA
+========================================================= */
+const SCENES = {
+  china: {
+    label:'China · Family Dinner', seats:6, table:'#7c2a1f', plate:'#f1e8d8',
+    cutlery:'chopsticks', center:'lazySusan', glasses:1,
+    desc:'A round table turns on itself: the lazy susan brings every dish to every hand, and chopsticks make sharing the default gesture, not the exception.',
+    roles: { split:true, serviceMode:'opposite', movementType:'eatingOrder', honorLabel:'Honor' },
+    roleNote:'The seat of honor faces the entrance, reserved for the most senior guest. The host — or whoever settles the bill — sits nearest the door, closest to the servers. Rank radiates outward from the seat of honor.'
+  },
+  france: {
+    label:'France · Formal Dinner', seats:6, table:'#ece2c8', plate:'#ffffff',
+    cutlery:'multi', center:'runner', glasses:3,
+    desc:'Cutlery laid outside-in narrates the meal before it starts — each fork is a promise of the course still to come.',
+    roles: { split:true, serviceMode:'adjacent', movementType:'courseWave', honorLabel:'Honor' },
+    roleNote:'Host and guest of honor sit side by side at the head of the table, not across from each other — proximity, not distance, signals rank here. No source suggested a fixed eating order; the outside-in cutlery instead sets a shared course rhythm everyone moves through together, which is what Movement now shows.'
+  },
+  japan: {
+    label:'Japan · Washoku', seats:4, table:'#2c2823', plate:'#eee5d5',
+    cutlery:'chopstickRest', center:'none', glasses:1,
+    desc:'No shared center at all. Each tray is a self-contained composition, balanced in quiet relation to the others.',
+    roles: { split:true, serviceMode:'opposite', movementType:'eatingOrder', honorLabel:'Honor' },
+    roleNote:'Kamiza, the seat of honor, sits farthest from the entrance — a custom traced to samurai-era rooms where the safest spot faced the door. Shimoza, nearest the door, belongs to the host, who manages service.'
+  },
+  korea: {
+    label:'Korea · BBQ Table', seats:6, table:'#3a3835', plate:'#e6e0d2',
+    cutlery:'spoonChopstick', center:'grill', glasses:1,
+    desc:'The grill is the interface — cooking becomes a shared, ongoing activity instead of a finished thing that arrives.',
+    roles: { split:true, serviceMode:'opposite', movementType:'eatingOrder', honorLabel:'Honor' },
+    roleNote:'Rank here is mostly temporal, not spatial: no one lifts a spoon until the eldest person at the table does. The turn order below traces that sequence outward from the seat of honor.'
+  },
+  india: {
+    label:'India · Thali', seats:6, table:'#b3812c', plate:'#dcdcd6',
+    cutlery:'hand', center:'none', glasses:1,
+    desc:'One compartmentalized plate replaces sequence with simultaneity: everything you need is already in front of you.',
+    roles: { split:false, movementType:'eatingOrder', honorLabel:'Elder' },
+    roleNote:'No source pinned rank to a fixed seat — modern Indian dining is mostly circular, unranked seating. But hierarchy at the table is still well documented, just along a different axis: anthropological research on caste describes strict commensality rules governing who may eat with or accept food from whom. What carries over into this model is timing — everyone waits for the eldest at the table to take the first bite. Click a seat to mark the elder and the turn order radiates outward from there.'
+  },
+  middleeast: {
+    label:'Middle East · Shared Plate', seats:8, table:'#a06f39', plate:'#efe3c8',
+    cutlery:'hand', center:'platter', glasses:1,
+    desc:'One large platter, no individual plates. Hands and bread are the interface — proximity is the only protocol.',
+    roles: { split:false, movementType:'eatingOrder', connectionsMode:'adjacent', honorLabel:'Elder' },
+    roleNote:'Rank is temporal here too — elders or the host eat first. But the more distinctive rule is territorial: diners take from the portion of the shared platter directly in front of them rather than reaching across, so Connections now links only neighboring seats instead of everyone to everyone.'
+  }
+};
+const SCENE_ORDER = ['china','france','japan','korea','india','middleeast'];
+
+// Research mode reads this to flag which cultures have sourced spatial
+// seating evidence (honor seat tied to a fixed position) versus which only
+// have evidence for timing (who eats first), with no fixed seat found.
+const EVIDENCE_STRENGTH = {
+  china:       { tag:'strong',  label:'Spatial + temporal evidence' },
+  france:      { tag:'strong',  label:'Spatial evidence, no fixed order' },
+  japan:       { tag:'strong',  label:'Spatial + temporal evidence' },
+  korea:       { tag:'strong',  label:'Spatial + temporal evidence' },
+  india:       { tag:'partial', label:'Social + temporal evidence, no fixed seat' },
+  middleeast:  { tag:'partial', label:'Temporal + territorial, no fixed seat' }
+};
+
+// Real, verified sources behind each scene's roleNote — checked via live
+// web search, not reconstructed from memory. Two per culture where the
+// claim benefits from independent corroboration.
+const SOURCES = {
+  china: [
+    { title:'Customs and etiquette in Chinese dining', domain:'Wikipedia', url:'https://en.wikipedia.org/wiki/Customs_and_etiquette_in_Chinese_dining', note:'Baseline description of the seat-of-honor-facing-the-entrance convention and rank radiating outward from it.' },
+    { title:'Chinese Food Rituals (citing sinologist Roel Sterckx)', domain:'Berkshire Publishing', url:'https://www.berkshirepublishing.com/blog/ritual-in-chinese-cuisines-advance-article/', note:'Traces banquet seating hierarchy back to classical-era etiquette texts, not just modern custom.' },
+    { title:'A comparative perspective on Chinese state banquets and the underlying cultural context', domain:'International Communication of Chinese Culture (Springer)', url:'https://link.springer.com/article/10.1007/s40636-024-00307-w', note:'Peer-reviewed comparison of Chinese vs. Western state banquet protocol and its cultural logic.' },
+    { title:'The Moral Registers of Banqueting in Contemporary China', domain:'SAGE Journals', url:'https://journals.sagepub.com/doi/pdf/10.1177/1868102620904251', note:'Academic treatment of how banquet ritual encodes obligation and status in present-day China.' },
+    { title:"Ritualized Relational Work: Secret Banquets and Rural Cadres in China (cites Mayfair Yang's Gifts, Favors, and Banquets)", domain:'Taylor & Francis', url:'https://www.tandfonline.com/doi/full/10.1080/14672715.2024.2308509', note:'Ethnographic study of seat-jostling and deference rituals as a form of relational work.' }
+  ],
+  france: [
+    { title:'Gastronomic meal of the French', domain:'UNESCO Intangible Cultural Heritage', url:'https://ich.unesco.org/en/RL/gastronomic-meal-of-the-french-00437', note:'Official heritage listing describing the fixed multi-course structure the cutlery-order model is based on.' },
+    { title:'Service à la française', domain:'Wikipedia', url:'https://en.wikipedia.org/wiki/Service_%C3%A0_la_fran%C3%A7aise', note:'History of dishes arriving together vs. sequentially — background for why course rhythm, not seat rank, drives Movement.' },
+    { title:'The Unspoken Rules of French Dinner Parties', domain:'Frenchly', url:'https://frenchly.us/the-unspoken-rules-of-french-dinner-parties/', note:'Source for host-and-honor-guest sitting adjacent rather than across the table.' },
+    { title:'Mastering French Table Etiquette', domain:'French Today', url:'https://www.frenchtoday.com/blog/french-culture/mastering-french-table-etiquette/', note:'Confirms guest of honor seated beside, not opposite, the host.' },
+    { title:'French Dining Etiquette', domain:'Etiquette Scholar', url:'https://www.etiquettescholar.com/dining_etiquette/table-etiquette/europe-w_table_manners/french.html', note:'Independent corroboration of head-of-table seating and no fixed eating-order rule.' }
+  ],
+  japan: [
+    { title:'Place of Honor: Seating Etiquette in Japan', domain:'Nippon.com', url:'https://www.nippon.com/en/guide-to-japan/gu020003/place-of-honor-seating-etiquette-in-japan.html', note:'Primary source for kamiza (honor seat) vs. shimoza (host/service seat) being two different roles.' },
+    { title:'Kamiza', domain:'Wikipedia', url:'https://en.wikipedia.org/wiki/Kamiza', note:'Concise definition confirming kamiza is furthest from the entrance.' },
+    { title:'Tokonoma (architectural origin of kamiza)', domain:'JAANUS — Columbia University', url:'https://projects.mcah.columbia.edu/jaanus/record/tokonoma', note:'Academic architecture reference tracing kamiza to the tokonoma alcove in samurai-era rooms.' },
+    { title:'Washoku, traditional dietary cultures of the Japanese', domain:'UNESCO Intangible Cultural Heritage', url:'https://ich.unesco.org/en/RL/washoku-traditional-dietary-cultures-of-the-japanese-notably-for-the-celebration-of-new-year-00869', note:'Official heritage listing supporting the individual-tray, no-shared-center description.' },
+    { title:'Ichijū Sansai: The Standard Elements of a Typical Japanese Meal', domain:'Nippon.com', url:'https://www.nippon.com/en/guide-to-japan/gu020011/', note:'Detail on individual trays as a historical washoku serving convention.' }
+  ],
+  korea: [
+    { title:'A Korean Meal: Teaching Confucian Manners Through Dining Etiquette', domain:'The Korea Society', url:'https://www.koreasociety.org/images/pdf/KoreanStudies/Curriculum_Materials/LessonsbyTopic/Culture/A_Korean_Meal_Teaching_Confucian_Manners_Through_Dining_Etiquette.pdf', note:'Education-nonprofit curriculum tying eldest-eats-first directly to Confucian values.' },
+    { title:"Etiquette 101: A Korean's Guide To Dining", domain:'MICHELIN Guide', url:'https://guide.michelin.com/en/article/features/etiquette-101-a-korean-s-guide-to-dining', note:'Confirms the eldest-eats-first sequencing rule in a contemporary dining context.' },
+    { title:'The Crucial Etiquette Rule To Know While Dining In South Korea', domain:'Food Republic', url:'https://www.foodrepublic.com/1456676/south-korea-dining-etiquette-rule/', note:'Source for elders being seated first and closest to the interior of the room.' },
+    { title:'Korean ceremonial food (cheop table-setting hierarchy)', domain:'Wikipedia', url:'https://en.wikipedia.org/wiki/Korean_ceremonial_food', note:'Background on how table-setting complexity historically signaled rank in Korean cuisine.' },
+    { title:'Korean traditional table setting (three-cheop bansang) — dietary pattern study', domain:'ResearchGate', url:'https://www.researchgate.net/figure/Korean-traditional-table-setting-three-chup-bansang-a-and-model-of-table-setting-used_fig1_259880936', note:'Peer-reviewed nutrition-science figure documenting the standard bansang table structure.' }
+  ],
+  india: [
+    { title:'Civilizing Tastes: From Caste to Class in South Indian Foodways', domain:'Springer Nature', url:'https://link.springer.com/chapter/10.1057/9781137326416_4', note:'Academic anthology chapter on caste-based commensality rules as the documented axis of rank.' },
+    { title:'Anthropology of Food in India: The Scopes and the Prospects', domain:'Academia.edu (peer-reviewed reprint)', url:'https://www.academia.edu/42828472/Anthropology_of_Food_in_India_The_Scopes_and_the_Prospects', note:'Overview of commensality as a research lens in Indian food anthropology.' },
+    { title:'The Indian Caste System: A Comprehensive Anthropological Analysis', domain:'Anthroholic', url:'https://anthroholic.com/caste-system', note:'Summarizes commensality restrictions between castes as a hierarchy mechanism distinct from seating.' },
+    { title:'5 Dining Etiquette Rules You Can Ignore At An Indian Restaurant — And 5 You Must Never Break', domain:'Tasting Table', url:'https://www.tastingtable.com/1972776/dining-etiquette-rules-indian-restaurant/', note:'Source for waiting on elders before the first bite, with no fixed-seat rule mentioned.' },
+    { title:'How to Eat with your Hands in India', domain:'Saveur', url:'https://www.saveur.com/article/travels/how-to-eat-with-your-hands-in-india', note:'Practical detail on right-hand eating technique referenced in the cutlery description.' }
+  ],
+  middleeast: [
+    { title:'Commensality and Cultural Heritage: Bringing the Foodways of the Middle East and Its Diasporas to the Table', domain:'University of Groningen Press', url:'https://books.ugp.rug.nl/ugp/catalog/book/240', note:'Academic volume framing shared-platter dining as a commensality research subject.' },
+    { title:'Commensality and the Organization of Social Relations (mansaf, Jordan)', domain:'ResearchGate', url:'https://www.researchgate.net/publication/346923949_Commensality_and_the_Organization_of_Social_Relations', note:'Case study on how a shared dish encodes hospitality and social status in Jordan.' },
+    { title:"Deciphering 'Arab Hospitality': Identifying Key Characteristics and Concerns", domain:'ResearchGate / Routledge Handbook on Middle East Tourism', url:"https://www.researchgate.net/publication/322592494_Deciphering_'Arab_Hospitality'_Identifying_Key_Characteristics_and_Concerns_in_Timothy_D_Routledge_Handbook_on_Middle_East_Tourism_Routledge_London_forthcoming", note:'Academic chapter on the religious and Bedouin roots of Arab hospitality norms.' },
+    { title:'The Rules For Eating With Your Hands In India, Africa, And The Middle East', domain:'Food Republic', url:'https://www.foodrepublic.com/1294459/rules-for-eating-with-your-hands/', note:'Direct source for the take-only-from-the-portion-in-front-of-you territorial rule.' },
+    { title:'Why Left-Handed Eating Is Frowned Upon In The Middle East', domain:'Food Republic', url:'https://www.foodrepublic.com/1573656/why-left-handed-eating-frowned-upon-middle-east/', note:'Background on the religious basis for the right-hand-only eating convention.' }
+  ]
+};
+
+// General framing citations for the intro paragraph — peer-reviewed
+// overviews of commensality research, not lifestyle articles.
+const GENERAL_SOURCES = [
+  {
+    title:'What Is Commensality? A Critical Discussion of an Expanding Research Field',
+    domain:'International Journal of Environmental Research and Public Health (NCBI)',
+    url:'https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8295993/',
+    note:'Peer-reviewed overview establishing that shared meals reflect a pre-existing group\'s internal hierarchy — the theoretical basis for treating table layout as a hierarchy diagram at all.'
+  },
+  {
+    title:'Commensality research review (Simmel, Fischler) — doctoral thesis',
+    domain:'Uppsala University (DiVA portal)',
+    url:'https://uu.diva-portal.org/smash/get/diva2:1562885/FULLTEXT01.pdf',
+    note:'Traces commensality theory back to Simmel\'s foundational claim that the meal is where the biological and the social coincide.'
+  }
+];
+
+const state = {
+  mode: 'observe',
+  scene: 'china',
+  honorIndex: 0,
+  rotation: 0,
+  layers: { connections:true, attention:true, movement:true, serviceflow:true },
+  quickView: 'eye',
+  soundOn: true,
+  compareA: 'china',
+  compareB: 'france',
+  build: { seats:6, cutlery:'chopsticks', center:'lazySusan', hostIndex:0 }
+};
+
+/* =========================================================
+   GEOMETRY / SVG BUILDING
+========================================================= */
+function polar(cx, cy, r, angleDeg){
+  const rad = (angleDeg - 90) * Math.PI / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function seatAngles(count){
+  const step = 360 / count;
+  const offset = step / 2;
+  const out = [];
+  for(let i=0;i<count;i++) out.push(offset + i*step);
+  return out;
+}
+
+/* Seat of honor vs. host/service seat are the same person in the original
+   generic model. Fieldwork on Chinese, Japanese and Korean tables says
+   otherwise: the seat of honor (farthest from the door, most protected) and
+   the host/service seat (nearest the door, closest to staff) are usually two
+   different people. serviceIndexFor() derives the second role from the
+   first, per-culture. */
+function serviceIndexFor(scene, seatCount, honorIndex){
+  if(!scene.roles || !scene.roles.split) return honorIndex;
+  if(scene.roles.serviceMode === 'adjacent'){
+    return (honorIndex + 1) % seatCount;
+  }
+  // 'opposite' — host sits across the table, nearest the entrance
+  return (honorIndex + Math.floor(seatCount/2)) % seatCount;
+}
+
+/* Eating-turn order for cultures where rank is temporal as much as spatial
+   (elders/guest of honor eat first). Walks outward from the seat of honor,
+   alternating left/right by proximity, ending at the service seat. */
+function eatingOrderFor(seatCount, honorIndex){
+  const order = [honorIndex];
+  let left = honorIndex, right = honorIndex;
+  while(order.length < seatCount){
+    right = (right + 1) % seatCount;
+    if(!order.includes(right)) order.push(right);
+    if(order.length >= seatCount) break;
+    left = (left - 1 + seatCount) % seatCount;
+    if(!order.includes(left)) order.push(left);
+  }
+  return order;
+}
+
+function cutleryMarkup(type, gx, gy, angle){
+  // local coords: drawn to the right of plate (x positive), radial lines
+  switch(type){
+    case 'chopsticks':
+      return `<line class="cutlery" x1="${gx+34}" y1="${gy-26}" x2="${gx+40}" y2="${gy+26}"/>
+              <line class="cutlery" x1="${gx+40}" y1="${gy-26}" x2="${gx+46}" y2="${gy+26}"/>`;
+    case 'chopstickRest':
+      return `<line class="cutlery" x1="${gx+34}" y1="${gy-22}" x2="${gx+40}" y2="${gy+22}"/>
+              <line class="cutlery" x1="${gx+40}" y1="${gy-22}" x2="${gx+46}" y2="${gy+22}"/>
+              <rect x="${gx+30}" y="${gy+24}" width="20" height="5" rx="2.5" fill="var(--gold)"/>`;
+    case 'spoonChopstick':
+      return `<line class="cutlery" x1="${gx+30}" y1="${gy-24}" x2="${gx+30}" y2="${gy+24}"/>
+              <ellipse cx="${gx+44}" cy="${gy-14}" rx="6" ry="10" fill="var(--gold)"/>
+              <line class="cutlery" x1="${gx+44}" y1="${gy-4}" x2="${gx+44}" y2="${gy+24}"/>`;
+    case 'multi':
+      return `<line class="cutlery" x1="${gx-56}" y1="${gy-26}" x2="${gx-56}" y2="${gy+26}"/>
+              <line class="cutlery" x1="${gx-46}" y1="${gy-26}" x2="${gx-46}" y2="${gy+26}"/>
+              <line class="cutlery" x1="${gx+46}" y1="${gy-26}" x2="${gx+46}" y2="${gy+26}"/>
+              <line class="cutlery" x1="${gx+56}" y1="${gy-26}" x2="${gx+56}" y2="${gy+26}"/>`;
+    case 'hand':
+      return `<path class="cutlery" d="M${gx+34} ${gy+18} q10 -6 18 2" />`;
+    default:
+      return '';
+  }
+}
+
+function seatMarkup(idx, angle, cx, cy, seatR, plateR, scene, roleInfo, showLabel){
+  const p = polar(cx, cy, seatR, angle);
+  const glasses = [];
+  for(let g=0; g<scene.glasses; g++){
+    glasses.push(`<circle class="glass" cx="${-plateR*0.55 - g*14}" cy="${-plateR-10}" r="${9-g}"/>`);
+  }
+  const napkin = `<rect class="napkin" x="${-plateR-38}" y="${-16}" width="26" height="42" rx="4" transform="rotate(-8 ${-plateR-25} 5)"/>`;
+  const plate = `<circle class="plate-outer" cx="0" cy="0" r="${plateR}"/><circle class="plate-inner" cx="0" cy="0" r="${plateR*0.62}"/>`;
+
+  const isHonor = roleInfo.honor === idx;
+  const isService = roleInfo.service === idx && roleInfo.split;
+  const honorWord = roleInfo.honorLabel || 'Honor';
+
+  // Seat of honor: gold dashed halo, further from the plate, unmistakably "central"
+  const honorRing = isHonor ? `<circle class="honor-ring" cx="0" cy="0" r="${plateR+12}" fill="none" stroke="var(--gold)" stroke-width="2.4" stroke-dasharray="3 4"/>` : '';
+  // Host / service seat: small solid marker at the rim — a person doing work, not being watched
+  const serviceMark = isService ? `<circle class="service-mark" cx="${plateR+16}" cy="${plateR+8}" r="6" fill="var(--red)"/>` : '';
+
+  let labelText;
+  if(isHonor && isService){ labelText = 'Host · ' + (idx+1); }
+  else if(isHonor){ labelText = honorWord + ' · ' + (idx+1); }
+  else if(isService){ labelText = 'Host · ' + (idx+1); }
+  else { labelText = 'Seat ' + (idx+1); }
+  const label = `<text class="seat-label" x="0" y="${plateR+30}" text-anchor="middle">${labelText}</text>`;
+
+  return `<g class="seat" transform="translate(${p.x} ${p.y}) rotate(${angle})" data-seat="${idx}">
+      ${napkin}
+      ${cutleryMarkup(scene.cutlery, -plateR-10, 0, angle)}
+      ${plate}
+      ${honorRing}
+      ${serviceMark}
+      ${glasses.join('')}
+      ${label}
+    </g>`;
+}
+
+function centerpieceMarkup(type, r){
+  switch(type){
+    case 'lazySusan':
+      return `<g>
+        <circle cx="0" cy="0" r="${r}" fill="#e9e2d0" stroke="rgba(0,0,0,.08)"/>
+        <circle cx="${-r*0.42}" cy="${-r*0.15}" r="${r*0.34}" fill="#b3402a"/>
+        <circle cx="${r*0.4}" cy="${-r*0.2}" r="${r*0.28}" fill="#6b7a4a"/>
+        <circle cx="0" cy="${r*0.42}" r="${r*0.3}" fill="#c98a3a"/>
+        <circle cx="${r*0.05}" cy="${-r*0.05}" r="${r*0.22}" fill="#9c3b2d"/>
+        <circle cx="0" cy="${-r*0.62}" r="${r*0.05}" fill="#7c8a55"/>
+      </g>`;
+    case 'runner':
+      return `<g>
+        <rect x="${-r}" y="${-r*0.28}" width="${r*2}" height="${r*0.56}" rx="${r*0.28}" fill="#f6f1e4"/>
+        <circle cx="${-r*0.55}" cy="0" r="6" fill="#e7c98a"/>
+        <circle cx="${r*0.55}" cy="0" r="6" fill="#e7c98a"/>
+        <rect x="-4" y="${-r*0.5}" width="8" height="${r}" fill="none"/>
+      </g>`;
+    case 'grill':
+      return `<g>
+        <circle cx="0" cy="0" r="${r}" fill="#232323" stroke="#111"/>
+        ${Array.from({length:6}).map((_,i)=>`<line x1="${-r*0.8}" y1="${-r*0.8+ i*r*0.32}" x2="${r*0.8}" y2="${-r*0.8+ i*r*0.32}" stroke="#4a4a4a" stroke-width="2"/>`).join('')}
+      </g>`;
+    case 'platter':
+      return `<g>
+        <circle cx="0" cy="0" r="${r}" fill="#f4ecd8" stroke="rgba(0,0,0,.08)"/>
+        <circle cx="0" cy="0" r="${r*0.7}" fill="#c98a3a"/>
+        <circle cx="0" cy="0" r="${r*0.4}" fill="#9c3b2d"/>
+      </g>`;
+    default:
+      return '';
+  }
+}
+
+function layersMarkup(seatPositions, honorIndex, serviceIndex, roleInfo, tableR){
+  const n = seatPositions.length;
+  let connections = '', attention = '', movement = '', service = '';
+
+  // Connections: full mesh by default. Middle East is territorial, not
+  // relational — diners reach only their own stretch of the shared platter,
+  // so only neighbors are linked.
+  if(roleInfo.connectionsMode === 'adjacent'){
+    for(let i=0;i<n;i++){
+      const a = seatPositions[i], b = seatPositions[(i+1)%n];
+      connections += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`;
+    }
+  } else {
+    for(let i=0;i<n;i++){
+      for(let j=i+1;j<n;j++){
+        connections += `<line x1="${seatPositions[i].x}" y1="${seatPositions[i].y}" x2="${seatPositions[j].x}" y2="${seatPositions[j].y}"/>`;
+      }
+    }
+  }
+
+  // Attention: every seat's gaze converges on the seat of honor, not the host.
+  const honor = seatPositions[honorIndex];
+  for(let i=0;i<n;i++){
+    if(i===honorIndex) continue;
+    attention += `<line x1="${seatPositions[i].x}" y1="${seatPositions[i].y}" x2="${honor.x}" y2="${honor.y}"/>`;
+  }
+
+  const movementType = roleInfo.movementType;
+
+  if(movementType === 'eatingOrder'){
+    // A marker travels honor -> outward, one seat at a time, staggered so
+    // the turn-taking sequence is legible (China/Japan/Korea/India/Middle East).
+    const order = eatingOrderFor(n, honorIndex);
+    const turnDur = 1.1;
+    order.forEach((seatIdx, turn)=>{
+      const pos = seatPositions[seatIdx];
+      const delay = (turn * turnDur).toFixed(2);
+      movement += `<circle class="turn-dot" cx="${pos.x}" cy="${pos.y}" r="5" opacity="0">
+        <animate attributeName="opacity" values="0;1;1;0.25" keyTimes="0;0.15;0.7;1" dur="${(order.length*turnDur).toFixed(2)}s" begin="${delay}s" repeatCount="indefinite"/>
+      </circle>`;
+      if(turn>0){
+        const prev = seatPositions[order[turn-1]];
+        movement += `<path d="M${prev.x} ${prev.y} L ${pos.x} ${pos.y}" marker-end="url(#arrowhead)" opacity="0.55"/>`;
+      }
+    });
+  } else if(movementType === 'courseWave'){
+    // No fixed eating order was found for France — instead, cutlery placed
+    // outside-in sets a shared course rhythm everyone moves through at once.
+    // All seats pulse in sync rather than one traveling marker.
+    seatPositions.forEach(pos=>{
+      movement += `<circle class="turn-dot" cx="${pos.x}" cy="${pos.y}" r="6" opacity="0.25">
+        <animate attributeName="r" values="4;9;4" dur="2.6s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.25;0.85;0.25" dur="2.6s" repeatCount="indefinite"/>
+      </circle>`;
+    });
+  } else {
+    // Fallback generic circulation, used by Build mode's custom tables.
+    for(let i=0;i<n;i++){
+      const a = seatPositions[i], b = seatPositions[(i+1)%n];
+      const mx = (a.x+b.x)/2, my=(a.y+b.y)/2;
+      const cx = mx + (mx-a.x)*0.15, cy = my + (my-a.y)*0.15;
+      movement += `<path d="M${a.x} ${a.y} Q ${cx} ${cy} ${b.x} ${b.y}" marker-end="url(#arrowhead)"/>`;
+    }
+  }
+
+  service = `<circle class="path" cx="0" cy="0" r="${tableR+40}"/><circle class="dot" cx="0" cy="${-(tableR+40)}" r="5"><animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite"/></circle>`;
+
+  return `
+    <g class="layer-group layer-connections">${connections}</g>
+    <g class="layer-group layer-attention">${attention}</g>
+    <g class="layer-group layer-movement">${movement}</g>
+    <g class="layer-group layer-serviceflow">${service}</g>
+  `;
+}
+
+function buildTableSVG(sceneKey, opts={}){
+  const scene = SCENES[sceneKey] || opts.customScene;
+  const seatCount = opts.seatCount || scene.seats;
+  const honorIndex = opts.honorIndex ?? opts.hostIndex ?? 0;
+  const size = opts.size || 640;
+  const cx = size/2, cy = size/2;
+  const tableR = size*0.40;
+  const seatR = size*0.335;
+  const plateR = size*0.072;
+
+  const roles = scene.roles || { split:false };
+  const serviceIndex = serviceIndexFor(scene, seatCount, honorIndex);
+  const roleInfo = {
+    split: !!roles.split,
+    honor: honorIndex,
+    service: serviceIndex,
+    movementType: roles.movementType || null,
+    connectionsMode: roles.connectionsMode || null,
+    honorLabel: roles.honorLabel || 'Honor'
+  };
+
+  const angles = seatAngles(seatCount);
+  const seatPositions = angles.map(a => polar(cx, cy, seatR, a));
+
+  let seatsMarkup = '';
+  angles.forEach((a, i) => {
+    seatsMarkup += seatMarkup(i, a, cx, cy, seatR, plateR, scene, roleInfo, true);
+  });
+
+  const chairs = angles.map(a => {
+    const p = polar(cx, cy, tableR+size*0.05, a);
+    return `<ellipse cx="${p.x}" cy="${p.y}" rx="${size*0.05}" ry="${size*0.075}" class="chair" transform="rotate(${a} ${p.x} ${p.y})"/>`;
+  }).join('');
+
+  // Chairs sit at radius tableR + 0.05*size and can extend up to another
+  // 0.075*size outward (their own long axis), i.e. as far as 0.525*size from
+  // center. A bare "0 0 size size" viewBox only has 0.5*size of headroom in
+  // the cardinal directions, so chairs at axis-aligned seat angles were
+  // getting clipped by the canvas edge — the "missing pair" of chairs.
+  // Padding the viewBox gives every chair, at every angle, the same room.
+  const pad = size * 0.09;
+
+  return `<svg viewBox="${-pad} ${-pad} ${size + 2*pad} ${size + 2*pad}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+        <path d="M0,0 L6,3 L0,6 z" fill="#f4ded0"/>
+      </marker>
+    </defs>
+    <g class="chairs">${chairs}</g>
+    <circle class="table-disc" cx="${cx}" cy="${cy}" r="${tableR}" fill="${scene.table}"/>
+    <g transform="translate(${cx} ${cy})">
+      ${layersMarkup(seatPositions.map(p=>({x:p.x-cx,y:p.y-cy})), honorIndex, serviceIndex, roleInfo, tableR*0.5)}
+      ${centerpieceMarkup(scene.center, size*0.13)}
+    </g>
+    ${seatsMarkup}
+  </svg>`;
+}
+
+/* =========================================================
+   RENDER: OBSERVE / PLAY
+========================================================= */
+const tableWrap = document.getElementById('tableWrap');
+
+function renderMainTable(){
+  const scene = SCENES[state.scene];
+  tableWrap.innerHTML = buildTableSVG(state.scene, { honorIndex: state.honorIndex, size: 720 });
+  tableWrap.style.transform = `rotate(${state.rotation}deg)`;
+  applyLayerVisibility(tableWrap);
+  applyQuickView(tableWrap);
+  updateStatsHud(scene, seatAnglesCount());
+}
+
+function seatAnglesCount(){ return SCENES[state.scene].seats; }
+
+function applyLayerVisibility(root){
+  Object.keys(state.layers).forEach(key=>{
+    const el = root.querySelector('.layer-'+key);
+    if(el) el.classList.toggle('on', state.layers[key]);
+  });
+}
+
+function applyQuickView(root){
+  const svg = root.querySelector('svg');
+  if(!svg) return;
+  svg.classList.toggle('show-labels', state.quickView==='people' || state.quickView==='network');
+}
+
+/* =========================================================
+   SCENE PANEL
+========================================================= */
+const sceneList = document.getElementById('sceneList');
+SCENE_ORDER.forEach(key=>{
+  const item = document.createElement('div');
+  item.className = 'scene-item' + (key===state.scene ? ' active':'');
+  item.dataset.scene = key;
+  item.innerHTML = `<span class="dot"></span>${SCENES[key].label}`;
+  item.addEventListener('click', ()=>{
+    state.scene = key;
+    state.honorIndex = 0;
+    refreshSceneUI();
+    renderMainTable();
+    playTone(440);
+  });
+  sceneList.appendChild(item);
+});
+
+function refreshSceneUI(){
+  document.querySelectorAll('.scene-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.scene === state.scene);
+  });
+  const scene = SCENES[state.scene];
+  document.getElementById('sceneCurrentLabel').textContent = scene.label;
+  const descEl = document.getElementById('sceneDesc');
+  descEl.innerHTML = scene.desc + (scene.roleNote ? `<br><br><span style="color:var(--red-dark);font-weight:600;">Honor vs. host —</span> ${scene.roleNote}` : '');
+}
+
+/* =========================================================
+   RELATIONSHIP LAYERS PANEL
+========================================================= */
+document.querySelectorAll('.switch[data-layer]').forEach(btn=>{
+  btn.classList.toggle('on', state.layers[btn.dataset.layer]);
+  btn.addEventListener('click', ()=>{
+    const key = btn.dataset.layer;
+    state.layers[key] = !state.layers[key];
+    btn.classList.toggle('on', state.layers[key]);
+    renderMainTable();
+    playTone(state.layers[key] ? 520 : 300);
+  });
+});
+
+/* =========================================================
+   MODE NAVIGATION
+========================================================= */
+const stageEls = {
+  observe: document.getElementById('observeStage'),
+  compare: document.getElementById('compareStage'),
+  build: document.getElementById('buildStage'),
+  gallery: document.getElementById('galleryStage'),
+  research: document.getElementById('researchStage'),
+};
+document.querySelectorAll('.mode-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> setMode(btn.dataset.mode));
+});
+
+function setMode(mode){
+  state.mode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active', b.dataset.mode===mode));
+
+  stageEls.observe.style.display = (mode==='observe') ? 'flex' : 'none';
+  stageEls.compare.classList.toggle('show', mode==='compare');
+  stageEls.build.classList.toggle('show', mode==='build');
+  stageEls.gallery.classList.toggle('show', mode==='gallery');
+  stageEls.research.classList.toggle('show', mode==='research');
+
+  const showSidePanels = (mode==='observe');
+  document.getElementById('panelStack').style.display = showSidePanels ? 'flex':'none';
+  document.getElementById('toolbarBottom').style.display = showSidePanels ? 'flex':'none';
+  document.getElementById('rotateHint').style.display = showSidePanels ? 'flex':'none';
+
+  if(mode==='compare') renderCompare();
+  if(mode==='build') renderBuild();
+  if(mode==='gallery') renderGallery();
+  if(mode==='research') renderResearch();
+  if(mode==='observe') renderMainTable();
+}
+
+/* =========================================================
+   BOTTOM TOOLBAR (quick views)
+========================================================= */
+document.querySelectorAll('.tb-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tb-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.quickView = btn.dataset.view;
+    document.getElementById('statsHud').classList.toggle('show', state.quickView==='chart');
+
+    if(state.quickView==='network'){
+      state.layers = { connections:true, attention:true, movement:false, serviceflow:false };
+    } else if(state.quickView==='eye'){
+      state.layers = { connections:false, attention:false, movement:false, serviceflow:false };
+    } else if(state.quickView==='people'){
+      state.layers = { connections:false, attention:false, movement:false, serviceflow:false };
+    } else if(state.quickView==='chart'){
+      state.layers = { connections:true, attention:true, movement:true, serviceflow:true };
+    }
+    document.querySelectorAll('.switch[data-layer]').forEach(b=> b.classList.toggle('on', state.layers[b.dataset.layer]));
+    renderMainTable();
+    playTone(360);
+  });
+});
+
+function updateStatsHud(scene, seatCount){
+  document.getElementById('statSeats').textContent = seatCount;
+  document.getElementById('statConn').textContent = seatCount*(seatCount-1)/2;
+  const roles = scene.roles;
+  if(roles && roles.split){
+    const svc = serviceIndexFor(scene, seatCount, state.honorIndex);
+    document.getElementById('statHost').textContent = `${roles.honorLabel||'Honor'} ${state.honorIndex+1} / Host ${svc+1}`;
+  } else if(roles && roles.honorLabel){
+    document.getElementById('statHost').textContent = `${roles.honorLabel} ${state.honorIndex+1}`;
+  } else {
+    document.getElementById('statHost').textContent = 'Seat ' + (state.honorIndex+1);
+  }
+  const cutleryLabels = { chopsticks:'Chopsticks', multi:'Multi-course', chopstickRest:'Chopsticks + rest', spoonChopstick:'Spoon + chopsticks', hand:'Hand / bread'};
+  document.getElementById('statCutlery').textContent = cutleryLabels[scene.cutlery] || scene.cutlery;
+}
+
+/* =========================================================
+   DRAG TO ROTATE
+========================================================= */
+let dragging = false, lastAngle = 0, startRotation = 0;
+function angleFromCenter(clientX, clientY){
+  const rect = tableWrap.getBoundingClientRect();
+  const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  return Math.atan2(clientY-cy, clientX-cx) * 180/Math.PI;
+}
+tableWrap.addEventListener('pointerdown', e=>{
+  dragging = true;
+  tableWrap.classList.add('dragging');
+  lastAngle = angleFromCenter(e.clientX, e.clientY);
+  startRotation = state.rotation;
+  tableWrap.setPointerCapture(e.pointerId);
+});
+tableWrap.addEventListener('pointermove', e=>{
+  if(!dragging) return;
+  const now = angleFromCenter(e.clientX, e.clientY);
+  state.rotation = startRotation + (now-lastAngle);
+  tableWrap.style.transform = `rotate(${state.rotation}deg)`;
+});
+['pointerup','pointerleave'].forEach(evt=>{
+  tableWrap.addEventListener(evt, ()=>{ dragging=false; tableWrap.classList.remove('dragging'); });
+});
+tableWrap.querySelectorAll && tableWrap.addEventListener('click', e=>{
+  const seatEl = e.target.closest('.seat');
+  if(seatEl && state.mode==='observe'){
+    state.honorIndex = parseInt(seatEl.dataset.seat,10);
+    renderMainTable();
+    playTone(600);
+  }
+});
+
+/* =========================================================
+   COMPARE MODE
+========================================================= */
+const compareSelectA = document.getElementById('compareSelectA');
+const compareSelectB = document.getElementById('compareSelectB');
+[compareSelectA, compareSelectB].forEach(sel=>{
+  SCENE_ORDER.forEach(key=>{
+    const opt = document.createElement('option');
+    opt.value = key; opt.textContent = SCENES[key].label;
+    sel.appendChild(opt);
+  });
+});
+compareSelectA.value = state.compareA;
+compareSelectB.value = state.compareB;
+compareSelectA.addEventListener('change', ()=>{ state.compareA = compareSelectA.value; renderCompare(); });
+compareSelectB.addEventListener('change', ()=>{ state.compareB = compareSelectB.value; renderCompare(); });
+
+function renderCompare(){
+  const wrapA = document.getElementById('compareWrapA');
+  const wrapB = document.getElementById('compareWrapB');
+  wrapA.innerHTML = buildTableSVG(state.compareA, { size: 360 });
+  wrapB.innerHTML = buildTableSVG(state.compareB, { size: 360 });
+  [wrapA, wrapB].forEach(w=> applyLayerVisibility(w));
+  document.getElementById('compareNoteA').textContent = SCENES[state.compareA].desc;
+  document.getElementById('compareNoteB').textContent = SCENES[state.compareB].desc;
+}
+
+/* =========================================================
+   BUILD MODE
+========================================================= */
+const buildSeats = document.getElementById('buildSeats');
+const buildSeatCount = document.getElementById('buildSeatCount');
+const buildCutlery = document.getElementById('buildCutlery');
+const buildCenter = document.getElementById('buildCenter');
+const buildHostSeats = document.getElementById('buildHostSeats');
+const buildTableWrap = document.getElementById('buildTableWrap');
+
+buildSeats.addEventListener('input', ()=>{
+  state.build.seats = parseInt(buildSeats.value,10);
+  if(state.build.hostIndex >= state.build.seats) state.build.hostIndex = 0;
+  buildSeatCount.textContent = state.build.seats;
+  renderBuild();
+});
+buildCutlery.addEventListener('change', ()=>{ state.build.cutlery = buildCutlery.value; renderBuild(); });
+buildCenter.addEventListener('change', ()=>{ state.build.center = buildCenter.value; renderBuild(); });
+
+function renderBuild(){
+  buildSeats.value = state.build.seats;
+  buildSeatCount.textContent = state.build.seats;
+  buildCutlery.value = state.build.cutlery;
+  buildCenter.value = state.build.center;
+
+  buildHostSeats.innerHTML = '';
+  for(let i=0;i<state.build.seats;i++){
+    const b = document.createElement('button');
+    b.className = 'seat-num-btn' + (i===state.build.hostIndex ? ' host':'');
+    b.textContent = i+1;
+    b.addEventListener('click', ()=>{ state.build.hostIndex = i; renderBuild(); });
+    buildHostSeats.appendChild(b);
+  }
+
+  const customScene = {
+    label:'Custom table', table:'#7c2a1f', plate:'#f1e8d8',
+    cutlery: state.build.cutlery, center: state.build.center, glasses:1, seats: state.build.seats
+  };
+  buildTableWrap.innerHTML = buildTableSVG('custom', { customScene, seatCount: state.build.seats, hostIndex: state.build.hostIndex, size:540 });
+  applyLayerVisibility(buildTableWrap);
+  buildTableWrap.querySelector('.layer-connections').classList.add('on');
+}
+
+/* =========================================================
+   GALLERY MODE
+========================================================= */
+const galleryGrid = document.getElementById('galleryGrid');
+function renderGallery(){
+  galleryGrid.innerHTML = '';
+  SCENE_ORDER.forEach(key=>{
+    const scene = SCENES[key];
+    const card = document.createElement('div');
+    card.className = 'gallery-card';
+    const thumb = document.createElement('div');
+    thumb.className = 'thumb';
+    thumb.innerHTML = buildTableSVG(key, { size:220 });
+    card.appendChild(thumb);
+    const label = document.createElement('div');
+    label.className = 'label';
+    label.textContent = scene.label.split(' · ')[0];
+    const sub = document.createElement('div');
+    sub.className = 'sub';
+    sub.textContent = scene.label.split(' · ')[1];
+    card.appendChild(label); card.appendChild(sub);
+    card.addEventListener('click', ()=>{
+      state.scene = key;
+      state.honorIndex = 0;
+      refreshSceneUI();
+      setMode('observe');
+      playTone(700);
+    });
+    galleryGrid.appendChild(card);
+  });
+}
+
+/* =========================================================
+   RESEARCH MODE
+========================================================= */
+const researchPanel = document.getElementById('researchPanel');
+function renderResearch(){
+  const intro = `<div class="research-intro">
+    The five relationship layers started as one generic geometry — full mesh, click-to-center lines,
+    a steady loop — applied identically to every culture. This page is the paper trail for
+    what changed: the seating-etiquette and commensality research behind each scene, and where
+    that evidence runs out. Two tags mark the difference — <b>strong</b> means a source ties rank
+    to a specific seat; <b>partial</b> means only timing (who eats first) was found, with no fixed
+    seat in the sources reviewed.
+    <div class="research-sources"><div class="research-sources-label">Framing sources</div>${GENERAL_SOURCES.map(s=>`<div class="source-entry"><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a> <span class="research-domain">(${s.domain})</span><div class="source-note">${s.note}</div></div>`).join('')}</div>
+  </div>`;
+
+  const items = SCENE_ORDER.map(key=>{
+    const scene = SCENES[key];
+    const ev = EVIDENCE_STRENGTH[key];
+    const srcs = SOURCES[key] || [];
+    const sourceLinks = srcs.map(s=>
+      `<div class="source-entry"><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a> <span class="research-domain">(${s.domain})</span>${s.note ? `<div class="source-note">${s.note}</div>` : ''}</div>`
+    ).join('');
+    return `<div class="research-item">
+      <div class="research-thumb">${buildTableSVG(key, { size:160 })}</div>
+      <div class="research-body">
+        <div class="research-item-head">
+          <h3>${scene.label}</h3>
+          <span class="research-tag ${ev.tag}">${ev.label}</span>
+        </div>
+        <p>${scene.desc}</p>
+        ${scene.roleNote ? `<p><span class="research-label">Honor vs. host —</span> ${scene.roleNote}</p>` : ''}
+        ${sourceLinks ? `<div class="research-sources"><div class="research-sources-label">Sources</div>${sourceLinks}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  researchPanel.innerHTML = intro + items;
+}
+
+/* =========================================================
+   SOUND (subtle WebAudio feedback)
+========================================================= */
+let audioCtx = null;
+function playTone(freq){
+  if(!state.soundOn) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.frequency.value = freq;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.35);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.35);
+  }catch(e){ /* audio not available */ }
+}
+document.getElementById('soundBtn').addEventListener('click', function(){
+  state.soundOn = !state.soundOn;
+  this.textContent = state.soundOn ? '🔊' : '🔇';
+  if(state.soundOn) playTone(500);
+});
+
+/* =========================================================
+   MODAL
+========================================================= */
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+document.getElementById('aboutBtn').addEventListener('click', ()=>{
+  modalTitle.textContent = 'About this study';
+  modalBody.innerHTML = `<p>Table as Interface treats the dining table as a designed system rather than a fixed object — every plate, glass, and shared dish is a control surface for a social relationship.</p>
+  <p>Switch scenes to see how six food cultures encode sharing, hierarchy, and attention differently. Toggle the relationship layers to make those encodings visible: who connects to whom, who is watched, what moves, and who a room quietly organizes itself around.</p>
+  <p>China, Japan, and Korea are modeled with a researched refinement: the seat of honor (farthest from the door, the center of attention) and the host or service seat (nearest the door, the one managing the meal) are usually two different people, not one. Clicking a seat sets the seat of honor; the host seat follows automatically.</p>`;
+  modal.classList.add('show');
+});
+document.getElementById('infoBtn').addEventListener('click', ()=>{
+  modalTitle.textContent = 'How to use it';
+  modalBody.innerHTML = `<p><b>Observe</b> — explore a scene, drag the table to rotate it, click a seat to set the seat of honor. Attention lines pulse gently and the service-flow dot travels the room the whole time.</p>
+  <p><b>Compare</b> — put two food cultures side by side.</p>
+  <p><b>Build</b> — assemble your own table: seat count, cutlery language, shared center, host seat.</p>
+  <p><b>Gallery</b> — jump straight to any scene.</p>
+  <p><b>Research</b> — the sourcing behind each scene, and how strong the evidence actually is.</p>
+  <p>For China, Japan, and Korea, the <b>Movement</b> layer shows eating order (who goes first) instead of a generic loop — the seat markers themselves already mark the seat of honor and the host.</p>`;
+  modal.classList.add('show');
+});
+document.getElementById('modalClose').addEventListener('click', ()=> modal.classList.remove('show'));
+modal.addEventListener('click', e=>{ if(e.target===modal) modal.classList.remove('show'); });
+
+/* =========================================================
+   INIT
+========================================================= */
+refreshSceneUI();
+renderMainTable();
+renderBuild();
+</script>
+</body>
+</html>
